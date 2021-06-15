@@ -20,7 +20,6 @@ const NavContent = styled.div`
 	padding: 0 2rem;
 	min-width: 700px;
 	max-width: 1100px;
-	color: white;
 
 	box-sizing: border-box;
 	margin: auto;
