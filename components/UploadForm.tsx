@@ -1,6 +1,5 @@
 import { FormikProps, withFormik } from "formik";
 import React from "react";
-import styled from "styled-components";
 import { Post } from "../shared/types";
 import PostValidationSchema from "../schema/PostValidationSchema";
 import { errorIn } from "../shared/utils/helpers";
@@ -11,19 +10,6 @@ import Input from "../shared/components/forms/Input";
 import Label from "../shared/components/forms/Label";
 import Select from "../shared/components/forms/Select";
 import Subheading from "../shared/components/text/Subheading";
-
-const InputGroup = styled.div`
-	display: flex;
-	gap: 1rem;
-	flex-wrap: wrap;
-	flex: 1 0 100%;
-`;
-
-const Heading = styled.h2`
-	flex: 1 1 100%;
-	font-size: 1.3rem;
-	font-weight: bold;
-`;
 
 const UploadForm = () => {
 	const BaseUploadForm = ({
