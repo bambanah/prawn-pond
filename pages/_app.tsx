@@ -30,7 +30,7 @@ function App({ Component, pageProps }: AppProps) {
 		<AuthProvider>
 			<ThemeProvider theme={theme}>
 				<Head>
-					<title>NDIS Invoice Generator</title>
+					<title>Sean Wilson</title>
 				</Head>
 				<GlobalStyle />
 				<Component {...pageProps} />

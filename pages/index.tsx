@@ -7,18 +7,21 @@ import Title from "../shared/components/text/Title";
 
 const Content = styled.div`
 	padding: 0 1em;
+	margin-top: 5rem;
+	width: 95vw;
+	max-width: 1500px;
 `;
 
 export default function Home() {
 	return (
 		<Layout>
 			<Head>
-				<title>Sean</title>
+				<title>Gallery - Sean Wilson</title>
 			</Head>
 			<Hero />
 			<Content>
-				<Title>Invoices</Title>
-				<p>Hey there</p>
+				<Title>Memories</Title>
+				<i>Mason style grid of images/videos/text here</i>
 			</Content>
 		</Layout>
 	);

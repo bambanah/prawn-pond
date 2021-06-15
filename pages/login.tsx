@@ -1,3 +1,4 @@
+import Head from "next/head";
 import Router from "next/router";
 import React from "react";
 import Button from "../shared/components/Button";
@@ -12,6 +13,9 @@ export default function Login() {
 
 	return (
 		<div className="section">
+			<Head>
+				<title>Login - Sean Wilson</title>
+			</Head>
 			<div className="container">
 				<h1 className="title">Login</h1>
 				<Button onClick={handleClick}>Login</Button>

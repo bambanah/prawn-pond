@@ -1,5 +1,6 @@
 import { FormikProps, withFormik } from "formik";
 import React from "react";
+import { toast } from "react-toastify";
 import { Post } from "../shared/types";
 import PostValidationSchema from "../schema/PostValidationSchema";
 import { errorIn } from "../shared/utils/helpers";
@@ -8,7 +9,6 @@ import ButtonGroup from "../shared/components/ButtonGroup";
 import Form from "../shared/components/forms/Form";
 import Input from "../shared/components/forms/Input";
 import Label from "../shared/components/forms/Label";
-import Select from "../shared/components/forms/Select";
 import Subheading from "../shared/components/text/Subheading";
 
 const UploadForm = () => {
@@ -22,13 +22,9 @@ const UploadForm = () => {
 	}: FormikProps<Post>) => (
 		<Form onSubmit={handleSubmit} flexDirection="column">
 			<Label htmlFor="description">
-				<span>Description</span>
-				<Subheading>
-					The official description from the{" "}
-					<a href="/price-guide-3-21.pdf">Price Guide</a>.
-				</Subheading>
+				<Subheading>Say a little something about Sean (if you want)</Subheading>
 				<Input
-					type="text"
+					type="textbox"
 					onChange={handleChange}
 					onBlur={handleBlur}
 					value={values.description}
@@ -36,17 +32,6 @@ const UploadForm = () => {
 					id="description"
 					error={errorIn(errors, touched, "description")}
 				/>
-			</Label>
-			<Label htmlFor="rate_type">
-				<span>Rate Type</span>
-				<Subheading>This will almost always be per hour.</Subheading>
-				<Select name="rate_type" error={errorIn(errors, touched, "rate_type")}>
-					<option value="" disabled>
-						Select...
-					</option>
-					<option value="hr">per hour</option>
-					<option value="km">per km</option>
-				</Select>
 			</Label>
 
 			<ButtonGroup>
@@ -60,6 +45,7 @@ const UploadForm = () => {
 	const FormikForm = withFormik({
 		mapPropsToValues: () => ({ description: "" }),
 		handleSubmit: (values) => {
+			toast.info("[Debug] Form submitted");
 			console.log(values);
 		},
 		validationSchema: PostValidationSchema,

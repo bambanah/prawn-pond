@@ -26,6 +26,7 @@ const Content = styled.div`
 	height: 100%;
 	flex: 1 0 auto;
 	flex-direction: column;
+	align-items: center;
 
 	@media screen and (max-width: 900px) {
 		width: inherit;
