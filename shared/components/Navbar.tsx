@@ -82,10 +82,10 @@ const Navbar = () => {
 					<p>Sean Wilson</p>
 				</NavLogo>
 
-				<NavLinks>
+				{/* <NavLinks>
 					<NavLink href="/">Gallery</NavLink>
 					<NavLink href="/upload">Upload</NavLink>
-				</NavLinks>
+				</NavLinks> */}
 
 				<NavAuth>
 					<LogoutLink onClick={() => signOut()}>Log Out</LogoutLink>
