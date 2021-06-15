@@ -22,11 +22,7 @@ const Container = styled.div`
 const Content = styled.div`
 	box-sizing: border-box;
 	display: flex;
-	width: 95vw;
-	max-width: 1200px;
-	/* min-width: 700px; */
-	/* 5rem for the header, then 2rem gap */
-	margin-top: 7rem;
+	width: 100%;
 	height: 100%;
 	flex: 1 0 auto;
 	flex-direction: column;

@@ -1,9 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import Image from "next/image";
 import { useAuth } from "../hooks/useAuth";
 import { signOut } from "../utils/firebase";
-import Button from "./Button";
 import NavLink from "../../components/NavLink";
 
 const Header = styled.header`
@@ -12,8 +10,8 @@ const Header = styled.header`
 	width: 100vw;
 	box-sizing: border-box;
 	z-index: 100;
-	background-color: white;
-	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+	/* background-color: white; */
+	/* box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2); */
 `;
 
 const NavContent = styled.div`
@@ -22,6 +20,7 @@ const NavContent = styled.div`
 	padding: 0 2rem;
 	min-width: 700px;
 	max-width: 1100px;
+	color: white;
 
 	box-sizing: border-box;
 	margin: auto;
@@ -36,10 +35,10 @@ const NavLogo = styled.div`
 	display: flex;
 	align-items: center;
 
-	a:last-of-type {
+	p {
 		margin-left: 1rem;
-		font-family: "Roboto Mono";
-		font-size: 0.8rem;
+		font-family: "Poppins", "Archivo Black";
+		font-size: 2rem;
 	}
 `;
 
@@ -65,33 +64,32 @@ const NavAuth = styled.div`
 	}
 `;
 
+const LogoutLink = styled.p`
+	cursor: pointer;
+
+	&:hover {
+		font-weight: bold;
+	}
+`;
+
 const Navbar = () => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { user } = useAuth();
 
 	return (
 		<Header>
 			<NavContent>
 				<NavLogo>
-					<a href="/">
-						<Image
-							src="/ndis-logo.png"
-							alt="NDIS Logo"
-							width={70}
-							height={35}
-						/>
-					</a>
-					<a href="/price-guide-3-21.pdf">Price Guide</a>
+					<p>Sean Wilson</p>
 				</NavLogo>
 
 				<NavLinks>
-					<NavLink href="/invoices">Invoices</NavLink>
-					{/* <NavLink href="/templates">Templates</NavLink> */}
-					<NavLink href="/activities">Activities</NavLink>
+					<NavLink href="/">Gallery</NavLink>
+					<NavLink href="/upload">Upload</NavLink>
 				</NavLinks>
 
 				<NavAuth>
-					{user && <span className="mr-2 mt-2">{user.email}</span>}
-					<Button onClick={() => signOut()}>Log Out</Button>
+					<LogoutLink onClick={() => signOut()}>Log Out</LogoutLink>
 				</NavAuth>
 			</NavContent>
 		</Header>
