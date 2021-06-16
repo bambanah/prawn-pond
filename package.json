@@ -19,6 +19,7 @@
 		"nookies": "^2.5.2",
 		"react": "latest",
 		"react-dom": "latest",
+		"react-dropzone": "^11.3.2",
 		"react-spinners": "^0.10.6",
 		"react-toastify": "^7.0.4",
 		"sass": "^1.32.13",
