@@ -1,15 +1,19 @@
 import Head from "next/head";
+import Link from "next/link";
 import React from "react";
 import styled from "styled-components";
 import Hero from "../components/Hero";
+import MemoryList from "../components/MemoryList";
 import Layout from "../shared/components/Layout";
-import Title from "../shared/components/text/Title";
 
 const Content = styled.div`
 	padding: 0 1em;
 	margin-top: 5rem;
 	width: 95vw;
 	max-width: 1500px;
+	display: flex;
+	flex-direction: column;
+	justify-content: left;
 `;
 
 export default function Home() {
@@ -20,8 +24,11 @@ export default function Home() {
 			</Head>
 			<Hero />
 			<Content>
-				<Title>Memories</Title>
+				<Link href="/upload">
+					<a>Add a memory</a>
+				</Link>
 				<i>Mason style grid of images/videos/text here</i>
+				<MemoryList />
 			</Content>
 		</Layout>
 	);

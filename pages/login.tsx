@@ -1,13 +1,21 @@
 import Head from "next/head";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import React from "react";
 import Button from "../shared/components/Button";
 import { signIn } from "../shared/utils/firebase";
 
 export default function Login() {
+	const router = useRouter();
+
 	const handleClick = () => {
+		const { redirect } = router.query;
+
 		signIn().then(() => {
-			Router.push("/");
+			if (redirect && !Array.isArray(redirect)) {
+				router.push(redirect);
+			} else {
+				router.push("/");
+			}
 		});
 	};
 

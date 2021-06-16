@@ -1,15 +1,16 @@
 import { FormikProps, withFormik } from "formik";
+import Router from "next/router";
 import React from "react";
-import { toast } from "react-toastify";
-import { Post } from "../shared/types";
 import PostValidationSchema from "../schema/PostValidationSchema";
-import { errorIn } from "../shared/utils/helpers";
 import Button from "../shared/components/Button";
 import ButtonGroup from "../shared/components/ButtonGroup";
 import Form from "../shared/components/forms/Form";
 import Input from "../shared/components/forms/Input";
 import Label from "../shared/components/forms/Label";
 import Subheading from "../shared/components/text/Subheading";
+import { Memory } from "../shared/types";
+import { createMemory } from "../shared/utils/firebase";
+import { errorIn } from "../shared/utils/helpers";
 
 const UploadForm = () => {
 	const BaseUploadForm = ({
@@ -19,7 +20,7 @@ const UploadForm = () => {
 		handleChange,
 		handleBlur,
 		handleSubmit,
-	}: FormikProps<Post>) => (
+	}: FormikProps<Memory>) => (
 		<Form onSubmit={handleSubmit} flexDirection="column">
 			<Label htmlFor="description">
 				<Subheading>Say a little something about Sean (if you want)</Subheading>
@@ -38,6 +39,9 @@ const UploadForm = () => {
 				<Button type="submit" primary>
 					Upload
 				</Button>
+				<Button type="button" onClick={() => Router.push("/")}>
+					Cancel
+				</Button>
 			</ButtonGroup>
 		</Form>
 	);
@@ -45,8 +49,9 @@ const UploadForm = () => {
 	const FormikForm = withFormik({
 		mapPropsToValues: () => ({ description: "" }),
 		handleSubmit: (values) => {
-			toast.info("[Debug] Form submitted");
-			console.log(values);
+			createMemory(values).then(() => {
+				Router.push("/");
+			});
 		},
 		validationSchema: PostValidationSchema,
 		validateOnChange: true,

@@ -1,3 +1,10 @@
-export interface Post {
+import firebase from "firebase";
+
+export interface Memory {
 	description: string;
+	created?: firebase.firestore.Timestamp;
+}
+
+export interface MemoryObject {
+	[id: string]: Memory;
 }

@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import { toast } from "react-toastify";
+import { Memory } from "../types";
 
 const firebaseConfig = {
 	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -19,7 +20,7 @@ if (!firebase.apps.length) {
 }
 
 export const auth = firebase.auth();
-// const firestore = firebase.firestore();
+const firestore = firebase.firestore();
 // const storage = firebase.storage();
 
 //
@@ -55,7 +56,26 @@ export const signOut = async () => {
 // --- Firestore ---
 //
 
-// Firestore helper functions go here
+export const streamMemories = (observer: any) =>
+	firestore
+		.collection("memories")
+		.orderBy("created", "desc")
+		.onSnapshot(observer);
+
+export const createMemory = async (memory: Memory) => {
+	memory.created = firebase.firestore.Timestamp.now();
+
+	firestore
+		.collection("memories")
+		.add(memory)
+		.then(() => {
+			toast.success("[DEBUG] Created");
+		})
+		.catch((error) => {
+			toast.error("Error");
+			console.error("Error writing document: ", error);
+		});
+};
 
 //
 // --- Storage ---
