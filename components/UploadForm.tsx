@@ -1,16 +1,16 @@
 import { FormikProps, withFormik } from "formik";
-import React from "react";
 import Router from "next/router";
-import { Memory } from "../shared/types";
+import React from "react";
 import PostValidationSchema from "../schema/PostValidationSchema";
-import { errorIn } from "../shared/utils/helpers";
 import Button from "../shared/components/Button";
 import ButtonGroup from "../shared/components/ButtonGroup";
 import Form from "../shared/components/forms/Form";
 import Input from "../shared/components/forms/Input";
 import Label from "../shared/components/forms/Label";
 import Subheading from "../shared/components/text/Subheading";
+import { Memory } from "../shared/types";
 import { createMemory } from "../shared/utils/firebase";
+import { errorIn } from "../shared/utils/helpers";
 
 const UploadForm = () => {
 	const BaseUploadForm = ({
@@ -38,6 +38,9 @@ const UploadForm = () => {
 			<ButtonGroup>
 				<Button type="submit" primary>
 					Upload
+				</Button>
+				<Button type="button" onClick={() => Router.push("/")}>
+					Cancel
 				</Button>
 			</ButtonGroup>
 		</Form>

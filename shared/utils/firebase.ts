@@ -56,8 +56,15 @@ export const signOut = async () => {
 // --- Firestore ---
 //
 
-// Firestore helper functions go here
+export const streamMemories = (observer: any) =>
+	firestore
+		.collection("memories")
+		.orderBy("created", "desc")
+		.onSnapshot(observer);
+
 export const createMemory = async (memory: Memory) => {
+	memory.created = firebase.firestore.Timestamp.now();
+
 	firestore
 		.collection("memories")
 		.add(memory)
