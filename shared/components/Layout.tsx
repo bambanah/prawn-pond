@@ -1,8 +1,5 @@
-import { useRouter } from "next/router";
 import React from "react";
-import { ClimbingBoxLoader } from "react-spinners";
 import styled from "styled-components";
-import { useAuth } from "../hooks/useAuth";
 import Navbar from "./Navbar";
 
 interface Props {
@@ -33,46 +30,12 @@ const Content = styled.div`
 	}
 `;
 
-const SpinnerContainer = styled.div`
-	flex: 1 0 auto;
-	margin-top: 100px;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-`;
+const Layout: React.FC<Props> = ({ children }) => (
+	<Container>
+		<Navbar />
 
-const Layout: React.FC<Props> = ({ children }) => {
-	const router = useRouter();
-
-	const { authenticated, loadingAuthState } = useAuth();
-
-	if (!authenticated && !loadingAuthState) {
-		router.push("/login");
-		return <div>Redirecting...</div>;
-	}
-
-	return (
-		<Container>
-			<Navbar />
-
-			<Content>
-				{loadingAuthState ? (
-					<SpinnerContainer>
-						<ClimbingBoxLoader
-							loading={loadingAuthState}
-							size={40}
-							color="#6B2875"
-						/>
-					</SpinnerContainer>
-				) : (
-					children
-				)}
-			</Content>
-		</Container>
-	);
-};
+		<Content>{children}</Content>
+	</Container>
+);
 
 export default Layout;

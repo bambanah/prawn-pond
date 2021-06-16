@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import { ThemeProvider } from "styled-components";
 import type { AppProps } from "next/app";
 import GlobalStyle from "../shared/GlobalStyle";
-import { AuthProvider } from "../shared/hooks/useAuth";
+import { AuthProvider, useAuth } from "../shared/hooks/useAuth";
 
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/font-imports.scss";
@@ -26,18 +26,24 @@ const theme = {
 importIcons();
 
 function App({ Component, pageProps }: AppProps) {
-	return (
-		<AuthProvider>
-			<ThemeProvider theme={theme}>
-				<Head>
-					<title>Sean Wilson</title>
-				</Head>
-				<GlobalStyle />
-				<Component {...pageProps} />
-				<ToastContainer />
-			</ThemeProvider>
-		</AuthProvider>
-	);
+	const { loadingAuthState } = useAuth();
+
+	if (!loadingAuthState) {
+		return (
+			<AuthProvider>
+				<ThemeProvider theme={theme}>
+					<Head>
+						<title>Sean Wilson</title>
+					</Head>
+					<GlobalStyle />
+					<Component {...pageProps} />
+					<ToastContainer />
+				</ThemeProvider>
+			</AuthProvider>
+		);
+	}
+
+	return <div>Loading...</div>;
 }
 
 export default App;

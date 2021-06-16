@@ -1,3 +1,3 @@
-export interface Post {
+export interface Memory {
 	description: string;
 }

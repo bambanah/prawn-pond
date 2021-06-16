@@ -1,8 +1,8 @@
+import Link from "next/link";
 import React from "react";
 import styled from "styled-components";
 import { useAuth } from "../hooks/useAuth";
 import { signOut } from "../utils/firebase";
-import NavLink from "../../components/NavLink";
 
 const Header = styled.header`
 	position: fixed;
@@ -41,12 +41,12 @@ const NavLogo = styled.div`
 	}
 `;
 
-const NavLinks = styled.div`
-	display: flex;
-	flex: 1 0 auto;
-	align-items: center;
-	justify-content: center;
-`;
+// const NavLinks = styled.div`
+// 	display: flex;
+// 	flex: 1 0 auto;
+// 	align-items: center;
+// 	justify-content: center;
+// `;
 
 const NavAuth = styled.div`
 	flex: 0 0 30%;
@@ -63,17 +63,19 @@ const NavAuth = styled.div`
 	}
 `;
 
-const LogoutLink = styled.p`
+const AuthLink = styled.p`
 	cursor: pointer;
+	color: ${({ theme }) => theme.colors.link};
+	transition: 0.1s color ease;
 
 	&:hover {
-		font-weight: bold;
+		/* text-decoration: underline; */
+		color: ${({ theme }) => theme.colors.fg};
 	}
 `;
 
 const Navbar = () => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { user } = useAuth();
+	const { authenticated } = useAuth();
 
 	return (
 		<Header>
@@ -88,7 +90,13 @@ const Navbar = () => {
 				</NavLinks> */}
 
 				<NavAuth>
-					<LogoutLink onClick={() => signOut()}>Log Out</LogoutLink>
+					{authenticated ? (
+						<AuthLink onClick={() => signOut()}>Log Out</AuthLink>
+					) : (
+						<Link href="/login">
+							<AuthLink>Login</AuthLink>
+						</Link>
+					)}
 				</NavAuth>
 			</NavContent>
 		</Header>
