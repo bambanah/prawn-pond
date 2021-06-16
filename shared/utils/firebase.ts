@@ -69,7 +69,7 @@ export const createMemory = async (memory: Memory) => {
 		.collection("memories")
 		.add(memory)
 		.then(() => {
-			toast.success("[DEBUG] Created");
+			if (location.hostname === "localhost") toast.success("[DEBUG] Created");
 		})
 		.catch((error) => {
 			toast.error("Error");
