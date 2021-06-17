@@ -45,7 +45,6 @@ const MemoryCard = ({ memory }: Props) => {
 			});
 			setLoading(false);
 		}
-		console.log(window.scrollY);
 	}, []);
 
 	if (loading) {

@@ -1,7 +1,5 @@
 {
-	"presets": [
-		"next/babel"
-	],
+	"presets": ["next/babel"],
 	"plugins": [
 		[
 			"styled-components",
@@ -12,38 +10,16 @@
 		[
 			"module-resolver",
 			{
-				"root": [
-					"."
-				],
-				"extensions": [
-					".ts",
-					".tsx",
-					".jsx",
-					".js",
-					".json"
-				],
+				"root": ["."],
+				"extensions": [".ts", ".tsx", ".jsx", ".js", ".json"],
 				"alias": {
-					"@Components": [
-						"./components"
-					],
-					"@Pages": [
-						"./pages"
-					],
-					"@Hooks": [
-						"./hooks"
-					],
-					"@Shared": [
-						"./shared"
-					],
-					"@Styles": [
-						"./styles"
-					],
-					"@Utils": [
-						"./utils"
-					],
-					"@Schema": [
-						"./schema"
-					]
+					"@Components": ["./components"],
+					"@Pages": ["./pages"],
+					"@Hooks": ["./hooks"],
+					"@Shared": ["./shared"],
+					"@Styles": ["./styles"],
+					"@Utils": ["./utils"],
+					"@Schema": ["./schema"]
 				}
 			}
 		]

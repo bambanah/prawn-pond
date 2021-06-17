@@ -26,7 +26,7 @@ const MemoryList = () => {
 
 				setMemories(updatedMemories);
 			},
-			error: () => console.error("Couldn't get invoices."),
+			error: () => console.error("Couldn't get memories."),
 		});
 		return unsubscribe;
 	}, []);

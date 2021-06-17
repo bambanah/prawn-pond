@@ -138,7 +138,6 @@ export const getImageUrl = async (imageId: string): Promise<string | null> => {
 	return imageRef
 		.getDownloadURL()
 		.then((url) => {
-			console.log(url);
 			if (typeof url === "string") return url;
 			return null;
 		})
