@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import firebase from "firebase";
-import { Memory, MemoryObject } from "../shared/types";
-import { streamMemories } from "../shared/utils/firebase";
+import { Memory, MemoryObject } from "@Shared/types";
+import { streamMemories } from "@Utils/firebase";
+import styled from "styled-components";
+import MemoryCard from "./MemoryCard";
+
+const MemoryContainer = styled.div`
+	margin-top: 2rem;
+	columns: 3 200px;
+	column-gap: 1rem;
+`;
 
 const MemoryList = () => {
 	const [memories, setMemories] = useState<MemoryObject>({});
@@ -24,11 +32,11 @@ const MemoryList = () => {
 	}, []);
 
 	return (
-		<ul>
-			{Object.keys(memories).map((memoryId) => (
-				<li key={memoryId}>{memories[memoryId].description}</li>
+		<MemoryContainer>
+			{Object.values(memories).map((memory) => (
+				<MemoryCard memory={memory} key={memory.created?.valueOf()} />
 			))}
-		</ul>
+		</MemoryContainer>
 	);
 };
 

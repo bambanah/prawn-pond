@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import React from "react";
 import styled from "styled-components";
-import UploadForm from "../components/UploadForm";
-import Layout from "../shared/components/Layout";
-import { useAuth } from "../shared/hooks/useAuth";
+import UploadForm from "@Components/UploadForm";
+import Layout from "@Components/Layout";
+import { useAuth } from "@Hooks/useAuth";
 
 const Content = styled.div`
 	margin-top: 7rem;
