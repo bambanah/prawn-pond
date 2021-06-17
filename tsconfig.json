@@ -1,7 +1,11 @@
 {
 	"compilerOptions": {
-		"target": "es5",
-		"lib": ["dom", "dom.iterable", "esnext"],
+		"target": "es6",
+		"lib": [
+			"dom",
+			"dom.iterable",
+			"esnext"
+		],
 		"allowJs": true,
 		"skipLibCheck": true,
 		"esModuleInterop": true,
@@ -14,8 +18,39 @@
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"noEmit": true,
-		"jsx": "preserve"
+		"jsx": "preserve",
+		"baseUrl": ".",
+		"paths": {
+			"@Components/*": [
+				"components/*"
+			],
+			"@Pages/*": [
+				"pages/*"
+			],
+			"@Hooks/*": [
+				"hooks/*"
+			],
+			"@Shared/*": [
+				"shared/*"
+			],
+			"@Styles/*": [
+				"styles/*"
+			],
+			"@Utils/*": [
+				"utils/*"
+			],
+			"@Schema/*": [
+				"schema/*"
+			]
+		}
 	},
-	"include": ["**/*.ts", "**/*.tsx", "**/*.js", ".eslintrc.js"],
-	"exclude": ["node_modules"]
+	"include": [
+		"**/*.ts",
+		"**/*.tsx",
+		"**/*.js",
+		".eslintrc.js"
+	],
+	"exclude": [
+		"node_modules"
+	]
 }
