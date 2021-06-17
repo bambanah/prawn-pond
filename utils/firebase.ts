@@ -58,12 +58,22 @@ export const signOut = async () => {
 // --- Firestore ---
 //
 
+/**
+ * Initialise a memory stream to auto-update the fetched memories when
+ * a new one is created
+ * @param observer A single object containing next and error callbacks.
+ * @returns An unsubscribe function that can be called to cancel the snapshot listener.
+ */
 export const streamMemories = (observer: any) =>
 	firestore
 		.collection("memories")
 		.orderBy("created", "desc")
 		.onSnapshot(observer);
 
+/**
+ * Creates a memory in firestore.
+ * @param memory The memory to create
+ */
 export const createMemory = async (memory: Memory) => {
 	memory.created = firebase.firestore.Timestamp.now();
 
@@ -83,8 +93,6 @@ export const createMemory = async (memory: Memory) => {
 // --- Storage ---
 //
 
-// Storage helper functions go here
-
 /**
  * Uploads a file to firebase, replacing the filename with a UUID so that
  * it can be uniquely identified. Returns the new filename of the file
@@ -100,7 +108,7 @@ export const uploadFile = async (file: File): Promise<string> => {
 	const metadata: firebase.storage.UploadMetadata = {
 		customMetadata: {
 			filename: file.name,
-		}
+		},
 	};
 
 	// Upload file to firebase
@@ -109,4 +117,33 @@ export const uploadFile = async (file: File): Promise<string> => {
 
 	// Return UUID of uploaded file to attach to document
 	return fileId;
-}
+};
+
+/**
+ * Takes in an imageId and returns download URL
+ * @param imageId UUID of image in storage
+ * @returns Download URL
+ */
+export const getImageUrl = async (imageId: string): Promise<string | null> => {
+	if (
+		!imageId ||
+		!imageId.match(
+			/\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/
+		)
+	)
+		return null;
+
+	const imageRef = storage.ref().child(imageId);
+
+	return imageRef
+		.getDownloadURL()
+		.then((url) => {
+			console.log(url);
+			if (typeof url === "string") return url;
+			return null;
+		})
+		.catch((error) => {
+			console.error(error);
+			return null;
+		});
+};

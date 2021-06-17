@@ -7,29 +7,28 @@ import MemoryList from "@Components/MemoryList";
 import Layout from "@Components/Layout";
 
 const Content = styled.div`
-  padding: 0 1em;
-  margin-top: 5rem;
-  width: 95vw;
-  max-width: 1500px;
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
+	padding: 0 1em;
+	margin: 5rem 0;
+	width: 95vw;
+	max-width: 1500px;
+	display: flex;
+	flex-direction: column;
+	justify-content: left;
 `;
 
 export default function Home() {
-  return (
-    <Layout>
-      <Head>
-        <title>Gallery - Sean Wilson</title>
-      </Head>
-      <Hero />
-      <Content>
-        <Link href="/upload">
-          <a>Add a memory</a>
-        </Link>
-        <i>Mason style grid of images/videos/text here</i>
-        <MemoryList />
-      </Content>
-    </Layout>
-  );
+	return (
+		<Layout>
+			<Head>
+				<title>Gallery - Sean Wilson</title>
+			</Head>
+			<Hero />
+			<Content>
+				<Link href="/upload">
+					<a>Add a memory</a>
+				</Link>
+				<MemoryList />
+			</Content>
+		</Layout>
+	);
 }
