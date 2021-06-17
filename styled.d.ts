@@ -10,6 +10,7 @@ declare module "styled-components" {
 			bg: string;
 			link: string;
 			accent: string;
+			transparentAccent: string;
 			brand: string;
 			error: string;
 		};
