@@ -30,6 +30,21 @@ const GlobalStyle = createGlobalStyle`
 			color: #363636;
 		}
 	}
+
+	.spinner {
+		display: flex;
+		align-self: center;
+		animation: spin 1.2s linear infinite;
+	}
+
+	@keyframes spin {
+		0% {
+		  transform: rotate(0deg);
+		}
+		100% {
+		  transform: rotate(360deg);
+		}
+	}
 `;
 
 export default GlobalStyle;

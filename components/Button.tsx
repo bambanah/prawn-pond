@@ -32,7 +32,7 @@ const BlandButton: FunctionComponent<ButtonProps> = ({
   return (
     <button
       onClick={handleClick}
-      disabled={disabled}
+      disabled={!!disabled}
       type={type || "button"}
       {...rest}
     >
@@ -76,6 +76,19 @@ const Button = styled<FunctionComponent<ButtonProps>>(
 
 				&:hover {
 					background-color: #00c4a7;
+				}
+			`;
+    }
+
+    return null;
+  }}
+
+  ${(props) => {
+    if (props.disabled) {
+      return `
+				background-color: grey;
+				&:hover {
+					background-color: grey;
 				}
 			`;
     }

@@ -6,13 +6,22 @@ import {
   faEdit,
   faFileDownload,
   faTimes,
-  faTrash
+  faTrash,
+  faSpinner
 } from "@fortawesome/free-solid-svg-icons";
 import { MemoryObject, MemoryImages } from "@Shared/types";
 import { getFileUrl } from "./firebase";
 
 export const importIcons = () => {
-  library.add(faEdit, faTimes, faCheck, faTrash, faCopy, faFileDownload);
+  library.add(
+    faEdit,
+    faTimes,
+    faCheck,
+    faTrash,
+    faCopy,
+    faFileDownload,
+    faSpinner
+  );
 };
 
 export const errorIn = (

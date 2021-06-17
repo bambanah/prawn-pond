@@ -10,8 +10,8 @@ const Header = styled.header`
   width: 100vw;
   box-sizing: border-box;
   z-index: 100;
-  /* background-color: white; */
-  /* box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2); */
+  background-color: white;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
 `;
 
 const NavContent = styled.div`

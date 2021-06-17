@@ -13,6 +13,8 @@ import Input from "@Components/forms/Input";
 import Label from "@Components/forms/Label";
 import { Memory } from "@Shared/types";
 import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTheme } from "styled-components";
 import {
   DropZoneContainer,
   ImageContainer,
@@ -25,6 +27,7 @@ function imageLoader({ src }: ImageLoaderProps) {
 }
 
 const UploadForm = () => {
+  const theme = useTheme();
   const [images, setImages] = useState<File[]>([]);
 
   const addImages = (acceptedFiles: File[]) => {
@@ -77,6 +80,14 @@ const UploadForm = () => {
         <Form flexDirection="column">
           <DropZoneContainer {...getRootProps()}>
             <input {...getInputProps()} />
+            {isSubmitting && (
+              <FontAwesomeIcon
+                icon={["fas", "spinner"]}
+                className="spinner"
+                color={theme.colors.fg}
+                size="3x"
+              />
+            )}
             {isDragActive ? (
               <p>Drop the files here ...</p>
             ) : (
@@ -124,7 +135,11 @@ const UploadForm = () => {
             >
               Upload
             </Button>
-            <Button type="button" onClick={() => Router.push("/")}>
+            <Button
+              type="button"
+              onClick={() => Router.push("/")}
+              disabled={isSubmitting}
+            >
               Cancel
             </Button>
           </ButtonGroup>
