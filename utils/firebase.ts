@@ -1,8 +1,10 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/storage";
 import { toast } from "react-toastify";
-import { Memory } from "Shared/types";
+import { Memory } from "@Shared/types";
+import { v4 } from 'uuid';
 
 const firebaseConfig = {
 	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -21,7 +23,7 @@ if (!firebase.apps.length) {
 
 export const auth = firebase.auth();
 const firestore = firebase.firestore();
-// const storage = firebase.storage();
+const storage = firebase.storage();
 
 //
 // --- Auth ---
@@ -82,3 +84,21 @@ export const createMemory = async (memory: Memory) => {
 //
 
 // Storage helper functions go here
+export const uploadFile = async (file: File): Promise<string> => {
+	// Rename file with UUID
+	const fileId = v4();
+
+	// Add real file name as metadata
+	const metadata: firebase.storage.UploadMetadata = {
+		customMetadata: {
+			filename: file.name,
+		}
+	};
+
+	// Upload file to firebase
+	const fileRef = storage.ref().child(fileId);
+	await fileRef.put(file, metadata);
+
+	// Return UUID of uploaded file to attach to document
+	return fileId;
+}

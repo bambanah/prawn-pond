@@ -6,11 +6,12 @@ import { useDropzone } from "react-dropzone";
 import Button from "@Components/Button";
 import ButtonGroup from "@Components/ButtonGroup";
 import Subheading from "@Components/text/Subheading";
-import { createMemory } from "@Utils/firebase";
+import { createMemory, uploadFile } from "@Utils/firebase";
 import PostValidationSchema from "@Schema/PostValidationSchema";
 import Form from "@Components/forms/Form";
 import Input from "@Components/forms/Input";
 import Label from "@Components/forms/Label";
+import { Memory } from "@Shared/types";
 import {
   DropZoneContainer,
   ImageContainer,
@@ -44,7 +45,16 @@ const UploadForm = () => {
         description: ""
       }}
       onSubmit={async (values) => {
-        await createMemory(values).then(() => {
+        const fileNames = await Promise.all(
+          images.map(async (image) => uploadFile(image))
+        );
+
+        const newMemory: Memory = {
+          ...values,
+          images: fileNames
+        };
+
+        await createMemory(newMemory).then(() => {
           Router.push("/");
         });
       }}
