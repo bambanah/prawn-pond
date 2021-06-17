@@ -12,6 +12,7 @@ import Form from "@Components/forms/Form";
 import Input from "@Components/forms/Input";
 import Label from "@Components/forms/Label";
 import { Memory } from "@Shared/types";
+import { toast } from "react-toastify";
 import {
   DropZoneContainer,
   ImageContainer,
@@ -45,25 +46,34 @@ const UploadForm = () => {
         description: ""
       }}
       onSubmit={async (values) => {
-        const fileNames = await Promise.all(
-          images.map(async (image) => uploadFile(image))
-        );
+        try {
+          // Upload all images to firebase
+          const fileNames = await Promise.all(
+            images.map(async (image) => uploadFile(image))
+          );
 
-        const newMemory: Memory = {
-          ...values,
-          images: fileNames
-        };
+          // Attach filenames to Memory object
+          const newMemory: Memory = {
+            ...values,
+            images: fileNames
+          };
 
-        await createMemory(newMemory).then(() => {
+          // Create memory document
+          await createMemory(newMemory);
+
+          // Navigate to home
           Router.push("/");
-        });
+        } catch (e) {
+          console.error(e);
+          toast.error("Failed to upload images, please try again.");
+        }
       }}
       validationSchema={PostValidationSchema}
       validateOnMount={false}
       validateOnChange
       validateOnBlur
     >
-      {({ handleSubmit, errors, isValid }) => (
+      {({ handleSubmit, errors, isValid, isSubmitting }) => (
         <Form flexDirection="column">
           <DropZoneContainer {...getRootProps()}>
             <input {...getInputProps()} />
@@ -110,6 +120,7 @@ const UploadForm = () => {
               type="button"
               primary
               onClick={() => isValid && handleSubmit()}
+              disabled={isSubmitting}
             >
               Upload
             </Button>

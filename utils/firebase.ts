@@ -4,7 +4,7 @@ import "firebase/firestore";
 import "firebase/storage";
 import { toast } from "react-toastify";
 import { Memory } from "@Shared/types";
-import { v4 } from 'uuid';
+import { v4 } from "uuid";
 
 const firebaseConfig = {
 	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -84,6 +84,14 @@ export const createMemory = async (memory: Memory) => {
 //
 
 // Storage helper functions go here
+
+/**
+ * Uploads a file to firebase, replacing the filename with a UUID so that
+ * it can be uniquely identified. Returns the new filename of the file
+ * so that it can be stored elsewhere (like in a document).
+ * @param file File object to upload
+ * @returns File Id (uuid) string
+ */
 export const uploadFile = async (file: File): Promise<string> => {
 	// Rename file with UUID
 	const fileId = v4();
