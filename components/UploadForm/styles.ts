@@ -14,17 +14,18 @@ export const ImageContainer = styled.div`
 `;
 
 export const DropZoneContainer = styled.div`
-    height: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    border: 10px solid;
-    border-image: ${props => props.theme.colors.accent} 1;
-    background-image: none;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  border: 10px solid;
+  border-image: ${(props) => props.theme.colors.accent} 1;
+  background-image: none;
+  min-width: 480px;
 
-    :hover {
-        border-image: ${props => props.theme.colors.transparentAccent} 1;
-    }
+  :hover {
+    border-image: ${(props) => props.theme.colors.transparentAccent} 1;
+  }
 `;
