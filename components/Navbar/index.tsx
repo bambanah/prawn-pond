@@ -13,12 +13,13 @@ const Navbar = () => {
 		const listener: any = document.addEventListener("scroll", () => {
 			const scrolledAmount = document.scrollingElement?.scrollTop;
 
-			if (scrolledAmount && scrolledAmount >= 150) {
-				setScrolled(scrolled === false);
+			if (scrolledAmount && scrolledAmount >= 250) {
+				if (!scrolled) setScrolled(true);
 			} else if (scrolled) {
 				setScrolled(false);
 			}
 		});
+
 		return () => {
 			document.removeEventListener("scroll", listener);
 		};

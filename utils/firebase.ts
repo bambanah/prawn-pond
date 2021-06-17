@@ -1,9 +1,9 @@
+import { Memory } from "@Shared/types";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
 import { toast } from "react-toastify";
-import { Memory } from "@Shared/types";
 import { v4 } from "uuid";
 
 const firebaseConfig = {
@@ -21,6 +21,7 @@ if (!firebase.apps.length) {
 	firebase.initializeApp(firebaseConfig);
 }
 
+// Initialise services
 export const auth = firebase.auth();
 const firestore = firebase.firestore();
 const storage = firebase.storage();
@@ -29,10 +30,22 @@ const storage = firebase.storage();
 // --- Auth ---
 //
 
+/**
+ * Get the currently signed in user.
+ * @returns The current user details
+ */
 export const getCurrentUser = () => auth.currentUser;
 
+/**
+ * Check if the current user is signed in.
+ * @returns True if authenticated
+ */
 export const isAuthenticated = () => auth.currentUser !== null;
 
+/**
+ * Authenticate user with firebase
+ * @returns User credential
+ */
 export const signIn = async () => {
 	try {
 		await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
@@ -46,6 +59,9 @@ export const signIn = async () => {
 	}
 };
 
+/**
+ * Sign out of firebase
+ */
 export const signOut = async () => {
 	try {
 		await auth.signOut();
@@ -80,9 +96,6 @@ export const createMemory = async (memory: Memory) => {
 	firestore
 		.collection("memories")
 		.add(memory)
-		.then(() => {
-			if (location.hostname === "localhost") toast.success("[DEBUG] Created");
-		})
 		.catch((error) => {
 			toast.error("Error");
 			console.error("Error writing document: ", error);
@@ -113,6 +126,7 @@ export const uploadFile = async (file: File): Promise<string> => {
 
 	// Upload file to firebase
 	const fileRef = storage.ref().child(fileId);
+
 	await fileRef.put(file, metadata);
 
 	// Return UUID of uploaded file to attach to document
