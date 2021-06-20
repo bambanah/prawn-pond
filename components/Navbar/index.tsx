@@ -1,10 +1,13 @@
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAuth } from "@Hooks/useAuth";
 import { signOut } from "@Utils/firebase";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import { AuthLink, Header, NavAuth, NavContent, NavLogo } from "./styles";
 
 const Navbar = () => {
+	const router = useRouter();
 	const [scrolled, setScrolled] = useState(false);
 
 	const { authenticated } = useAuth();
@@ -35,11 +38,21 @@ const Navbar = () => {
 				</NavLogo>
 
 				<NavAuth>
-					{authenticated ? (
-						<AuthLink onClick={() => signOut()}>Log Out</AuthLink>
+					{!["/login", "/register"].includes(router.pathname) ? (
+						<>
+							{authenticated ? (
+								<AuthLink onClick={() => signOut()}>Log Out</AuthLink>
+							) : (
+								<Link href="/login">
+									<AuthLink>Login</AuthLink>
+								</Link>
+							)}
+						</>
 					) : (
-						<Link href="/login">
-							<AuthLink>Login</AuthLink>
+						<Link href="/">
+							<AuthLink>
+								<FontAwesomeIcon icon="arrow-left" /> back home
+							</AuthLink>
 						</Link>
 					)}
 				</NavAuth>
