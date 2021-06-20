@@ -26,14 +26,14 @@ export const TextContainer = styled.div`
 `;
 
 export const FullscreenContainer = styled.div`
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
 	z-index: 1000;
 
-	background: rgba(0, 0, 0, 0.6);
+	background: rgba(0, 0, 0, 0.8);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -44,7 +44,7 @@ export const FullscreenImage = styled.div`
 	width: 100%;
 	max-height: 70%;
 	padding: 4rem;
-	flex: 1 1 70%;
+	flex: 1 0 80%;
 	box-sizing: border-box;
 	display: flex;
 	justify-content: center;
@@ -55,9 +55,28 @@ export const FullscreenImage = styled.div`
 		max-height: 100%;
 
 		object-fit: contain;
+		background-color: white;
 	}
 `;
 
 export const FullscreenCaption = styled.div`
-	flex: 1 1 30%;
+	flex: 0 1 20%;
+	background-color: white;
+`;
+
+export const CloseFullscreenButton = styled.div`
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	cursor: pointer;
+	padding: 0 0.5rem;
+
+	path {
+		color: ${({ theme }) => theme.colors.bg};
+	}
+	&:hover {
+		path {
+			color: ${({ theme }) => theme.colors.link};
+		}
+	}
 `;

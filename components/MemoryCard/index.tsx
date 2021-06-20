@@ -1,6 +1,7 @@
 import { Memory } from "@Shared/types";
 import React, { useEffect, useState } from "react";
 import { getImageUrl } from "@Utils/firebase";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	FullscreenContainer,
 	ImageContainer,
@@ -8,6 +9,7 @@ import {
 	TextContainer,
 	FullscreenImage,
 	FullscreenCaption,
+	CloseFullscreenButton,
 } from "./styles";
 
 interface Props {
@@ -35,9 +37,12 @@ const MemoryCard = ({ memory }: Props) => {
 	}
 
 	if (fullDisplay) {
-		console.log("Full?");
+		document.body.style.overflow = "hidden";
 		return (
 			<FullscreenContainer>
+				<CloseFullscreenButton onClick={() => setFullDisplay(false)}>
+					<FontAwesomeIcon icon="times" size="3x" />
+				</CloseFullscreenButton>
 				{imageUrl && (
 					<FullscreenImage>
 						<img src={imageUrl} alt="memory" />
@@ -55,12 +60,12 @@ const MemoryCard = ({ memory }: Props) => {
 		);
 	}
 
+	document.body.style.overflow = "inherit";
 	return (
 		<Card
 			key={memory.created?.valueOf()}
 			onClick={() => {
 				setFullDisplay(true);
-				console.log("full");
 			}}
 		>
 			{imageUrl && (

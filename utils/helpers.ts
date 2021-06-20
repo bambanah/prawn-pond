@@ -4,6 +4,7 @@ import {
 	faSpinner,
 	faArrowLeft,
 	faCaretLeft,
+	faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import {
 	faGoogle,
@@ -18,7 +19,8 @@ export const importIcons = () => {
 		faFacebook,
 		faFacebookF,
 		faArrowLeft,
-		faCaretLeft
+		faCaretLeft,
+		faTimes
 	);
 };
 
