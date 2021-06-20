@@ -1,14 +1,15 @@
+import { Form as FormikForm } from "formik";
 import styled from "styled-components";
 
-interface Props {
-	flexDirection: "row" | "column";
-}
-
-const Form = styled.form<Props>`
+const Form = styled(FormikForm)`
 	display: flex;
 	flex-wrap: wrap;
-	flex-direction: ${(props) => props.flexDirection};
-	gap: 2rem;
+	flex-direction: column;
+	gap: 1rem;
+
+	button {
+		margin-top: 1rem;
+	}
 `;
 
 export default Form;
