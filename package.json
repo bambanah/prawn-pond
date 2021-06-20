@@ -12,6 +12,7 @@
 		"@testing-library/react": "^11.2.7",
 		"@testing-library/user-event": "^13.1.9",
 		"axios": "^0.21.1",
+		"compressorjs": "^1.0.7",
 		"firebase": "^8.6.1",
 		"formik": "^2.2.7",
 		"moment": "^2.29.1",

@@ -74,7 +74,7 @@ const UploadForm = () => {
 			validateOnBlur
 		>
 			{({ handleSubmit, errors, isValid, isSubmitting }) => (
-				<Form flexDirection="column">
+				<Form>
 					<DropZoneContainer {...getRootProps()}>
 						<input {...getInputProps()} />
 						{isDragActive ? (
