@@ -4,8 +4,11 @@ import { signInWithEmailAndPassword } from "@Utils/firebase";
 import { Formik } from "formik";
 import Link from "next/link";
 import React from "react";
+import styled from "styled-components";
 import * as yup from "yup";
+import ErrorMessage from "./forms/ErrorMessage";
 import Input from "./forms/Input";
+import Label from "./forms/Label";
 
 interface Props {
 	email: string;
@@ -19,6 +22,10 @@ const LoginFormSchema = yup.object().shape({
 		.min(8, "Minimum 8 characters")
 		.required("Password is required"),
 });
+
+const ForgotPasswordText = styled.a`
+	text-align: center;
+`;
 
 const EmailAuthForm = () => {
 	const handleSubmit = async (values: Props) => {
@@ -34,21 +41,39 @@ const EmailAuthForm = () => {
 			onSubmit={handleSubmit}
 			validationSchema={LoginFormSchema}
 		>
-			<Form>
-				<Input id="email" name="email" placeholder="Email" type="email" />
+			{({ errors, touched }) => (
+				<Form>
+					<Label>
+						<Input
+							id="email"
+							name="email"
+							placeholder="Email"
+							type="email"
+							error={touched.email && errors.email}
+						/>
+						<ErrorMessage error={errors.email} touched={touched.email} />
+					</Label>
 
-				<Input
-					id="password"
-					name="password"
-					placeholder="Password"
-					type="password"
-				/>
-				<Link href="recover-password">Forgot your password?</Link>
+					<Label>
+						<Input
+							id="password"
+							name="password"
+							placeholder="Password"
+							type="password"
+							error={touched.password && errors.password}
+						/>
+						<ErrorMessage error={errors.password} touched={touched.password} />
+					</Label>
 
-				<Button type="submit" primary>
-					Login
-				</Button>
-			</Form>
+					<Link href="/recover-password">
+						<ForgotPasswordText>Forgot your password?</ForgotPasswordText>
+					</Link>
+
+					<Button type="submit" primary>
+						Login
+					</Button>
+				</Form>
+			)}
 		</Formik>
 	);
 };

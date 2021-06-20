@@ -51,7 +51,7 @@ const Navbar = () => {
 					) : (
 						<Link href="/">
 							<AuthLink>
-								<FontAwesomeIcon icon="arrow-left" /> back home
+								<FontAwesomeIcon icon="arrow-left" /> Home
 							</AuthLink>
 						</Link>
 					)}

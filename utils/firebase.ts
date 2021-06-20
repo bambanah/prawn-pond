@@ -145,14 +145,9 @@ export const signInWithEmailAndPassword = async (
  * Sign out of firebase
  */
 export const signOut = async () => {
-	auth
-		.signOut()
-		.then(() => {
-			router.reload();
-		})
-		.catch((err) => {
-			console.error(err.message);
-		});
+	auth.signOut().catch((err) => {
+		console.error(err.message);
+	});
 };
 
 /**
