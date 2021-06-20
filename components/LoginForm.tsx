@@ -45,7 +45,9 @@ const EmailAuthForm = () => {
 				/>
 				<Link href="recover-password">Forgot your password?</Link>
 
-				<Button type="submit">Login</Button>
+				<Button type="submit" primary>
+					Login
+				</Button>
 			</Form>
 		</Formik>
 	);

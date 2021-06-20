@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { signInWithProvider } from "@Utils/firebase";
 import Head from "next/head";
 import Link from "next/link";
@@ -29,44 +30,46 @@ const Separator = styled.span`
 	padding: 2rem 0;
 `;
 
-const AuthPage = ({ type }: Props) => {
-	let title;
-	let formComponent: JSX.Element;
-	let link;
+const ProviderButtons = styled.div`
+	display: flex;
+	gap: 1rem;
 
-	if (type === "login") {
-		title = "Login - Sean Wilson";
-		formComponent = <LoginForm />;
-		link = "register";
-	} else {
-		title = "Register - Sean Wilson";
-		formComponent = <RegisterForm />;
-		link = "login";
+	button {
+		border-radius: 100%;
+		width: 3rem;
+		height: 3rem;
 	}
+`;
 
-	return (
-		<Layout>
-			<Container>
-				<Head>
-					<title>{title}</title>
-				</Head>
-				<h1>{type === "login" ? "Login" : "Create Account"}</h1>
+const AuthPage = ({ type }: Props) => (
+	<Layout>
+		<Container>
+			<Head>
+				<title>{type === "login" ? "Login" : "Register"} - Sean Wilson</title>
+			</Head>
+			<h1>{type === "login" ? "Login" : "Create Account"}</h1>
 
+			<ProviderButtons>
 				<Button onClick={() => signInWithProvider("google")}>
-					Login with Google
+					<FontAwesomeIcon icon={["fab", "google"]} />
 				</Button>
+				<Button onClick={() => signInWithProvider("facebook")}>
+					<FontAwesomeIcon icon={["fab", "facebook-f"]} />
+				</Button>
+			</ProviderButtons>
 
-				<Separator>or use your email</Separator>
+			<Separator>or use your email</Separator>
 
-				<EmailContainer>{formComponent}</EmailContainer>
+			<EmailContainer>
+				{type === "login" ? <LoginForm /> : <RegisterForm />}
+			</EmailContainer>
 
-				<Text>Already have an account?</Text>
-				<Link href={link}>
-					{type === "login" ? "Create an account" : "Login"}
-				</Link>
-			</Container>
-		</Layout>
-	);
-};
+			<Text>Already have an account?</Text>
+			<Link href={type === "login" ? "register" : "login"}>
+				{type === "login" ? "Create an account" : "Login"}
+			</Link>
+		</Container>
+	</Layout>
+);
 
 export default AuthPage;

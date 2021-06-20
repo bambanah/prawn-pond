@@ -81,7 +81,9 @@ const RegisterForm = () => {
 						/>
 					</Label>
 
-					<Button type="submit">Register</Button>
+					<Button type="submit" primary>
+						Register
+					</Button>
 				</Form>
 			)}
 		</Formik>
