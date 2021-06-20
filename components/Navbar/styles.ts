@@ -36,6 +36,7 @@ export const NavLogo = styled.div`
 	align-items: center;
 
 	p {
+		cursor: pointer;
 		margin-left: 1rem;
 		font-family: "Poppins", "Archivo Black";
 		font-size: 2rem;

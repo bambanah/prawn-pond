@@ -3,22 +3,23 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
+import router from "next/router";
 import { toast } from "react-toastify";
 import { v4 } from "uuid";
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
+	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+	authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+	databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
+	projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+	storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+	messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+	appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
 // If no firebase app is initialised, initialise the app
 if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
+	firebase.initializeApp(firebaseConfig);
 }
 
 // Initialise services
@@ -43,32 +44,133 @@ export const getCurrentUser = () => auth.currentUser;
 export const isAuthenticated = () => auth.currentUser !== null;
 
 /**
- * Authenticate user with firebase
- * @returns User credential
+ * Authenticate user with firebas auth
+ * @param authProvider The auth provider to use. Must be either "google" or "facebook".
+ * @returns The authenticated user
  */
-export const signIn = async () => {
-  try {
-    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+export const signInWithProvider = async (
+	authProvider: "google" | "facebook"
+) => {
+	await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
-    const provider = new firebase.auth.GoogleAuthProvider();
-    return await auth.signInWithPopup(provider);
-  } catch (err) {
-    console.error(err.message);
-    toast.error("Couldn't sign in.");
-    return null;
-  }
+	let provider:
+		| firebase.auth.GoogleAuthProvider
+		| firebase.auth.FacebookAuthProvider;
+
+	if (authProvider === "google") {
+		provider = new firebase.auth.GoogleAuthProvider();
+	} else if (authProvider === "facebook") {
+		provider = new firebase.auth.FacebookAuthProvider();
+	} else {
+		// Invalid auth provider provided
+		return null;
+	}
+
+	return auth
+		.signInWithPopup(provider)
+		.then((userCredential) => {
+			const { redirect } = router.query;
+
+			if (auth !== null) {
+				if (redirect && !Array.isArray(redirect)) {
+					router.push(redirect);
+				} else {
+					router.push("/");
+				}
+			}
+
+			return userCredential.user;
+		})
+		.catch((error: firebase.auth.Error) => {
+			console.error(error.message);
+			toast.error("Couldn't sign in.");
+			return null;
+		});
 };
+
+/**
+ * Creates an account with a given email and password
+ * @param email Email of user
+ * @param password Password of user
+ * @returns The created user
+ */
+export const registerWithEmailAndPassword = async (
+	email: string,
+	password: string
+) =>
+	firebase
+		.auth()
+		.createUserWithEmailAndPassword(email, password)
+		.then((userCredential) => {
+			router.push("/");
+			return userCredential.user;
+		})
+		.catch((error: firebase.auth.Error) => {
+			if (["auth/email-already-in-use"].includes(error.code)) {
+				toast.error(error.message);
+			} else {
+				toast.error("An unknown error occured. Please try again later.");
+				console.error(error);
+			}
+
+			return null;
+		});
+
+/**
+ *	Authenticates a user with an email and password
+ * @param email Email of user
+ * @param password Password of user
+ * @returns The authenticated user
+ */
+export const signInWithEmailAndPassword = async (
+	email: string,
+	password: string
+) =>
+	firebase
+		.auth()
+		.signInWithEmailAndPassword(email, password)
+		.then((userCredential) => {
+			router.push("/");
+
+			return userCredential.user;
+		})
+		.catch((error: firebase.auth.Error) => {
+			toast.error("An unknown error occured. Please try again later.");
+			console.error(error);
+
+			return null;
+		});
 
 /**
  * Sign out of firebase
  */
 export const signOut = async () => {
-  try {
-    await auth.signOut();
-  } catch (err) {
-    console.error(err.message);
-  }
+	auth
+		.signOut()
+		.then(() => {
+			router.reload();
+		})
+		.catch((err) => {
+			console.error(err.message);
+		});
 };
+
+/**
+ * Sends a password reset email to a user
+ * @param email The email to send the email to
+ * @returns Bool if sent
+ */
+export const sendPasswordResetEmail = async (email: string) =>
+	auth
+		.sendPasswordResetEmail(email)
+		.then(() => {
+			toast.info("Password reset email sent");
+			return true;
+		})
+		.catch((error) => {
+			console.error(error);
+			return false;
+		});
 
 //
 // --- Firestore ---
@@ -81,17 +183,17 @@ export const signOut = async () => {
  * @returns An unsubscribe function that can be called to cancel the snapshot listener.
  */
 export const streamMemories = (observer: any) =>
-  firestore
-    .collection("memories")
-    .orderBy("created", "desc")
-    .onSnapshot(observer);
+	firestore
+		.collection("memories")
+		.orderBy("created", "desc")
+		.onSnapshot(observer);
 
 /**
  * Creates a memory in firestore.
  * @param memory The memory to create
  */
 export const createMemory = async (memory: Memory) => {
-  memory.created = firebase.firestore.Timestamp.now();
+	memory.created = firebase.firestore.Timestamp.now();
 
 	firestore
 		.collection("memories")
@@ -114,8 +216,8 @@ export const createMemory = async (memory: Memory) => {
  * @returns File Id (uuid) string
  */
 export const uploadFile = async (file: File): Promise<string> => {
-  // Rename file with UUID
-  const fileId = v4();
+	// Rename file with UUID
+	const fileId = v4();
 
 	// Add real file name as metadata
 	const metadata: firebase.storage.UploadMetadata = {

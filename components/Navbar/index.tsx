@@ -29,7 +29,9 @@ const Navbar = () => {
 		<Header className={scrolled ? "scrolled" : ""}>
 			<NavContent>
 				<NavLogo>
-					<p>Sean Wilson</p>
+					<Link href="/">
+						<p>Sean Wilson</p>
+					</Link>
 				</NavLogo>
 
 				<NavAuth>
