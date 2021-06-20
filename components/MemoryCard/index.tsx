@@ -1,40 +1,23 @@
 import { Memory } from "@Shared/types";
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import { getImageUrl } from "@Utils/firebase";
+import {
+	FullscreenContainer,
+	ImageContainer,
+	Card,
+	TextContainer,
+	FullscreenImage,
+	FullscreenCaption,
+} from "./styles";
 
 interface Props {
 	memory: Memory;
 }
 
-const Card = styled.div`
-	width: 100%;
-	display: inline-flex;
-	flex-direction: column;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-	margin-bottom: 1rem;
-	cursor: pointer;
-`;
-
-const ImageContainer = styled.div`
-	flex: 0 0 auto;
-	width: 100%;
-
-	img {
-		display: block;
-		height: auto;
-		width: 100%;
-	}
-`;
-
-const TextContainer = styled.div`
-	flex: 0 0 auto;
-	padding: 0.5rem;
-`;
-
 const MemoryCard = ({ memory }: Props) => {
 	const [imageUrl, setImageUrl] = useState<string | null>(null);
 	const [loading, setLoading] = useState(true);
+	const [fullDisplay, setFullDisplay] = useState(false);
 
 	const maxMessageLength = 150;
 
@@ -50,8 +33,36 @@ const MemoryCard = ({ memory }: Props) => {
 	if (loading) {
 		return null;
 	}
+
+	if (fullDisplay) {
+		console.log("Full?");
+		return (
+			<FullscreenContainer>
+				{imageUrl && (
+					<FullscreenImage>
+						<img src={imageUrl} alt="memory" />
+					</FullscreenImage>
+				)}
+
+				{memory.description && (
+					<FullscreenCaption>
+						{memory.description.length > maxMessageLength
+							? `${memory.description.substr(0, maxMessageLength - 1)}...`
+							: memory.description}
+					</FullscreenCaption>
+				)}
+			</FullscreenContainer>
+		);
+	}
+
 	return (
-		<Card key={memory.created?.valueOf()}>
+		<Card
+			key={memory.created?.valueOf()}
+			onClick={() => {
+				setFullDisplay(true);
+				console.log("full");
+			}}
+		>
 			{imageUrl && (
 				<ImageContainer>
 					<img src={imageUrl} alt="memory" />
