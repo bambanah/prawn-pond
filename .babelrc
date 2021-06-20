@@ -1,4 +1,27 @@
 {
 	"presets": ["next/babel"],
-	"plugins": [["styled-components", { "ssr": true }]]
+	"plugins": [
+		[
+			"styled-components",
+			{
+				"ssr": true
+			}
+		],
+		[
+			"module-resolver",
+			{
+				"root": ["."],
+				"extensions": [".ts", ".tsx", ".jsx", ".js", ".json"],
+				"alias": {
+					"@Components": ["./components"],
+					"@Pages": ["./pages"],
+					"@Hooks": ["./hooks"],
+					"@Shared": ["./shared"],
+					"@Styles": ["./styles"],
+					"@Utils": ["./utils"],
+					"@Schema": ["./schema"]
+				}
+			}
+		]
+	]
 }

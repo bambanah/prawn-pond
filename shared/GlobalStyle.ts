@@ -13,6 +13,7 @@ const GlobalStyle = createGlobalStyle`
 	* {
 		font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
     "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+		color: ${({ theme }) => theme.colors.fg};
 	}
 
 	*,
@@ -28,6 +29,21 @@ const GlobalStyle = createGlobalStyle`
 
 		&:hover {
 			color: #363636;
+		}
+	}
+
+	.spinner {
+		display: flex;
+		align-self: center;
+		animation: spin 1.2s linear infinite;
+	}
+
+	@keyframes spin {
+		0% {
+		  transform: rotate(0deg);
+		}
+		100% {
+		  transform: rotate(360deg);
 		}
 	}
 `;

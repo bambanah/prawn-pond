@@ -7,10 +7,19 @@ import {
 	faFileDownload,
 	faTimes,
 	faTrash,
+	faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const importIcons = () => {
-	library.add(faEdit, faTimes, faCheck, faTrash, faCopy, faFileDownload);
+	library.add(
+		faEdit,
+		faTimes,
+		faCheck,
+		faTrash,
+		faCopy,
+		faFileDownload,
+		faSpinner
+	);
 };
 
 export const errorIn = (
