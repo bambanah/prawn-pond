@@ -10,10 +10,25 @@ export const Header = styled.header`
 	background-color: white;
 	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
 
-	transition: margin 0.4s ease;
+	transition: background-color 0.3s ease, box-shadow 0.3s ease,
+		margin-top 0.4s ease;
+	transition-delay: background-color 1s, box-shadow 1s;
 
-	&.scrolled {
-		margin-top: -5em;
+	@media screen and (max-width: 750px) {
+		&.scrolled {
+			margin-top: -5em;
+		}
+	}
+
+	@media screen and (min-width: 751px) {
+		&.top {
+			background-color: transparent;
+			box-shadow: none;
+
+			p {
+				color: ${({ theme }) => theme.colors.bg};
+			}
+		}
 	}
 `;
 
