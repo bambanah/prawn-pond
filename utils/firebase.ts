@@ -1,4 +1,4 @@
-import { Memory } from "@Shared/types";
+import { Memory, MemoryObject } from "@Shared/types";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
@@ -182,6 +182,45 @@ export const streamMemories = (observer: any) =>
 		.collection("memories")
 		.orderBy("created", "desc")
 		.onSnapshot(observer);
+
+const pageSize = 5;
+
+export const getInitialMemories = async () => {
+	const query = firestore
+		.collection("memories")
+		.orderBy("created", "desc")
+		.limit(pageSize);
+
+	const data = await query.get();
+
+	const memories: MemoryObject = {};
+	data.docs.forEach((doc) => {
+		const memory: any = doc.data();
+
+		memories[doc.id] = memory;
+	});
+
+	return memories;
+};
+
+export const getNextMemories = async (last: firebase.firestore.Timestamp) => {
+	const query = firestore
+		.collection("memories")
+		.orderBy("created", "desc")
+		.startAfter(last)
+		.limit(pageSize);
+
+	const data = await query.get();
+
+	const memories: MemoryObject = {};
+	data.docs.forEach((doc) => {
+		const memory: any = doc.data();
+
+		memories[doc.id] = memory;
+	});
+
+	return memories;
+};
 
 /**
  * Creates a memory in firestore.
