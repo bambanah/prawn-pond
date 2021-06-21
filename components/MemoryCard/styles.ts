@@ -108,17 +108,41 @@ const IconButton = styled.div`
 
 export const CloseFullscreenButton = styled(IconButton)`
   position: fixed;
-  top: 1rem;
+  top: 0.5rem;
   right: 1rem;
-  padding: 0 0.5rem;
 `;
 
 export const LeftArrowContainer = styled(IconButton)`
   position: absolute;
-  left: 10px;
+  left: 1rem;
 `;
 
 export const RightArrowContainer = styled(IconButton)`
   position: absolute;
-  right: 10px;
+  right: 1rem;
+`;
+
+export const AlbumIndexContainer = styled.div`
+  position: absolute;
+  left: 1rem;
+  top: 0.5rem;
+`;
+
+export const AlbumIndexText = styled.h2`
+  color: white;
+  margin: 0px;
+`;
+
+export const LoadingContainer = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+
+  path {
+    color: ${({ theme }) => theme.colors.bg};
+  }
 `;

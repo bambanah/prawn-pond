@@ -13,14 +13,17 @@ interface Props {
 const maxMessageLength = 150;
 
 const MemoryCard = ({ memory }: Props) => {
-  const [imageUrls, setImageUrls] = useState<(string | null)[]>([]);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [fullDisplay, setFullDisplay] = useState(false);
 
   useEffect(() => {
     if (memory.images) {
       Promise.all(memory.images.map(async (img) => getImageUrl(img))).then(
-        setImageUrls
+        (urls) => {
+          urls.filter((url) => url !== null);
+          setImageUrls(urls as string[]);
+        }
       );
     }
     setLoading(false);
