@@ -8,11 +8,11 @@ import MemoryCard from "./MemoryCard";
 
 const StyledMasonry = styled(Masonry)`
 	display: flex;
-	margin-left: -30px; /* gutter size offset */
+	margin-left: -2em;
 	width: auto;
 
 	.masonry-grid-column {
-		padding-left: 30px; /* gutter size */
+		padding-left: 2em;
 		background-clip: padding-box;
 	}
 
@@ -46,9 +46,8 @@ const MemoryList = () => {
 	}, []);
 
 	const columnBreakpoints = {
-		default: 3,
-		1100: 2,
-		750: 1,
+		default: 2,
+		1100: 1,
 	};
 
 	return (

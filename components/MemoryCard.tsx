@@ -12,7 +12,7 @@ const Card = styled.div`
 	display: inline-flex;
 	flex-direction: column;
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-	margin-bottom: 1rem;
+	margin-bottom: 2rem;
 	cursor: pointer;
 	border-radius: 5px;
 	overflow: hidden;
