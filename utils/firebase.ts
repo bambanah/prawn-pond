@@ -185,6 +185,10 @@ export const streamMemories = (observer: any) =>
 
 const pageSize = 5;
 
+/**
+ *
+ * @returns
+ */
 export const getInitialMemories = async () => {
 	const query = firestore
 		.collection("memories")
@@ -203,6 +207,11 @@ export const getInitialMemories = async () => {
 	return memories;
 };
 
+/**
+ *
+ * @param last
+ * @returns
+ */
 export const getNextMemories = async (last: firebase.firestore.Timestamp) => {
 	const query = firestore
 		.collection("memories")

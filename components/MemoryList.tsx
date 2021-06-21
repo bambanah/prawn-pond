@@ -1,3 +1,4 @@
+import useScrollPosition from "@Hooks/useScroll";
 import { MemoryObject } from "@Shared/types";
 import { getNextMemories } from "@Utils/firebase";
 import firebase from "firebase";
@@ -49,6 +50,22 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 			setMemories({ ...memories, ...nextMemories });
 		});
 	};
+
+	useScrollPosition(
+		({ currPos }: { currPos: { x: number; y: number } }) => {
+			const gapToBottom = 500;
+
+			const atBottom =
+				Math.abs(currPos.y) + gapToBottom >
+				document.body.getBoundingClientRect().height - window.innerHeight;
+
+			if (atBottom) loadNextBatch();
+		},
+		null,
+		false,
+		false,
+		1000
+	);
 
 	const columnBreakpoints = {
 		default: 2,
