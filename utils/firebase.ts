@@ -5,7 +5,7 @@ import "firebase/firestore";
 import "firebase/storage";
 import router from "next/router";
 import { toast } from "react-toastify";
-import { v4 } from "uuid";
+import { v4, validate } from "uuid";
 import { toDataUrl } from "./helpers";
 
 const firebaseConfig = {
@@ -290,10 +290,20 @@ export const uploadFile = async (file: File): Promise<string> => {
  * @param imageId UUID of image in storage
  * @returns Download URL
  */
-export const getImageUrl = async (imageId: string): Promise<string | null> => {
-	// if (!validate(imageId)) return null;
+export const getImageUrl = async (
+	imageId: string,
+	thumbnail?: boolean = false,
+	thumbnailSize?: "32" | "800"
+): Promise<string | null> => {
+	if (!validate(imageId) && !thumbnail) return null;
 
-	const imageRef = storage.ref().child(imageId);
+	let imageRef;
+
+	if (thumbnail) {
+		imageRef = storage.ref().child(`thumb@${thumbnailSize}_${imageId}`);
+	} else {
+		imageRef = storage.ref().child(imageId);
+	}
 
 	return imageRef
 		.getDownloadURL()
@@ -309,9 +319,9 @@ export const getImageUrl = async (imageId: string): Promise<string | null> => {
 
 export const getPlaceholderUrl = async (
 	imageId: string,
-	imageWidth: "32" | "128" | "512"
+	imageWidth: "32" | "512"
 ): Promise<string | ArrayBuffer | null> => {
-	const imageUrl = await getImageUrl(`thumb@${imageWidth}_${imageId}.jpg`);
+	const imageUrl = await getImageUrl(imageId, true, imageWidth);
 	if (!imageUrl) return null;
 
 	const dataUrl = await toDataUrl(imageUrl);
