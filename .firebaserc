@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "sean-dev-37a71"
+    "staging": "sean-dev-37a71",
+    "prod": "sean-68394"
   }
 }

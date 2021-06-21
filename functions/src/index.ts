@@ -6,25 +6,21 @@ import * as sharp from "sharp";
 import * as fs from "fs-extra";
 
 import { Storage } from "@google-cloud/storage";
+import path = require("path");
 
 const gcs = new Storage();
 
 const optimiseImages = functions.storage.object().onFinalize(async (object) => {
 	const bucket = gcs.bucket(object.bucket);
 	const filePath = object.name;
-	const { metadata } = object;
 	if (!filePath) return false;
 
-	const fileExtension = filePath.includes(".")
-		? filePath.split(".").pop()
-		: metadata?.filename.split(".").pop();
-
-	const fileName = filePath?.split("/").pop();
+	const fileName = path.basename(filePath);
 	const bucketDir = dirname(filePath);
 
 	const workingDir = join(tmpdir(), "thumbs");
 
-	const tmpFilePath = join(workingDir, `source.${fileExtension}`);
+	const tmpFilePath = join(workingDir, fileName);
 
 	if (fileName?.includes("thumb@") || !object.contentType?.includes("image")) {
 		return false;
@@ -38,16 +34,14 @@ const optimiseImages = functions.storage.object().onFinalize(async (object) => {
 		destination: tmpFilePath,
 	});
 
-	const sizes = [32, 512];
+	const sizes = [32, 800];
 
 	console.log(
 		`Creating optimised images at sizes ${sizes.toString()} for ${filePath}`
 	);
 
 	const uploadPromises = sizes.map(async (size) => {
-		const thumbName = `thumb@${size}_${fileName}${
-			!fileName?.includes(".") && `.${fileExtension}`
-		}`;
+		const thumbName = `thumb@${size}_${fileName}`;
 
 		const thumbPath = join(workingDir, thumbName);
 
@@ -55,8 +49,14 @@ const optimiseImages = functions.storage.object().onFinalize(async (object) => {
 		await sharp(tmpFilePath).resize(size).toFile(thumbPath);
 
 		console.log(`Saving ${thumbPath} to ${bucketDir}`);
+
+		const metadata = {
+			contentType: object.contentType,
+		};
+
 		return bucket.upload(thumbPath, {
 			destination: join(bucketDir, thumbName),
+			metadata,
 		});
 	});
 
