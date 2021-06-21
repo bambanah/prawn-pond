@@ -20,7 +20,7 @@ const Content = styled.div`
 
 	padding: 0 1em;
 	z-index: 1;
-	padding-bottom: 5rem;
+	padding-bottom: 3rem;
 	width: 100%;
 	background-color: white;
 	box-shadow: 0px 0px 19px rgba(0, 0, 0, 0.5);
@@ -63,6 +63,12 @@ const Charities = styled.div`
 		border-radius: 5px;
 		box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
 		padding: 1rem;
+
+		transition: box-shadow 0.2s ease;
+
+		&:hover {
+			box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.25);
+		}
 	}
 `;
 
@@ -106,12 +112,12 @@ const Home: NextPage<Props> = ({ initialMemories, lastCreated }) => (
 				<h1>Consider donating to these charities</h1>
 				<Charities>
 					<CharityLink
-						href="https://www.beyondblue.org.au/"
+						href="https://www.beyondblue.org.au/get-involved/make-a-donation"
 						imgSrc="/beyond_blue_logo.jpg"
 						alt="Beyond Blue"
 					/>
 					<CharityLink
-						href="https://www.blackdoginstitute.org.au/"
+						href="https://www.blackdoginstitute.org.au/sponsor"
 						imgSrc="/black_dog_logo.jpg"
 						alt="Black Dog Institute"
 					/>

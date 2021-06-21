@@ -101,14 +101,12 @@ const UploadForm = () => {
 					</ImagePreviewContainer>
 
 					<Label htmlFor="description">
-						<Subheading>
-							Say a little something about Sean (if you want)
-						</Subheading>
 						<Input
 							type="text"
 							name="description"
 							id="description"
 							error={errors.description}
+							placeholder="Say a little something (if you want)"
 						/>
 						{errors.description && (
 							<Subheading>{errors.description}</Subheading>
@@ -122,7 +120,7 @@ const UploadForm = () => {
 							onClick={() => isValid && handleSubmit()}
 							disabled={isSubmitting}
 						>
-							Upload
+							{isSubmitting ? "Uploading" : "Upload"}
 						</Button>
 						<Button type="button" onClick={() => Router.push("/")}>
 							Cancel

@@ -36,6 +36,7 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 		useState<firebase.firestore.Timestamp | undefined>(startFrom);
 	const [memories, setMemories] = useState(initialMemories);
 	const [loading, setLoading] = useState(false);
+	const [loadedAllMemories, setLoadedAllMemories] = useState(false);
 
 	useEffect(() => {
 		const lastCreated =
@@ -47,8 +48,12 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 		if (!last) return;
 
 		getNextMemories(last).then((nextMemories) => {
-			setMemories({ ...memories, ...nextMemories });
-			setTimeout(() => setLoading(false), 1000);
+			if (Object.keys(nextMemories).length !== 0) {
+				setMemories({ ...memories, ...nextMemories });
+				setTimeout(() => setLoading(false), 1000);
+			} else {
+				setLoadedAllMemories(true);
+			}
 		});
 	};
 
@@ -57,13 +62,15 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 	}, [loading]);
 
 	const checkScroll = () => {
-		const gapToBottom = 400;
+		if (!loadedAllMemories) {
+			const gapToBottom = 400;
 
-		const atBottom =
-			Math.abs(document.body.getBoundingClientRect().y) + gapToBottom >
-			document.body.getBoundingClientRect().height - window.innerHeight;
+			const atBottom =
+				Math.abs(document.body.getBoundingClientRect().y) + gapToBottom >
+				document.body.getBoundingClientRect().height - window.innerHeight;
 
-		if (atBottom) setLoading(true);
+			if (atBottom) setLoading(true);
+		}
 	};
 
 	useEffect(() => {
@@ -73,23 +80,39 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 	}, []);
 
 	const columnBreakpoints = {
-		default: 2,
-		1100: 1,
+		default: 3,
+		1270: 2,
+		900: 1,
 	};
 
 	if (!memories) return null;
 
 	return (
-		<StyledMasonry
-			breakpointCols={columnBreakpoints}
-			className="masonry-grid"
-			columnClassName="masonry-grid-column"
-		>
-			{Object.entries(memories).map(([id, memory]) => (
-				<MemoryCard memory={memory} key={id} />
-			))}
-			{loading && <p>Loading...</p>}
-		</StyledMasonry>
+		<>
+			<StyledMasonry
+				breakpointCols={columnBreakpoints}
+				className="masonry-grid"
+				columnClassName="masonry-grid-column"
+			>
+				{Object.entries(memories).map(([id, memory]) => (
+					<MemoryCard memory={memory} key={id} />
+				))}
+			</StyledMasonry>
+			{loadedAllMemories && (
+				<>
+					<p>You&rsquo;ve reached the bottom</p>
+					<a
+						onClick={() =>
+							window.scroll({ top: 0, left: 0, behavior: "smooth" })
+						}
+						aria-hidden="true"
+					>
+						Back to the top
+					</a>
+				</>
+			)}
+			{loading && !loadedAllMemories && <p>Loading...</p>}
+		</>
 	);
 };
 

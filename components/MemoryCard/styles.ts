@@ -4,7 +4,7 @@ export const Card = styled.div`
 	width: 100%;
 	display: inline-flex;
 	flex-direction: column;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+	box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6);
 	margin-bottom: 2rem;
 	cursor: pointer;
 	border-radius: 5px;
@@ -32,7 +32,7 @@ export const ImageContainer = styled.div`
 
 export const TextContainer = styled.div`
 	flex: 0 0 auto;
-	padding: 0.5rem;
+	padding: 1rem;
 `;
 
 export const FullscreenContainer = styled.div`

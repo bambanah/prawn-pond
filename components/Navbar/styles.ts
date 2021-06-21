@@ -10,7 +10,7 @@ export const Header = styled.header`
 	background-color: white;
 	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
 
-	transition: background-color 0.3s ease, box-shadow 0.3s ease,
+	transition: background-color 0.2s ease, box-shadow 0.2s ease,
 		margin-top 0.4s ease;
 	transition-delay: background-color 1s, box-shadow 1s;
 
@@ -24,9 +24,14 @@ export const Header = styled.header`
 		&.top {
 			background-color: transparent;
 			box-shadow: none;
+			text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
 
 			p {
 				color: ${({ theme }) => theme.colors.bg};
+
+				&:hover {
+					color: ${({ theme }) => theme.colors.accent};
+				}
 			}
 		}
 	}
@@ -77,10 +82,10 @@ export const NavAuth = styled.div`
 export const AuthLink = styled.p`
 	cursor: pointer;
 	color: ${({ theme }) => theme.colors.link};
-	transition: 0.1s color ease;
+	transition: 0.05s color ease;
 
 	&:hover {
 		/* text-decoration: underline; */
-		color: ${({ theme }) => theme.colors.fg};
+		color: ${({ theme }) => theme.colors.accent};
 	}
 `;
