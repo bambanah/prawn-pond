@@ -7,10 +7,15 @@ export const Header = styled.header`
 	box-sizing: border-box;
 	z-index: 100;
 
-	transition: background-color 0.5s ease;
-	transition: box-shadow 0.5s ease;
+	transition: margin 0.2s ease;
+	background-color: white;
+	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
 
 	&.scrolled {
+		margin-top: -5em;
+	}
+
+	@media screen and (max-width: 750px) {
 		background-color: white;
 		box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
 	}
@@ -31,7 +36,7 @@ export const NavContent = styled.div`
 `;
 
 export const NavLogo = styled.div`
-	flex: 1 0 30%;
+	flex: 1 0 70%;
 	display: flex;
 	align-items: center;
 
