@@ -93,18 +93,28 @@ export const signInWithProvider = async (
  * Creates an account with a given email and password
  * @param email Email of user
  * @param password Password of user
+ * @param displayName The name of the user
  * @returns The created user
  */
 export const registerWithEmailAndPassword = async (
 	email: string,
-	password: string
+	password: string,
+	displayName: string
 ) =>
 	firebase
 		.auth()
 		.createUserWithEmailAndPassword(email, password)
 		.then((userCredential) => {
-			router.push("/");
-			return userCredential.user;
+			// Set displayname on created user
+			firebase
+				.auth()
+				.currentUser?.updateProfile({
+					displayName,
+				})
+				.then(() => {
+					router.push("/");
+					return userCredential.user;
+				});
 		})
 		.catch((error: firebase.auth.Error) => {
 			if (["auth/email-already-in-use"].includes(error.code)) {

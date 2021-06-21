@@ -58,6 +58,7 @@ const MemoryCard = ({ memory }: Props) => {
 		return null;
 	}
 
+	// Prevent scrolling in body if displaying fullscreen
 	document.body.style.overflow = fullDisplay ? "hidden" : "visible";
 
 	return (
