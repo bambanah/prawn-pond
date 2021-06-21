@@ -5,12 +5,17 @@ const HeroContainer = styled.div`
 	padding: 0 4rem;
 	padding-top: 5rem;
 	width: 100%;
+	max-width: 1200px;
 	height: 50vh;
 	overflow: hidden;
 	display: flex;
 	align-items: left;
 	justify-content: center;
 	flex-direction: column;
+
+	@media screen and (max-width: 750px) {
+		display: none;
+	}
 
 	h1 {
 		font-family: "Poppins", sans-serif;
