@@ -2,6 +2,7 @@ import { Memory } from "@Shared/types";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getImageUrl } from "@Utils/firebase";
+import Image from "next/image";
 
 interface Props {
 	memory: Memory;
@@ -22,10 +23,14 @@ const ImageContainer = styled.div`
 	flex: 0 0 auto;
 	width: 100%;
 
+	div {
+		position: relative !important;
+	}
+
 	img {
-		display: block;
-		height: auto;
-		width: 100%;
+		position: relative !important;
+		height: auto !important;
+		width: 100% !important;
 	}
 `;
 
@@ -61,7 +66,12 @@ const MemoryCard = ({ memory }: Props) => {
 		<Card key={memory.created?.valueOf()}>
 			{imageUrl && (
 				<ImageContainer>
-					<img src={imageUrl} alt="memory" />
+					<Image
+						src={imageUrl}
+						layout="fill"
+						objectFit="contain"
+						sizes="500px"
+					/>
 				</ImageContainer>
 			)}
 
