@@ -15,15 +15,18 @@ const optimiseImages = functions.storage.object().onFinalize(async (object) => {
 	const { metadata } = object;
 	if (!filePath) return false;
 
+	const fileExtension = filePath.includes(".")
+		? filePath.split(".").pop()
+		: metadata?.filename.split(".").pop();
+
 	const fileName = filePath?.split("/").pop();
 	const bucketDir = dirname(filePath);
 
 	const workingDir = join(tmpdir(), "thumbs");
 
-	const tmpFilePath = join(workingDir, "source.png");
+	const tmpFilePath = join(workingDir, `source.${fileExtension}`);
 
 	if (fileName?.includes("thumb@") || !object.contentType?.includes("image")) {
-		console.log("Exiting function");
 		return false;
 	}
 
@@ -35,11 +38,9 @@ const optimiseImages = functions.storage.object().onFinalize(async (object) => {
 		destination: tmpFilePath,
 	});
 
-	const sizes = [32, 128, 512];
+	const sizes = [32, 512];
 
 	const uploadPromises = sizes.map(async (size) => {
-		const fileExtension = metadata?.filename.split(".").pop();
-
 		const thumbName = `thumb@${size}_${fileName}${
 			!fileName?.includes(".") && `.${fileExtension}`
 		}`;
@@ -58,4 +59,5 @@ const optimiseImages = functions.storage.object().onFinalize(async (object) => {
 
 	return fs.remove(workingDir);
 });
+
 export default optimiseImages;
