@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Memory } from "@Shared/types";
-import { getImageUrl } from "@Utils/firebase";
+import { getPlaceholderUrl } from "@Utils/firebase";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import AlbumDisplay from "./molecules/AlbumDisplay";
@@ -16,6 +16,10 @@ const MemoryCard = ({ memory }: Props) => {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [fullDisplay, setFullDisplay] = useState(false);
+	const [imageUrl, setImageUrl] = useState<string | null>(null);
+	const [placeholderUrl, setPlaceholderUrl] = useState<string | null>(null);
+	const [loading, setLoading] = useState(true);
+	const [fullDisplay, setFullDisplay] = useState(false);
 
   useEffect(() => {
     if (memory.images) {
@@ -32,6 +36,25 @@ const MemoryCard = ({ memory }: Props) => {
   const handleFullClose = () => {
     setFullDisplay(false);
   };
+	useEffect(() => {
+		if (!imageUrl && memory.images) {
+			getPlaceholderUrl(memory.images[0], "512").then((url) => {
+				if (typeof url !== "string") {
+					setImageUrl("");
+					return;
+				}
+				setImageUrl(url);
+			});
+			getPlaceholderUrl(memory.images[0], "32").then((dataUrl) => {
+				if (typeof dataUrl !== "string") {
+					setPlaceholderUrl("");
+					return;
+				}
+				setPlaceholderUrl(dataUrl);
+			});
+			setLoading(false);
+		}
+	}, []);
 
   if (loading) {
     return null;
@@ -82,6 +105,35 @@ const MemoryCard = ({ memory }: Props) => {
       </Card>
     </>
   );
+	document.body.style.overflow = "inherit";
+	return (
+		<Card
+			key={memory.created?.valueOf()}
+			onClick={() => {
+				setFullDisplay(true);
+			}}
+		>
+			{imageUrl && placeholderUrl && (
+				<ImageContainer>
+					<Image
+						src={imageUrl}
+						layout="fill"
+						objectFit="contain"
+						placeholder="blur"
+						blurDataURL={placeholderUrl}
+					/>
+				</ImageContainer>
+			)}
+
+			{memory.description && (
+				<TextContainer>
+					{memory.description.length > maxMessageLength
+						? `${memory.description.substr(0, maxMessageLength - 1)}...`
+						: memory.description}
+				</TextContainer>
+			)}
+		</Card>
+	);
 };
 
 export default MemoryCard;

@@ -47,9 +47,10 @@ const StyledButton = styled.button<ButtonProps>`
 	${({ disabled }) =>
 		disabled &&
 		`
-    background-color: grey;
+    background: grey;
+		cursor: progress;
     &:hover {
-      background-color: grey;
+      background: grey;
     }
   `}
 `;

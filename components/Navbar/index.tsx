@@ -4,12 +4,13 @@ import useScrollPosition from "@Hooks/useScroll";
 import { signOut } from "@Utils/firebase";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AuthLink, Header, NavAuth, NavContent, NavLogo } from "./styles";
 
 const Navbar = () => {
 	const router = useRouter();
 	const [scrolled, setScrolled] = useState(false);
+	const [top, setTop] = useState(true);
 
 	const { authenticated } = useAuth();
 
@@ -22,7 +23,17 @@ const Navbar = () => {
 			currPos: { x: number; y: number };
 		}) => {
 			const isScrolled = currPos.y < prevPos.y;
-			if (isScrolled !== scrolled) setScrolled(isScrolled);
+			if (
+				currPos.y > -700 &&
+				window.innerWidth > 750 &&
+				router.pathname === "/"
+			) {
+				setTop(true);
+				setScrolled(false);
+			} else if (isScrolled !== scrolled) {
+				setTop(false);
+				setScrolled(isScrolled);
+			}
 		},
 		[scrolled],
 		false,
@@ -30,8 +41,12 @@ const Navbar = () => {
 		100
 	);
 
+	useEffect(() => {
+		if (router.pathname !== "/") setTop(false);
+	}, []);
+
 	return (
-		<Header className={scrolled ? "scrolled" : ""}>
+		<Header className={`${scrolled ? "scrolled" : ""} ${top ? "top" : ""}`}>
 			<NavContent>
 				<NavLogo>
 					<Link href="/">

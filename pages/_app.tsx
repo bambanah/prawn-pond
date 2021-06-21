@@ -12,11 +12,11 @@ import "@Styles/font-imports.scss";
 const theme = {
 	colors: {
 		fg: "#414141",
-		bg: "#f5f5f5",
+		bg: "#f3f7fa",
 		link: "#3273dc",
 		brand: "#6B2875",
 		error: "#ff6961",
-		accent: "#53b4cc",
+		accent: "#7ac5d8",
 		accentGradient:
 			"linear-gradient(24deg, rgba(126,249,145,1) 0%, rgba(120,199,254,1) 100%)",
 		transparentAccent:

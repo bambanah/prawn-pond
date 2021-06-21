@@ -5,21 +5,22 @@ import "firebase/firestore";
 import "firebase/storage";
 import router from "next/router";
 import { toast } from "react-toastify";
-import { v4, validate } from "uuid";
+import { v4 } from "uuid";
+import { toDataUrl } from "./helpers";
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
+	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+	authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+	databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
+	projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+	storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+	messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+	appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
 // If no firebase app is initialised, initialise the app
 if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
+	firebase.initializeApp(firebaseConfig);
 }
 
 // Initialise services
@@ -49,43 +50,43 @@ export const isAuthenticated = () => auth.currentUser !== null;
  * @returns The authenticated user
  */
 export const signInWithProvider = async (
-  authProvider: "google" | "facebook"
+	authProvider: "google" | "facebook"
 ) => {
-  await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+	await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
-  let provider:
-    | firebase.auth.GoogleAuthProvider
-    | firebase.auth.FacebookAuthProvider;
+	let provider:
+		| firebase.auth.GoogleAuthProvider
+		| firebase.auth.FacebookAuthProvider;
 
-  if (authProvider === "google") {
-    provider = new firebase.auth.GoogleAuthProvider();
-  } else if (authProvider === "facebook") {
-    provider = new firebase.auth.FacebookAuthProvider();
-  } else {
-    // Invalid auth provider provided
-    return null;
-  }
+	if (authProvider === "google") {
+		provider = new firebase.auth.GoogleAuthProvider();
+	} else if (authProvider === "facebook") {
+		provider = new firebase.auth.FacebookAuthProvider();
+	} else {
+		// Invalid auth provider provided
+		return null;
+	}
 
-  return auth
-    .signInWithPopup(provider)
-    .then((userCredential) => {
-      const { redirect } = router.query;
+	return auth
+		.signInWithPopup(provider)
+		.then((userCredential) => {
+			const { redirect } = router.query;
 
-      if (auth !== null) {
-        if (redirect && !Array.isArray(redirect)) {
-          router.push(redirect);
-        } else {
-          router.push("/");
-        }
-      }
+			if (auth !== null) {
+				if (redirect && !Array.isArray(redirect)) {
+					router.push(redirect);
+				} else {
+					router.push("/");
+				}
+			}
 
-      return userCredential.user;
-    })
-    .catch((error: firebase.auth.Error) => {
-      console.error(error.message);
-      toast.error("Couldn't sign in.");
-      return null;
-    });
+			return userCredential.user;
+		})
+		.catch((error: firebase.auth.Error) => {
+			console.error(error.message);
+			toast.error("Couldn't sign in.");
+			return null;
+		});
 };
 
 /**
@@ -95,26 +96,26 @@ export const signInWithProvider = async (
  * @returns The created user
  */
 export const registerWithEmailAndPassword = async (
-  email: string,
-  password: string
+	email: string,
+	password: string
 ) =>
-  firebase
-    .auth()
-    .createUserWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      router.push("/");
-      return userCredential.user;
-    })
-    .catch((error: firebase.auth.Error) => {
-      if (["auth/email-already-in-use"].includes(error.code)) {
-        toast.error(error.message);
-      } else {
-        toast.error("An unknown error occured. Please try again later.");
-        console.error(error);
-      }
+	firebase
+		.auth()
+		.createUserWithEmailAndPassword(email, password)
+		.then((userCredential) => {
+			router.push("/");
+			return userCredential.user;
+		})
+		.catch((error: firebase.auth.Error) => {
+			if (["auth/email-already-in-use"].includes(error.code)) {
+				toast.error(error.message);
+			} else {
+				toast.error("An unknown error occured. Please try again later.");
+				console.error(error);
+			}
 
-      return null;
-    });
+			return null;
+		});
 
 /**
  *	Authenticates a user with an email and password
@@ -123,31 +124,31 @@ export const registerWithEmailAndPassword = async (
  * @returns The authenticated user
  */
 export const signInWithEmailAndPassword = async (
-  email: string,
-  password: string
+	email: string,
+	password: string
 ) =>
-  firebase
-    .auth()
-    .signInWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      router.push("/");
+	firebase
+		.auth()
+		.signInWithEmailAndPassword(email, password)
+		.then((userCredential) => {
+			router.push("/");
 
-      return userCredential.user;
-    })
-    .catch((error: firebase.auth.Error) => {
-      toast.error("An unknown error occured. Please try again later.");
-      console.error(error);
+			return userCredential.user;
+		})
+		.catch((error: firebase.auth.Error) => {
+			toast.error("An unknown error occured. Please try again later.");
+			console.error(error);
 
-      return null;
-    });
+			return null;
+		});
 
 /**
  * Sign out of firebase
  */
 export const signOut = async () => {
-  auth.signOut().catch((err) => {
-    console.error(err.message);
-  });
+	auth.signOut().catch((err) => {
+		console.error(err.message);
+	});
 };
 
 /**
@@ -156,16 +157,16 @@ export const signOut = async () => {
  * @returns Bool if sent
  */
 export const sendPasswordResetEmail = async (email: string) =>
-  auth
-    .sendPasswordResetEmail(email)
-    .then(() => {
-      toast.info("Password reset email sent");
-      return true;
-    })
-    .catch((error) => {
-      console.error(error);
-      return false;
-    });
+	auth
+		.sendPasswordResetEmail(email)
+		.then(() => {
+			toast.info("Password reset email sent");
+			return true;
+		})
+		.catch((error) => {
+			console.error(error);
+			return false;
+		});
 
 //
 // --- Firestore ---
@@ -178,48 +179,57 @@ export const sendPasswordResetEmail = async (email: string) =>
  * @returns An unsubscribe function that can be called to cancel the snapshot listener.
  */
 export const streamMemories = (observer: any) =>
-  firestore
-    .collection("memories")
-    .orderBy("created", "desc")
-    .onSnapshot(observer);
+	firestore
+		.collection("memories")
+		.orderBy("created", "desc")
+		.onSnapshot(observer);
 
 const pageSize = 5;
 
+/**
+ *
+ * @returns
+ */
 export const getInitialMemories = async () => {
-  const query = firestore
-    .collection("memories")
-    .orderBy("created", "desc")
-    .limit(pageSize);
+	const query = firestore
+		.collection("memories")
+		.orderBy("created", "desc")
+		.limit(pageSize);
 
-  const data = await query.get();
+	const data = await query.get();
 
-  const memories: MemoryObject = {};
-  data.docs.forEach((doc) => {
-    const memory: any = doc.data();
+	const memories: MemoryObject = {};
+	data.docs.forEach((doc) => {
+		const memory: any = doc.data();
 
-    memories[doc.id] = memory;
-  });
+		memories[doc.id] = memory;
+	});
 
-  return memories;
+	return memories;
 };
 
+/**
+ *
+ * @param last
+ * @returns
+ */
 export const getNextMemories = async (last: firebase.firestore.Timestamp) => {
-  const query = firestore
-    .collection("memories")
-    .orderBy("created", "desc")
-    .startAfter(last)
-    .limit(pageSize);
+	const query = firestore
+		.collection("memories")
+		.orderBy("created", "desc")
+		.startAfter(last)
+		.limit(pageSize);
 
-  const data = await query.get();
+	const data = await query.get();
 
-  const memories: MemoryObject = {};
-  data.docs.forEach((doc) => {
-    const memory: any = doc.data();
+	const memories: MemoryObject = {};
+	data.docs.forEach((doc) => {
+		const memory: any = doc.data();
 
-    memories[doc.id] = memory;
-  });
+		memories[doc.id] = memory;
+	});
 
-  return memories;
+	return memories;
 };
 
 /**
@@ -227,21 +237,21 @@ export const getNextMemories = async (last: firebase.firestore.Timestamp) => {
  * @param memory The memory to create
  */
 export const createMemory = async (memory: Memory) => {
-  if (!auth.currentUser) return null;
+	if (!auth.currentUser) return null;
 
-  memory.created = firebase.firestore.Timestamp.now();
-  memory.owner = auth.currentUser.uid;
+	memory.created = firebase.firestore.Timestamp.now();
+	memory.owner = auth.currentUser.uid;
 
-  return firestore
-    .collection("memories")
-    .add(memory)
-    .then(() => true)
-    .catch((error) => {
-      toast.error("Error saving memory");
-      console.error("Error writing document: ", error);
+	return firestore
+		.collection("memories")
+		.add(memory)
+		.then(() => true)
+		.catch((error) => {
+			toast.error("Error saving memory");
+			console.error("Error writing document: ", error);
 
-      return null;
-    });
+			return null;
+		});
 };
 
 //
@@ -256,23 +266,23 @@ export const createMemory = async (memory: Memory) => {
  * @returns File Id (uuid) string
  */
 export const uploadFile = async (file: File): Promise<string> => {
-  // Rename file with UUID
-  const fileId = v4();
+	// Rename file with UUID
+	const fileId = v4();
 
-  // Add real file name as metadata
-  const metadata: firebase.storage.UploadMetadata = {
-    customMetadata: {
-      filename: file.name
-    }
-  };
+	// Add real file name as metadata
+	const metadata: firebase.storage.UploadMetadata = {
+		customMetadata: {
+			filename: file.name,
+		},
+	};
 
-  // Upload file to firebase
-  const fileRef = storage.ref().child(fileId);
+	// Upload file to firebase
+	const fileRef = storage.ref().child(fileId);
 
-  await fileRef.put(file, metadata);
+	await fileRef.put(file, metadata);
 
-  // Return UUID of uploaded file to attach to document
-  return fileId;
+	// Return UUID of uploaded file to attach to document
+	return fileId;
 };
 
 /**
@@ -281,18 +291,30 @@ export const uploadFile = async (file: File): Promise<string> => {
  * @returns Download URL
  */
 export const getImageUrl = async (imageId: string): Promise<string | null> => {
-  if (!validate(imageId)) return null;
+	// if (!validate(imageId)) return null;
 
-  const imageRef = storage.ref().child(imageId);
+	const imageRef = storage.ref().child(imageId);
 
-  return imageRef
-    .getDownloadURL()
-    .then((url) => {
-      if (typeof url === "string") return url;
-      return null;
-    })
-    .catch((error) => {
-      console.error(error);
-      return null;
-    });
+	return imageRef
+		.getDownloadURL()
+		.then((url) => {
+			if (typeof url === "string") return url;
+			return null;
+		})
+		.catch((error) => {
+			console.error(error);
+			return null;
+		});
+};
+
+export const getPlaceholderUrl = async (
+	imageId: string,
+	imageWidth: "32" | "128" | "512"
+): Promise<string | ArrayBuffer | null> => {
+	const imageUrl = await getImageUrl(`thumb@${imageWidth}_${imageId}.jpg`);
+	if (!imageUrl) return null;
+
+	const dataUrl = await toDataUrl(imageUrl);
+
+	return dataUrl;
 };
