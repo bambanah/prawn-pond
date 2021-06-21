@@ -16,7 +16,7 @@ const theme = {
 		link: "#3273dc",
 		brand: "#6B2875",
 		error: "#ff6961",
-		accent: "#53b4cc",
+		accent: "#7ac5d8",
 		accentGradient:
 			"linear-gradient(24deg, rgba(126,249,145,1) 0%, rgba(120,199,254,1) 100%)",
 		transparentAccent:

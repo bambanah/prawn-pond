@@ -10,6 +10,7 @@ const StyledMasonry = styled(Masonry)`
 	display: flex;
 	margin-left: -2em;
 	width: auto;
+	max-width: 1500px;
 
 	.masonry-grid-column {
 		padding-left: 2em;
