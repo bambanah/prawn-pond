@@ -7,6 +7,8 @@ export const Card = styled.div`
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
 	margin-bottom: 1rem;
 	cursor: pointer;
+	border-radius: 5px;
+	overflow: hidden;
 `;
 
 export const ImageContainer = styled.div`

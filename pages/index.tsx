@@ -12,7 +12,8 @@ import firebase from "firebase";
 
 const Content = styled.div`
 	padding: 0 1em;
-	margin: 5rem 0;
+	margin-bottom: 5rem;
+	margin-top: -8rem;
 	width: 95vw;
 	max-width: 1500px;
 	display: flex;

@@ -10,6 +10,7 @@ import { AuthLink, Header, NavAuth, NavContent, NavLogo } from "./styles";
 const Navbar = () => {
 	const router = useRouter();
 	const [scrolled, setScrolled] = useState(false);
+	const [top, setTop] = useState(true);
 
 	const { authenticated } = useAuth();
 
@@ -22,7 +23,13 @@ const Navbar = () => {
 			currPos: { x: number; y: number };
 		}) => {
 			const isScrolled = currPos.y < prevPos.y;
-			if (isScrolled !== scrolled) setScrolled(isScrolled);
+			if (currPos.y > -250) {
+				setTop(true);
+				setScrolled(false);
+			} else if (isScrolled !== scrolled) {
+				setTop(false);
+				setScrolled(isScrolled);
+			}
 		},
 		[scrolled],
 		false,
@@ -31,7 +38,7 @@ const Navbar = () => {
 	);
 
 	return (
-		<Header className={scrolled ? "scrolled" : ""}>
+		<Header className={`${scrolled ? "scrolled" : ""} ${top ? "top" : ""}`}>
 			<NavContent>
 				<NavLogo>
 					<Link href="/">

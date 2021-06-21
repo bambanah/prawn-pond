@@ -12,7 +12,7 @@ import "@Styles/font-imports.scss";
 const theme = {
 	colors: {
 		fg: "#414141",
-		bg: "#f5f5f5",
+		bg: "#f3f7fa",
 		link: "#3273dc",
 		brand: "#6B2875",
 		error: "#ff6961",
