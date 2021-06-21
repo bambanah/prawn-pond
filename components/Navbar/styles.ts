@@ -7,17 +7,13 @@ export const Header = styled.header`
 	box-sizing: border-box;
 	z-index: 100;
 
-	transition: margin 0.2s ease;
 	background-color: white;
 	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
 
+	transition: margin 0.4s ease;
+
 	&.scrolled {
 		margin-top: -5em;
-	}
-
-	@media screen and (max-width: 750px) {
-		background-color: white;
-		box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
 	}
 `;
 

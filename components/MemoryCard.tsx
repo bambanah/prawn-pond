@@ -14,6 +14,8 @@ const Card = styled.div`
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
 	margin-bottom: 1rem;
 	cursor: pointer;
+	border-radius: 5px;
+	overflow: hidden;
 `;
 
 const ImageContainer = styled.div`
@@ -29,14 +31,14 @@ const ImageContainer = styled.div`
 
 const TextContainer = styled.div`
 	flex: 0 0 auto;
-	padding: 0.5rem;
+	padding: 2rem;
 `;
 
 const MemoryCard = ({ memory }: Props) => {
 	const [imageUrl, setImageUrl] = useState<string | null>(null);
 	const [loading, setLoading] = useState(true);
 
-	const maxMessageLength = 150;
+	const maxMessageLength = 200;
 
 	useEffect(() => {
 		if (!imageUrl && memory.images) {
