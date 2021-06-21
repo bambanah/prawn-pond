@@ -1,30 +1,46 @@
 module.exports = {
-  root: true,
-  env: {
-    es6: true,
-    node: true,
-  },
-  extends: [
-    "eslint:recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings",
-    "plugin:import/typescript",
-    "google",
-    "plugin:@typescript-eslint/recommended",
-  ],
-  parser: "@typescript-eslint/parser",
-  parserOptions: {
-    project: ["tsconfig.json", "tsconfig.dev.json"],
-    sourceType: "module",
-  },
-  ignorePatterns: [
-    "/lib/**/*", // Ignore built files.
-  ],
-  plugins: [
-    "@typescript-eslint",
-    "import",
-  ],
-  rules: {
-    quotes: ["error", "double"],
-  },
+	root: true,
+	env: {
+		es6: true,
+		node: true,
+	},
+	parser: "@typescript-eslint/parser",
+	parserOptions: {
+		project: ["tsconfig.json", "tsconfig.dev.json"],
+		sourceType: "module",
+	},
+	ignorePatterns: [
+		"/lib/**/*", // Ignore built files.
+		"node_modules",
+	],
+	rules: {
+		"no-console": ["warn", { allow: ["warn", "error"] }],
+		"no-param-reassign": ["error", { props: false }],
+		"react/jsx-props-no-spreading": 0,
+		"react/prop-types": 0,
+		"react/require-default-props": 0,
+		quotes: ["error", "double"],
+		"jsx-a11y/anchor-is-valid": 0,
+		"import/no-extraneous-dependencies": 0,
+		"jsx-a11y/label-has-associated-control": [
+			"error",
+			{
+				required: {
+					some: ["nesting", "id"],
+				},
+			},
+		],
+		"jsx-a11y/label-has-for": [
+			"error",
+			{
+				required: {
+					some: ["nesting", "id"],
+				},
+			},
+		],
+		"no-alert": 0,
+		"no-restricted-globals": 1,
+	},
+	plugins: ["@typescript-eslint"],
+	extends: ["airbnb-typescript", "prettier"],
 };

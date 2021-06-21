@@ -52,9 +52,13 @@ const Home: NextPage<Props> = ({ initialMemories, lastCreated }) => (
 
 Home.getInitialProps = async () => {
 	const initialMemories = await getInitialMemories();
-	const lastCreated =
-		Object.values(initialMemories)[Object.values(initialMemories).length - 1]
-			.created;
+
+	let lastCreated: firebase.firestore.Timestamp | undefined;
+	if (Object.keys(initialMemories).length > 0) {
+		lastCreated =
+			Object.values(initialMemories)[Object.values(initialMemories).length - 1]
+				.created;
+	}
 
 	return { initialMemories, lastCreated };
 };

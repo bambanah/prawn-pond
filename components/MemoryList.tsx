@@ -46,7 +46,6 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 		if (!last) return;
 
 		getNextMemories(last).then((nextMemories) => {
-			console.log(last);
 			setMemories({ ...memories, ...nextMemories });
 			setTimeout(() => setLoading(false), 1000);
 		});

@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Memory } from "@Shared/types";
-import { getImageUrl } from "@Utils/firebase";
+import { getPlaceholderUrl } from "@Utils/firebase";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import {
@@ -19,6 +19,7 @@ interface Props {
 
 const MemoryCard = ({ memory }: Props) => {
 	const [imageUrl, setImageUrl] = useState<string | null>(null);
+	const [placeholderUrl, setPlaceholderUrl] = useState<string | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [fullDisplay, setFullDisplay] = useState(false);
 
@@ -26,8 +27,19 @@ const MemoryCard = ({ memory }: Props) => {
 
 	useEffect(() => {
 		if (!imageUrl && memory.images) {
-			getImageUrl(memory.images[0]).then((url) => {
+			getPlaceholderUrl(memory.images[0], "512").then((url) => {
+				if (typeof url !== "string") {
+					setImageUrl("");
+					return;
+				}
 				setImageUrl(url);
+			});
+			getPlaceholderUrl(memory.images[0], "32").then((dataUrl) => {
+				if (typeof dataUrl !== "string") {
+					setPlaceholderUrl("");
+					return;
+				}
+				setPlaceholderUrl(dataUrl);
 			});
 			setLoading(false);
 		}
@@ -69,13 +81,14 @@ const MemoryCard = ({ memory }: Props) => {
 				setFullDisplay(true);
 			}}
 		>
-			{imageUrl && (
+			{imageUrl && placeholderUrl && (
 				<ImageContainer>
 					<Image
 						src={imageUrl}
 						layout="fill"
 						objectFit="contain"
-						sizes="500px"
+						placeholder="blur"
+						blurDataURL={placeholderUrl}
 					/>
 				</ImageContainer>
 			)}
