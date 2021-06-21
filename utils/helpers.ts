@@ -11,6 +11,7 @@ import {
 	faFacebook,
 	faFacebookF,
 } from "@fortawesome/free-brands-svg-icons";
+import { faImages } from "@fortawesome/free-regular-svg-icons";
 
 export const importIcons = () => {
 	library.add(
@@ -20,7 +21,8 @@ export const importIcons = () => {
 		faFacebookF,
 		faArrowLeft,
 		faCaretLeft,
-		faTimes
+		faTimes,
+		faImages
 	);
 };
 

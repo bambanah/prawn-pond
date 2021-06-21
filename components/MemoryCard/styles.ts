@@ -22,6 +22,27 @@ export const ImageContainer = styled.div`
 		height: auto !important;
 		width: 100% !important;
 	}
+
+	svg {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    z-index: 50;
+		background: white;
+    padding: 10px;
+    border-radius: 100px;
+		opacity: 0.75;
+
+		* {
+			color: #53b4cc;
+		}
+	}
+	
+	:hover {
+		svg {
+			opacity: 1;
+		}
+	}
 `;
 
 export const TextContainer = styled.div`
@@ -83,4 +104,8 @@ export const CloseFullscreenButton = styled.div`
 			color: ${({ theme }) => theme.colors.link};
 		}
 	}
+`;
+
+export const AlbumIconContainer = styled.div`
+
 `;
