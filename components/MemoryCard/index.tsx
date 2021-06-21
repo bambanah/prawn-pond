@@ -36,7 +36,7 @@ const MemoryCard = ({ memory }: Props) => {
 	};
 	useEffect(() => {
 		if (!imageUrl && memory.images) {
-			getPlaceholderUrl(memory.images[0], "512").then((url) => {
+			getPlaceholderUrl(memory.images[0], "800").then((url) => {
 				if (typeof url !== "string") {
 					setImageUrl("");
 					return;
