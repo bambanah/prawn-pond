@@ -191,7 +191,7 @@ export const createMemory = async (memory: Memory) => {
 	if (!auth.currentUser) return null;
 
 	memory.created = firebase.firestore.Timestamp.now();
-	memory.owner = auth.currentUser;
+	memory.owner = auth.currentUser.uid;
 
 	return firestore
 		.collection("memories")

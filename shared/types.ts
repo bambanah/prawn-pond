@@ -4,7 +4,7 @@ export interface Memory {
 	description: string;
 	created?: firebase.firestore.Timestamp;
 	images?: string[];
-	owner?: firebase.User;
+	owner?: string;
 }
 
 export interface MemoryImages {
