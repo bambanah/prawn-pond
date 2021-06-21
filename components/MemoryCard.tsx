@@ -45,6 +45,11 @@ const MemoryCard = ({ memory }: Props) => {
 			});
 			setLoading(false);
 		}
+
+		return () => {
+			setImageUrl(null);
+			setLoading(true);
+		};
 	}, []);
 
 	if (loading) {
