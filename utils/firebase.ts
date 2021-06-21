@@ -292,7 +292,7 @@ export const uploadFile = async (file: File): Promise<string> => {
  */
 export const getImageUrl = async (
 	imageId: string,
-	thumbnail?: boolean = false,
+	thumbnail: boolean = false,
 	thumbnailSize?: "32" | "800"
 ): Promise<string | null> => {
 	if (!validate(imageId) && !thumbnail) return null;
@@ -319,7 +319,7 @@ export const getImageUrl = async (
 
 export const getPlaceholderUrl = async (
 	imageId: string,
-	imageWidth: "32" | "512"
+	imageWidth: "32" | "800"
 ): Promise<string | ArrayBuffer | null> => {
 	const imageUrl = await getImageUrl(imageId, true, imageWidth);
 	if (!imageUrl) return null;
