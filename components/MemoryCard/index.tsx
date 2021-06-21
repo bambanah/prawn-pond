@@ -3,28 +3,39 @@ import { Memory } from "@Shared/types";
 import { getPlaceholderUrl } from "@Utils/firebase";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import {
-	Card,
-	CloseFullscreenButton,
-	FullscreenCaption,
-	FullscreenContainer,
-	FullscreenImage,
-	ImageContainer,
-	TextContainer,
-} from "./styles";
+import AlbumDisplay from "./molecules/AlbumDisplay";
+import { Card, ImageContainer, TextContainer } from "./styles";
 
 interface Props {
-	memory: Memory;
+  memory: Memory;
 }
 
+const maxMessageLength = 150;
+
 const MemoryCard = ({ memory }: Props) => {
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [fullDisplay, setFullDisplay] = useState(false);
 	const [imageUrl, setImageUrl] = useState<string | null>(null);
 	const [placeholderUrl, setPlaceholderUrl] = useState<string | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [fullDisplay, setFullDisplay] = useState(false);
 
-	const maxMessageLength = 150;
+  useEffect(() => {
+    if (memory.images) {
+      Promise.all(memory.images.map(async (img) => getImageUrl(img))).then(
+        (urls) => {
+          urls.filter((url) => url !== null);
+          setImageUrls(urls as string[]);
+        }
+      );
+    }
+    setLoading(false);
+  }, []);
 
+  const handleFullClose = () => {
+    setFullDisplay(false);
+  };
 	useEffect(() => {
 		if (!imageUrl && memory.images) {
 			getPlaceholderUrl(memory.images[0], "512").then((url) => {
@@ -45,34 +56,55 @@ const MemoryCard = ({ memory }: Props) => {
 		}
 	}, []);
 
-	if (loading) {
-		return null;
-	}
+  if (loading) {
+    return null;
+  }
 
-	if (fullDisplay) {
-		document.body.style.overflow = "hidden";
-		return (
-			<FullscreenContainer>
-				<CloseFullscreenButton onClick={() => setFullDisplay(false)}>
-					<FontAwesomeIcon icon="times" size="3x" />
-				</CloseFullscreenButton>
-				{imageUrl && (
-					<FullscreenImage>
-						<img src={imageUrl} alt="memory" />
-					</FullscreenImage>
-				)}
+  return (
+    <>
+      <AlbumDisplay
+        show={fullDisplay}
+        onClose={handleFullClose}
+        description={memory.description}
+        imageUrls={imageUrls}
+      />
 
-				{memory.description && (
-					<FullscreenCaption>
-						{memory.description.length > maxMessageLength
-							? `${memory.description.substr(0, maxMessageLength - 1)}...`
-							: memory.description}
-					</FullscreenCaption>
-				)}
-			</FullscreenContainer>
-		);
-	}
+      <Card
+        key={memory.created?.valueOf()}
+        onClick={() => {
+          setFullDisplay(true);
+        }}
+      >
+        {imageUrls[0] && (
+          <ImageContainer>
+            <Image
+              src={imageUrls[0]}
+              layout="fill"
+              objectFit="contain"
+              sizes="500px"
+            />
+            {memory.images && memory.images.length > 1 && (
+              <div>
+                <FontAwesomeIcon
+                  icon={["far", "images"]}
+                  size="3x"
+                  style={{ width: "auto" }}
+                />
+              </div>
+            )}
+          </ImageContainer>
+        )}
 
+        {memory.description && (
+          <TextContainer>
+            {memory.description.length > maxMessageLength
+              ? `${memory.description.substr(0, maxMessageLength - 1)}...`
+              : memory.description}
+          </TextContainer>
+        )}
+      </Card>
+    </>
+  );
 	document.body.style.overflow = "inherit";
 	return (
 		<Card

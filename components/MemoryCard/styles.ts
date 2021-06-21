@@ -28,6 +28,27 @@ export const ImageContainer = styled.div`
 		height: auto !important;
 		width: 100% !important;
 	}
+
+	svg {
+		position: absolute;
+		right: 10px;
+		bottom: 10px;
+		z-index: 50;
+		background: white;
+		padding: 10px;
+		border-radius: 100px;
+		opacity: 0.75;
+
+		* {
+			color: #53b4cc;
+		}
+	}
+
+	:hover {
+		svg {
+			opacity: 1;
+		}
+	}
 `;
 
 export const TextContainer = styled.div`
@@ -52,9 +73,9 @@ export const FullscreenContainer = styled.div`
 
 export const FullscreenImage = styled.div`
 	width: 100%;
-	max-height: 70%;
-	padding: 4rem;
-	flex: 1 0 80%;
+	height: 80%;
+	padding: 2rem 4rem;
+	flex: 1;
 	box-sizing: border-box;
 	display: flex;
 	justify-content: center;
@@ -65,22 +86,22 @@ export const FullscreenImage = styled.div`
 		max-height: 100%;
 
 		object-fit: contain;
-		background-color: white;
 	}
 `;
 
 export const FullscreenCaption = styled.div`
-	flex: 0 1 20%;
+	margin-bottom: 1em;
 	background-color: white;
+	width: 80%;
+	padding: 0.5em;
+	height: 20%;
+	overflow-y: auto;
+	border: 10px solid;
+	border-image: ${(props) => props.theme.colors.accentGradient} 1;
 `;
 
-export const CloseFullscreenButton = styled.div`
-	position: fixed;
-	top: 1rem;
-	right: 1rem;
+const IconButton = styled.div`
 	cursor: pointer;
-	padding: 0 0.5rem;
-
 	path {
 		color: ${({ theme }) => theme.colors.bg};
 	}
@@ -88,5 +109,46 @@ export const CloseFullscreenButton = styled.div`
 		path {
 			color: ${({ theme }) => theme.colors.link};
 		}
+	}
+`;
+
+export const CloseFullscreenButton = styled(IconButton)`
+	position: fixed;
+	top: 0.5rem;
+	right: 1rem;
+`;
+
+export const LeftArrowContainer = styled(IconButton)`
+	position: absolute;
+	left: 1rem;
+`;
+
+export const RightArrowContainer = styled(IconButton)`
+	position: absolute;
+	right: 1rem;
+`;
+
+export const AlbumIndexContainer = styled.div`
+	position: absolute;
+	left: 1rem;
+	top: 0.5rem;
+`;
+
+export const AlbumIndexText = styled.h2`
+	color: white;
+	margin: 0px;
+`;
+
+export const LoadingContainer = styled.div`
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+
+	path {
+		color: ${({ theme }) => theme.colors.bg};
 	}
 `;

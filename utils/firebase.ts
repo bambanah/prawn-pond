@@ -291,13 +291,7 @@ export const uploadFile = async (file: File): Promise<string> => {
  * @returns Download URL
  */
 export const getImageUrl = async (imageId: string): Promise<string | null> => {
-	// if (
-	// 	!imageId ||
-	// 	!imageId.match(
-	// 		/\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/
-	// 	)
-	// )
-	// 	return null;
+	// if (!validate(imageId)) return null;
 
 	const imageRef = storage.ref().child(imageId);
 

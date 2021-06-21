@@ -35,7 +35,7 @@ const GlobalStyle = createGlobalStyle`
 	.spinner {
 		display: flex;
 		align-self: center;
-		animation: spin 1.2s linear infinite;
+		animation: spin 0.8s ease-in infinite;
 	}
 
 	@keyframes spin {
