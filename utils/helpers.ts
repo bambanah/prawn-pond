@@ -4,6 +4,7 @@ import {
 	faSpinner,
 	faArrowLeft,
 	faCaretLeft,
+	faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import {
 	faGoogle,
@@ -18,7 +19,8 @@ export const importIcons = () => {
 		faFacebook,
 		faFacebookF,
 		faArrowLeft,
-		faCaretLeft
+		faCaretLeft,
+		faTimes
 	);
 };
 
@@ -27,3 +29,16 @@ export const errorIn = (
 	touched: FormikTouched<any>,
 	value: string
 ) => getIn(errors, value) !== undefined && getIn(touched, value);
+
+export const toDataUrl = (url: string): Promise<string | ArrayBuffer | null> =>
+	fetch(url)
+		.then((response) => response.blob())
+		.then(
+			(blob) =>
+				new Promise((resolve, reject) => {
+					const reader = new FileReader();
+					reader.onloadend = () => resolve(reader.result);
+					reader.onerror = reject;
+					reader.readAsDataURL(blob);
+				})
+		);

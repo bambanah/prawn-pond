@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { MemoryObject } from "@Shared/types";
+import { getNextMemories } from "@Utils/firebase";
 import firebase from "firebase";
-import { Memory, MemoryObject } from "@Shared/types";
-import { streamMemories } from "@Utils/firebase";
-import styled from "styled-components";
+import React, { useEffect, useState } from "react";
 import Masonry from "react-masonry-css";
+import styled from "styled-components";
 import MemoryCard from "./MemoryCard";
 
 const StyledMasonry = styled(Masonry)`
@@ -25,24 +25,50 @@ const StyledMasonry = styled(Masonry)`
 	}
 `;
 
-const MemoryList = () => {
-	const [memories, setMemories] = useState<MemoryObject>({});
+interface Props {
+	initialMemories: MemoryObject;
+	startFrom: firebase.firestore.Timestamp;
+}
+
+const MemoryList = ({ initialMemories, startFrom }: Props) => {
+	const [last, setLast] =
+		useState<firebase.firestore.Timestamp | undefined>(startFrom);
+	const [memories, setMemories] = useState(initialMemories);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
-		const unsubscribe = streamMemories({
-			next: (querySnapshot: firebase.firestore.QuerySnapshot) => {
-				const updatedMemories: MemoryObject = {};
+		const lastCreated =
+			Object.values(memories)[Object.values(memories).length - 1].created;
+		setLast(lastCreated);
+	}, [memories]);
 
-				querySnapshot.forEach((document: firebase.firestore.DocumentData) => {
-					const invoice: Memory = document.data();
-					updatedMemories[document.id] = invoice;
-				});
+	const loadNextBatch = async (): Promise<void> => {
+		if (!last) return;
 
-				setMemories(updatedMemories);
-			},
-			error: () => console.error("Couldn't get memories."),
+		getNextMemories(last).then((nextMemories) => {
+			setMemories({ ...memories, ...nextMemories });
+			setTimeout(() => setLoading(false), 1000);
 		});
-		return unsubscribe;
+	};
+
+	useEffect(() => {
+		if (loading) loadNextBatch();
+	}, [loading]);
+
+	const checkScroll = () => {
+		const gapToBottom = 400;
+
+		const atBottom =
+			Math.abs(document.body.getBoundingClientRect().y) + gapToBottom >
+			document.body.getBoundingClientRect().height - window.innerHeight;
+
+		if (atBottom) setLoading(true);
+	};
+
+	useEffect(() => {
+		window.addEventListener("scroll", checkScroll);
+
+		return () => window.removeEventListener("scroll", checkScroll);
 	}, []);
 
 	const columnBreakpoints = {
@@ -50,15 +76,18 @@ const MemoryList = () => {
 		1100: 1,
 	};
 
+	if (!memories) return null;
+
 	return (
 		<StyledMasonry
 			breakpointCols={columnBreakpoints}
 			className="masonry-grid"
 			columnClassName="masonry-grid-column"
 		>
-			{Object.values(memories).map((memory) => (
-				<MemoryCard memory={memory} key={memory.created?.valueOf()} />
+			{Object.entries(memories).map(([id, memory]) => (
+				<MemoryCard memory={memory} key={id} />
 			))}
+			{loading && <p>Loading...</p>}
 		</StyledMasonry>
 	);
 };

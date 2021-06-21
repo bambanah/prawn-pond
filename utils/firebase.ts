@@ -1,4 +1,4 @@
-import { Memory } from "@Shared/types";
+import { Memory, MemoryObject } from "@Shared/types";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
@@ -6,6 +6,7 @@ import "firebase/storage";
 import router from "next/router";
 import { toast } from "react-toastify";
 import { v4 } from "uuid";
+import { toDataUrl } from "./helpers";
 
 const firebaseConfig = {
 	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -183,6 +184,54 @@ export const streamMemories = (observer: any) =>
 		.orderBy("created", "desc")
 		.onSnapshot(observer);
 
+const pageSize = 5;
+
+/**
+ *
+ * @returns
+ */
+export const getInitialMemories = async () => {
+	const query = firestore
+		.collection("memories")
+		.orderBy("created", "desc")
+		.limit(pageSize);
+
+	const data = await query.get();
+
+	const memories: MemoryObject = {};
+	data.docs.forEach((doc) => {
+		const memory: any = doc.data();
+
+		memories[doc.id] = memory;
+	});
+
+	return memories;
+};
+
+/**
+ *
+ * @param last
+ * @returns
+ */
+export const getNextMemories = async (last: firebase.firestore.Timestamp) => {
+	const query = firestore
+		.collection("memories")
+		.orderBy("created", "desc")
+		.startAfter(last)
+		.limit(pageSize);
+
+	const data = await query.get();
+
+	const memories: MemoryObject = {};
+	data.docs.forEach((doc) => {
+		const memory: any = doc.data();
+
+		memories[doc.id] = memory;
+	});
+
+	return memories;
+};
+
 /**
  * Creates a memory in firestore.
  * @param memory The memory to create
@@ -242,13 +291,13 @@ export const uploadFile = async (file: File): Promise<string> => {
  * @returns Download URL
  */
 export const getImageUrl = async (imageId: string): Promise<string | null> => {
-	if (
-		!imageId ||
-		!imageId.match(
-			/\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/
-		)
-	)
-		return null;
+	// if (
+	// 	!imageId ||
+	// 	!imageId.match(
+	// 		/\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/
+	// 	)
+	// )
+	// 	return null;
 
 	const imageRef = storage.ref().child(imageId);
 
@@ -262,4 +311,16 @@ export const getImageUrl = async (imageId: string): Promise<string | null> => {
 			console.error(error);
 			return null;
 		});
+};
+
+export const getPlaceholderUrl = async (
+	imageId: string,
+	imageWidth: "32" | "128" | "512"
+): Promise<string | ArrayBuffer | null> => {
+	const imageUrl = await getImageUrl(`thumb@${imageWidth}_${imageId}.jpg`);
+	if (!imageUrl) return null;
+
+	const dataUrl = await toDataUrl(imageUrl);
+
+	return dataUrl;
 };
