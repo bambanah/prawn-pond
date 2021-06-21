@@ -5,15 +5,35 @@ export const Header = styled.header`
 	top: 0;
 	width: 100vw;
 	box-sizing: border-box;
-	z-index: 100;
+	z-index: 2;
 
 	background-color: white;
 	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
 
-	transition: margin 0.4s ease;
+	transition: background-color 0.2s ease, box-shadow 0.2s ease,
+		margin-top 0.4s ease;
+	transition-delay: background-color 1s, box-shadow 1s;
 
-	&.scrolled {
-		margin-top: -5em;
+	@media screen and (max-width: 750px) {
+		&.scrolled {
+			margin-top: -5em;
+		}
+	}
+
+	@media screen and (min-width: 751px) {
+		&.top {
+			background-color: transparent;
+			box-shadow: none;
+			text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
+
+			p {
+				color: ${({ theme }) => theme.colors.bg};
+
+				&:hover {
+					color: ${({ theme }) => theme.colors.accent};
+				}
+			}
+		}
 	}
 `;
 
@@ -62,10 +82,10 @@ export const NavAuth = styled.div`
 export const AuthLink = styled.p`
 	cursor: pointer;
 	color: ${({ theme }) => theme.colors.link};
-	transition: 0.1s color ease;
+	transition: 0.05s color ease;
 
 	&:hover {
 		/* text-decoration: underline; */
-		color: ${({ theme }) => theme.colors.fg};
+		color: ${({ theme }) => theme.colors.accent};
 	}
 `;
