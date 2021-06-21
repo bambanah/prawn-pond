@@ -14,6 +14,14 @@ const Content = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: left;
+
+	@media screen and (max-width: 750px) {
+		padding: 0;
+	}
+`;
+
+const MemoryLink = styled.a`
+	margin: 2rem 0;
 `;
 
 export default function Home() {
@@ -25,7 +33,7 @@ export default function Home() {
 			<Hero />
 			<Content>
 				<Link href="/upload">
-					<a>Add a memory</a>
+					<MemoryLink>Add a memory</MemoryLink>
 				</Link>
 				<MemoryList />
 			</Content>

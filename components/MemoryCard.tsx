@@ -2,6 +2,7 @@ import { Memory } from "@Shared/types";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getImageUrl } from "@Utils/firebase";
+import Image from "next/image";
 
 interface Props {
 	memory: Memory;
@@ -12,31 +13,37 @@ const Card = styled.div`
 	display: inline-flex;
 	flex-direction: column;
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-	margin-bottom: 1rem;
+	margin-bottom: 2rem;
 	cursor: pointer;
+	border-radius: 5px;
+	overflow: hidden;
 `;
 
 const ImageContainer = styled.div`
 	flex: 0 0 auto;
 	width: 100%;
 
+	div {
+		position: relative !important;
+	}
+
 	img {
-		display: block;
-		height: auto;
-		width: 100%;
+		position: relative !important;
+		height: auto !important;
+		width: 100% !important;
 	}
 `;
 
 const TextContainer = styled.div`
 	flex: 0 0 auto;
-	padding: 0.5rem;
+	padding: 2rem;
 `;
 
 const MemoryCard = ({ memory }: Props) => {
 	const [imageUrl, setImageUrl] = useState<string | null>(null);
 	const [loading, setLoading] = useState(true);
 
-	const maxMessageLength = 150;
+	const maxMessageLength = 200;
 
 	useEffect(() => {
 		if (!imageUrl && memory.images) {
@@ -45,6 +52,11 @@ const MemoryCard = ({ memory }: Props) => {
 			});
 			setLoading(false);
 		}
+
+		return () => {
+			setImageUrl(null);
+			setLoading(true);
+		};
 	}, []);
 
 	if (loading) {
@@ -54,7 +66,12 @@ const MemoryCard = ({ memory }: Props) => {
 		<Card key={memory.created?.valueOf()}>
 			{imageUrl && (
 				<ImageContainer>
-					<img src={imageUrl} alt="memory" />
+					<Image
+						src={imageUrl}
+						layout="fill"
+						objectFit="contain"
+						sizes="500px"
+					/>
 				</ImageContainer>
 			)}
 
