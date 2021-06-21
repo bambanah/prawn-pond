@@ -188,14 +188,20 @@ export const streamMemories = (observer: any) =>
  * @param memory The memory to create
  */
 export const createMemory = async (memory: Memory) => {
-	memory.created = firebase.firestore.Timestamp.now();
+	if (!auth.currentUser) return null;
 
-	firestore
+	memory.created = firebase.firestore.Timestamp.now();
+	memory.owner = auth.currentUser;
+
+	return firestore
 		.collection("memories")
 		.add(memory)
+		.then(() => true)
 		.catch((error) => {
-			toast.error("Error");
+			toast.error("Error saving memory");
 			console.error("Error writing document: ", error);
+
+			return null;
 		});
 };
 
