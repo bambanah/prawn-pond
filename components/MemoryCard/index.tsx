@@ -1,15 +1,16 @@
-import { Memory } from "@Shared/types";
-import React, { useEffect, useState } from "react";
-import { getImageUrl } from "@Utils/firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Memory } from "@Shared/types";
+import { getImageUrl } from "@Utils/firebase";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
 import {
-	FullscreenContainer,
-	ImageContainer,
 	Card,
-	TextContainer,
-	FullscreenImage,
-	FullscreenCaption,
 	CloseFullscreenButton,
+	FullscreenCaption,
+	FullscreenContainer,
+	FullscreenImage,
+	ImageContainer,
+	TextContainer,
 } from "./styles";
 
 interface Props {
@@ -70,7 +71,12 @@ const MemoryCard = ({ memory }: Props) => {
 		>
 			{imageUrl && (
 				<ImageContainer>
-					<img src={imageUrl} alt="memory" />
+					<Image
+						src={imageUrl}
+						layout="fill"
+						objectFit="contain"
+						sizes="500px"
+					/>
 				</ImageContainer>
 			)}
 

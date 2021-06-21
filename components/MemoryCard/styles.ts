@@ -13,10 +13,14 @@ export const ImageContainer = styled.div`
 	flex: 0 0 auto;
 	width: 100%;
 
+	div {
+		position: relative !important;
+	}
+
 	img {
-		display: block;
-		height: auto;
-		width: 100%;
+		position: relative !important;
+		height: auto !important;
+		width: 100% !important;
 	}
 `;
 
