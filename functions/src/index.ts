@@ -40,6 +40,10 @@ const optimiseImages = functions.storage.object().onFinalize(async (object) => {
 
 	const sizes = [32, 512];
 
+	console.log(
+		`Creating optimised images at sizes ${sizes.toString()} for ${filePath}`
+	);
+
 	const uploadPromises = sizes.map(async (size) => {
 		const thumbName = `thumb@${size}_${fileName}${
 			!fileName?.includes(".") && `.${fileExtension}`
@@ -50,6 +54,7 @@ const optimiseImages = functions.storage.object().onFinalize(async (object) => {
 		// This is where the magic happens
 		await sharp(tmpFilePath).resize(size).toFile(thumbPath);
 
+		console.log(`Saving ${thumbPath} to ${bucketDir}`);
 		return bucket.upload(thumbPath, {
 			destination: join(bucketDir, thumbName),
 		});
