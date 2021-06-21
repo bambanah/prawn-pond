@@ -1,42 +1,73 @@
-import React, { useEffect, useState } from "react";
+import { MemoryObject } from "@Shared/types";
+import { getNextMemories } from "@Utils/firebase";
 import firebase from "firebase";
-import { Memory, MemoryObject } from "@Shared/types";
-import { streamMemories } from "@Utils/firebase";
+import React, { useEffect, useState } from "react";
+import Masonry from "react-masonry-css";
 import styled from "styled-components";
+import Button from "./Button";
 import MemoryCard from "./MemoryCard";
 
-const MemoryContainer = styled.div`
-	margin-top: 2rem;
-	columns: 3 200px;
-	column-gap: 1rem;
+const StyledMasonry = styled(Masonry)`
+	display: flex;
+	margin-left: -2em;
+	width: auto;
+
+	.masonry-grid-column {
+		padding-left: 2em;
+		background-clip: padding-box;
+	}
+
+	@media screen and (max-width: 750px) {
+		margin-left: 0;
+
+		.masonry-grid-column {
+			padding: 0;
+		}
+	}
 `;
 
-const MemoryList = () => {
-	const [memories, setMemories] = useState<MemoryObject>({});
+interface Props {
+	initialMemories: MemoryObject;
+	startFrom: firebase.firestore.Timestamp;
+}
+
+const MemoryList = ({ initialMemories, startFrom }: Props) => {
+	const [last, setLast] =
+		useState<firebase.firestore.Timestamp | undefined>(startFrom);
+	const [memories, setMemories] = useState(initialMemories);
 
 	useEffect(() => {
-		const unsubscribe = streamMemories({
-			next: (querySnapshot: firebase.firestore.QuerySnapshot) => {
-				const updatedMemories: MemoryObject = {};
+		const lastCreated =
+			Object.values(memories)[Object.values(memories).length - 1].created;
+		setLast(lastCreated);
+	}, [memories]);
 
-				querySnapshot.forEach((document: firebase.firestore.DocumentData) => {
-					const invoice: Memory = document.data();
-					updatedMemories[document.id] = invoice;
-				});
+	const loadNextBatch = async (): Promise<void> => {
+		if (!last) return;
 
-				setMemories(updatedMemories);
-			},
-			error: () => console.error("Couldn't get memories."),
+		getNextMemories(last).then((nextMemories) => {
+			setMemories({ ...memories, ...nextMemories });
 		});
-		return unsubscribe;
-	}, []);
+	};
+
+	const columnBreakpoints = {
+		default: 2,
+		1100: 1,
+	};
+
+	if (!memories) return null;
 
 	return (
-		<MemoryContainer>
-			{Object.values(memories).map((memory) => (
-				<MemoryCard memory={memory} key={memory.created?.valueOf()} />
+		<StyledMasonry
+			breakpointCols={columnBreakpoints}
+			className="masonry-grid"
+			columnClassName="masonry-grid-column"
+		>
+			{Object.entries(memories).map(([id, memory]) => (
+				<MemoryCard memory={memory} key={id} />
 			))}
-		</MemoryContainer>
+			<Button onClick={() => loadNextBatch()}>Load More</Button>
+		</StyledMasonry>
 	);
 };
 

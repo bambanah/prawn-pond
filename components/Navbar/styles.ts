@@ -7,44 +7,45 @@ export const Header = styled.header`
 	box-sizing: border-box;
 	z-index: 100;
 
-	transition: all 0.5s ease;
+	background-color: white;
+	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+
+	transition: margin 0.4s ease;
 
 	&.scrolled {
-		background-color: white;
-		box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+		margin-top: -5em;
 	}
 `;
 
 export const NavContent = styled.div`
 	height: 5rem;
 	width: 100%;
-	padding: 0 2rem;
-	min-width: 700px;
-	max-width: 1100px;
+	padding: 0 3rem;
+	max-width: 1000px;
 
 	box-sizing: border-box;
 	margin: auto;
 
 	display: flex;
 	align-items: center;
-	justify-content: space-evenly;
+	justify-content: space-between;
 `;
 
 export const NavLogo = styled.div`
-	flex: 0 0 30%;
+	flex: 1 0 70%;
 	display: flex;
 	align-items: center;
 
 	p {
 		cursor: pointer;
-		margin-left: 1rem;
+		margin: 0;
 		font-family: "Poppins", "Archivo Black";
 		font-size: 2rem;
 	}
 `;
 
 export const NavAuth = styled.div`
-	flex: 0 0 30%;
+	flex: 1 0 30%;
 	text-align: right;
 
 	span {
