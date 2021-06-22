@@ -89,7 +89,7 @@ const MemoryCard = ({ memory }: Props) => {
 							<div>
 								<FontAwesomeIcon
 									icon={["far", "images"]}
-									size="3x"
+									size="2x"
 									style={{ width: "auto" }}
 								/>
 							</div>

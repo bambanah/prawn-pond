@@ -17,7 +17,6 @@ const Content = styled.div`
 	justify-content: left;
 	align-items: center;
 	box-sizing: border-box;
-
 	padding: 0 1em;
 	padding-bottom: 3rem;
 	width: 100%;
@@ -54,12 +53,13 @@ const Announcements = styled.div`
 const Charities = styled.div`
 	flex: 1 0 50%;
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
 	justify-content: center;
 	gap: 3rem;
 
 	a > div {
-		border-radius: 5px;
+		border-radius: 10px;
 		box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
 		padding: 1rem;
 
@@ -86,8 +86,8 @@ const CharityLink = ({ href, imgSrc, alt }: CharityProps) => (
 		<div>
 			<Image
 				src={imgSrc}
-				width="150px"
-				height="150px"
+				width="100px"
+				height="100px"
 				alt={alt}
 				layout="fixed"
 			/>
@@ -119,6 +119,11 @@ const Home: NextPage<Props> = ({ initialMemories, lastCreated }) => (
 						href="https://www.blackdoginstitute.org.au/sponsor"
 						imgSrc="/black_dog_logo.jpg"
 						alt="Black Dog Institute"
+					/>
+					<CharityLink
+						href="https://npaq.org.au/donate/"
+						imgSrc="/npaq-logo.jpg"
+						alt="National Parks Association of Queensland"
 					/>
 				</Charities>
 			</Announcements>

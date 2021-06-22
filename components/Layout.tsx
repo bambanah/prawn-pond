@@ -14,6 +14,8 @@ const Container = styled.div`
 	width: 100%;
 	min-height: 100vh;
 	margin: auto;
+
+	/* overflow-y: scroll; */
 `;
 
 const Content = styled.div`
@@ -24,6 +26,8 @@ const Content = styled.div`
 	flex: 1 0 auto;
 	flex-direction: column;
 	align-items: center;
+	position: relative;
+	z-index: 1;
 
 	@media screen and (max-width: 900px) {
 		width: inherit;

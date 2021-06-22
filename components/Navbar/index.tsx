@@ -22,6 +22,7 @@ const Navbar = () => {
 			prevPos: { x: number; y: number };
 			currPos: { x: number; y: number };
 		}) => {
+			console.log("Scroll handler");
 			const isScrolled = currPos.y < prevPos.y;
 			if (
 				currPos.y > -700 &&
@@ -43,6 +44,7 @@ const Navbar = () => {
 
 	useEffect(() => {
 		if (router.pathname !== "/") setTop(false);
+		console.log("Effect");
 	}, []);
 
 	return (
