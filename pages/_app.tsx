@@ -1,13 +1,13 @@
+import { AuthProvider, useAuth } from "@Hooks/useAuth";
+import GlobalStyle from "@Shared/GlobalStyle";
+import "@Styles/font-imports.scss";
+import { importIcons } from "@Utils/helpers";
+import { AppProps } from "next/app";
 import Head from "next/head";
 import React from "react";
 import { ToastContainer } from "react-toastify";
-import { ThemeProvider } from "styled-components";
-import GlobalStyle from "@Shared/GlobalStyle";
-import { AuthProvider, useAuth } from "@Hooks/useAuth";
-import { importIcons } from "@Utils/helpers";
-import { AppProps } from "next/app";
 import "react-toastify/dist/ReactToastify.css";
-import "@Styles/font-imports.scss";
+import { ThemeProvider } from "styled-components";
 
 const theme = {
 	colors: {

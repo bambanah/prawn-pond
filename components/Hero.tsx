@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const HeroContainer = styled.div`
 	position: fixed;
-	z-index: 0;
+	z-index: -1;
 	width: 100%;
 	height: 100vh;
 	overflow: hidden;

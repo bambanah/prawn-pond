@@ -33,7 +33,6 @@ export const ImageContainer = styled.div`
 		position: absolute;
 		right: 10px;
 		bottom: 10px;
-		z-index: 50;
 		background: white;
 		padding: 10px;
 		border-radius: 100px;
@@ -62,7 +61,7 @@ export const FullscreenContainer = styled.div`
 	left: 0;
 	width: 100%;
 	height: 100%;
-	z-index: 100;
+	z-index: 10;
 
 	background: rgba(0, 0, 0, 0.8);
 	display: flex;
@@ -146,7 +145,6 @@ export const LoadingContainer = styled.div`
 	justify-content: center;
 	width: 100%;
 	height: 100%;
-	z-index: 100;
 
 	path {
 		color: ${({ theme }) => theme.colors.bg};

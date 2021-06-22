@@ -19,7 +19,6 @@ const Content = styled.div`
 	box-sizing: border-box;
 
 	padding: 0 1em;
-	z-index: 1;
 	padding-bottom: 3rem;
 	width: 100%;
 	background-color: white;
