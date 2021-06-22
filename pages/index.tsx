@@ -38,13 +38,18 @@ const Announcements = styled.div`
 	flex-wrap: wrap;
 	padding: 0 2rem;
 	max-width: 1400px;
+	align-items: center;
+
+	@media screen and (max-width: 940px) {
+		flex-direction: column;
+	}
 
 	h1 {
 		flex: 1 0 50%;
-		font-size: 3.5rem;
+		font-size: 3rem;
 		font-family: "Taviraj";
 
-		@media screen and (max-width: 750px) {
+		@media screen and (max-width: 940px) {
 			font-size: 2rem;
 		}
 	}
@@ -56,14 +61,16 @@ const Charities = styled.div`
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: center;
-	gap: 3rem;
+	column-gap: 2rem;
+	row-gap: 1rem;
+	padding: 1rem 0;
 
 	a > div {
 		border-radius: 10px;
 		box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
 		padding: 1rem;
 
-		transition: box-shadow 0.2s ease;
+		transition: box-shadow 0.15s ease;
 
 		&:hover {
 			box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.25);
