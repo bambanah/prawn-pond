@@ -8,6 +8,9 @@ declare module "styled-components" {
 		colors: {
 			fg: string;
 			bg: string;
+			pastelPink: string;
+			pastelGreen: string;
+			pastelBlue: string;
 			link: string;
 			accent: string;
 			accentGradient: string;

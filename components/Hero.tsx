@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React from "react";
 import styled from "styled-components";
@@ -31,7 +32,7 @@ const HeroActions = styled.div`
 	flex-direction: column;
 	align-items: center;
 
-	margin-bottom: 6rem;
+	margin-bottom: 7rem;
 
 	p {
 		font-size: 2.5rem;
@@ -42,19 +43,31 @@ const HeroActions = styled.div`
 
 	a {
 		padding: 0.5rem 2rem;
+		text-align: center;
 
 		font-family: "Poppins";
 		font-size: 1rem;
 		font-weight: bold;
 		text-transform: uppercase;
 		color: ${({ theme }) => theme.colors.bg};
-		border: 3px solid ${({ theme }) => theme.colors.bg};
+		/* border: 3px solid ${({ theme }) => theme.colors.bg}; */
 
-		transition: all 0.05s ease;
+		transition: padding-top 0.1s ease, margin-bottom 0.18s ease;
+
+		/* Font awesome icon */
+		path {
+			color: ${({ theme }) => theme.colors.bg};
+		}
 
 		&:hover {
-			color: ${({ theme }) => theme.colors.accent};
-			border-color: ${({ theme }) => theme.colors.accent};
+			color: ${({ theme }) => theme.colors.bg};
+
+			padding-top: 0.7rem;
+			margin-bottom: -0.2rem;
+
+			path {
+				/* color: ${({ theme }) => theme.colors.accent}; */
+			}
 		}
 	}
 `;
@@ -62,9 +75,12 @@ const HeroActions = styled.div`
 const Hero = () => (
 	<HeroContainer>
 		<HeroActions>
-			<p>Something Very Profound Here</p>
+			{/* <p>Something Very Profound Here</p> */}
 			<Link href="/upload">
-				<a>Share a Memory</a>
+				<a>
+					Remember Sean <br />
+					<FontAwesomeIcon icon="chevron-down" size="lg" />
+				</a>
 			</Link>
 		</HeroActions>
 	</HeroContainer>

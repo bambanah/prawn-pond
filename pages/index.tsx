@@ -9,7 +9,7 @@ import { NextPage } from "next";
 import { getInitialMemories } from "@Utils/firebase";
 import { MemoryObject } from "@Shared/types";
 import firebase from "firebase";
-import Image from "next/image";
+import Announcements from "@Components/Announcements";
 
 const Content = styled.div`
 	display: flex;
@@ -17,14 +17,14 @@ const Content = styled.div`
 	justify-content: left;
 	align-items: center;
 	box-sizing: border-box;
-	padding: 0 1em;
+	/* padding: 0 1em; */
 	padding-bottom: 3rem;
 	width: 100%;
 	background-color: white;
 	box-shadow: 0px 0px 19px rgba(0, 0, 0, 0.5);
 
 	@media screen and (min-width: 751px) {
-		margin-top: 95vh;
+		margin-top: 96vh;
 	}
 
 	@media screen and (max-width: 750px) {
@@ -33,67 +33,9 @@ const Content = styled.div`
 	}
 `;
 
-const Announcements = styled.div`
-	display: flex;
-	flex-wrap: wrap;
-	padding: 0 2rem;
-	max-width: 1400px;
-
-	h1 {
-		flex: 1 0 50%;
-		font-size: 3.5rem;
-		font-family: "Taviraj";
-
-		@media screen and (max-width: 750px) {
-			font-size: 2rem;
-		}
-	}
-`;
-
-const Charities = styled.div`
-	flex: 1 0 50%;
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: center;
-	gap: 3rem;
-
-	a > div {
-		border-radius: 10px;
-		box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
-		padding: 1rem;
-
-		transition: box-shadow 0.2s ease;
-
-		&:hover {
-			box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.25);
-		}
-	}
-`;
-
 const MemoryLink = styled.a`
 	margin: 2rem 0;
 `;
-
-interface CharityProps {
-	href: string;
-	imgSrc: string;
-	alt: string;
-}
-
-const CharityLink = ({ href, imgSrc, alt }: CharityProps) => (
-	<a href={href}>
-		<div>
-			<Image
-				src={imgSrc}
-				width="100px"
-				height="100px"
-				alt={alt}
-				layout="fixed"
-			/>
-		</div>
-	</a>
-);
 
 interface Props {
 	initialMemories?: MemoryObject;
@@ -107,26 +49,7 @@ const Home: NextPage<Props> = ({ initialMemories, lastCreated }) => (
 		</Head>
 		<Hero />
 		<Content>
-			<Announcements>
-				<h1>Consider donating to these charities</h1>
-				<Charities>
-					<CharityLink
-						href="https://www.beyondblue.org.au/get-involved/make-a-donation"
-						imgSrc="/beyond_blue_logo.jpg"
-						alt="Beyond Blue"
-					/>
-					<CharityLink
-						href="https://www.blackdoginstitute.org.au/sponsor"
-						imgSrc="/black_dog_logo.jpg"
-						alt="Black Dog Institute"
-					/>
-					<CharityLink
-						href="https://npaq.org.au/donate/"
-						imgSrc="/npaq-logo.jpg"
-						alt="National Parks Association of Queensland"
-					/>
-				</Charities>
-			</Announcements>
+			<Announcements />
 			<Link href="/upload">
 				<MemoryLink>Add a memory</MemoryLink>
 			</Link>
