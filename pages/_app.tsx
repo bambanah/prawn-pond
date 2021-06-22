@@ -13,6 +13,9 @@ const theme = {
 	colors: {
 		fg: "#414141",
 		bg: "#f3f7fa",
+		pastelPink: "#ffebe7",
+		pastelGreen: "#ebfcf6",
+		pastelBlue: "",
 		link: "#3273dc",
 		brand: "#6B2875",
 		error: "#ff6961",

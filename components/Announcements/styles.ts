@@ -7,55 +7,58 @@ export const AnnouncementContainer = styled.div`
 	width: 100%;
 `;
 
-export const Content = styled.div`
-	max-width: 1100px;
-	display: flex;
-	flex-wrap: wrap;
+interface AnnouncementProps {
+	backgroundColor?: string;
+	flexDir?: string;
+}
 
-	&.reverse {
-		flex-direction: row-reverse;
-		h1 {
-			text-align: center;
-		}
-	}
-
-	&.column {
-		flex-direction: column;
-		color: ${({ theme }) => theme.colors.fg};
-	}
-
-	@media screen and (max-width: 940px) {
-		flex-direction: column;
-	}
-
-	h1 {
-		flex: 1 0 50%;
-		font-size: 3rem;
-		font-family: "Taviraj";
-		margin: 0;
-
-		@media screen and (max-width: 940px) {
-			font-size: 2rem;
-		}
-	}
-`;
-
-export const Announcement = styled.div`
+export const Announcement = styled.div<AnnouncementProps>`
 	display: flex;
 	justify-content: center;
 	padding: 10rem 0rem;
 	align-items: center;
-	background-color: #ffebe7;
+	background-color: ${(props) => props.backgroundColor};
+
+	color: ${({ theme }) => theme.colors.fg};
 	width: 100%;
 
-	&.reverse {
-		background-color: #ebfcf6;
-	}
+	> div {
+		max-width: 1100px;
 
-	&.column {
-		background-color: white;
+		display: flex;
+		flex-direction: ${(props) => props.flexDir};
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+
+		p:first-of-type {
+			font-size: 1.1rem;
+			color: #666;
+		}
+
+		@media screen and (max-width: 940px) {
+			flex-direction: column;
+		}
+
+		h1 {
+			flex: 1 0 50%;
+			font-size: 3rem;
+			font-family: "Taviraj";
+			margin: 0;
+			text-align: ${({ flexDir }) =>
+				flexDir === "reverse" || flexDir === "column" ? "center" : "left"};
+
+			@media screen and (max-width: 940px) {
+				font-size: 2rem;
+			}
+		}
 	}
 `;
+
+Announcement.defaultProps = {
+	backgroundColor: "white",
+	flexDir: "row",
+};
 
 export const CharityTiles = styled.div`
 	flex: 1 0 50%;
