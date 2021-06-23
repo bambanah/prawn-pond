@@ -89,7 +89,7 @@ const Announcements = () => (
 					flexDir="row-reverse"
 				>
 					<div>
-						<h1>Consider donating to these charities</h1>
+						<h1 id="charities">Consider donating to these charities</h1>
 						<CharityTiles>
 							<CharityLink
 								href="https://www.beyondblue.org.au/get-involved/make-a-donation"

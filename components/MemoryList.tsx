@@ -90,7 +90,8 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 	if (!memories) return null;
 
 	return (
-		<>
+		<div>
+			<h1>Memories</h1>
 			<StyledMasonry
 				breakpointCols={columnBreakpoints}
 				className="masonry-grid"
@@ -114,7 +115,7 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 				</>
 			)}
 			{loading && !loadedAllMemories && <p>Loading...</p>}
-		</>
+		</div>
 	);
 };
 

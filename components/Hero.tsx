@@ -76,7 +76,7 @@ const Hero = () => (
 	<HeroContainer>
 		<HeroActions>
 			{/* <p>Something Very Profound Here</p> */}
-			<Link href="/upload">
+			<Link href="/#charities">
 				<a>
 					Remember Sean <br />
 					<FontAwesomeIcon icon="chevron-down" size="lg" />
