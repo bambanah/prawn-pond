@@ -307,24 +307,37 @@ export const getImageUrl = async (
 ): Promise<string | null> => {
 	if (!validate(imageId) && !thumbnail) return null;
 
-	let imageRef;
+	function tryFetch(limit: number) {
+		let i = 1;
+		return new Promise<string | null>((resolve) => {
+			const interval = setInterval(async () => {
+				let imageRef;
 
-	if (thumbnail) {
-		imageRef = storage.ref().child(`thumb@${thumbnailSize}_${imageId}`);
-	} else {
-		imageRef = storage.ref().child(imageId);
+				if (thumbnail) {
+					imageRef = storage.ref().child(`thumb@${thumbnailSize}_${imageId}`);
+				} else {
+					imageRef = storage.ref().child(imageId);
+				}
+
+				try {
+					const url = await imageRef.getDownloadURL();
+					if (typeof url === "string") {
+						clearInterval(interval);
+						resolve(url);
+					}
+				} catch (error) {
+					if (error.code !== "storage/object-not-found" || i >= limit) {
+						clearInterval(interval);
+						resolve(null);
+					}
+				}
+
+				i += 1;
+			}, 2000);
+		});
 	}
 
-	return imageRef
-		.getDownloadURL()
-		.then((url) => {
-			if (typeof url === "string") return url;
-			return null;
-		})
-		.catch((error) => {
-			console.error(error);
-			return null;
-		});
+	return tryFetch(5);
 };
 
 export const getPlaceholderUrl = async (

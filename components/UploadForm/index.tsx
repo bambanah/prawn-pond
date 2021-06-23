@@ -61,8 +61,8 @@ const UploadForm = () => {
 					// Create memory document
 					await createMemory(newMemory);
 
-					// Navigate to home with a delay to give the cloud function some time to process
-					setTimeout(() => Router.push("/"), 1000);
+					// Navigate to home
+					Router.push("/");
 				} catch (e) {
 					console.error(e);
 					toast.error("Failed to upload images, please try again.");
