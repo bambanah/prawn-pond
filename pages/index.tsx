@@ -17,7 +17,6 @@ const Content = styled.div`
 	justify-content: left;
 	align-items: center;
 	box-sizing: border-box;
-	/* padding: 0 1em; */
 	padding-bottom: 3rem;
 	width: 100%;
 	background-color: white;
@@ -28,8 +27,8 @@ const Content = styled.div`
 	}
 
 	@media screen and (max-width: 750px) {
-		padding: 0;
-		padding-top: 6rem;
+		padding: inherit 0;
+		/* padding-top: 5rem; */
 	}
 `;
 

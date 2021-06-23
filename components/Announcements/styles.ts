@@ -5,6 +5,12 @@ export const AnnouncementContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
+	
+	@media screen and (max-width: 750px) {
+		> div:first-of-type {
+			padding-top: 12rem;
+		}
+	}
 `;
 
 interface AnnouncementProps {
@@ -15,7 +21,7 @@ interface AnnouncementProps {
 export const Announcement = styled.div<AnnouncementProps>`
 	display: flex;
 	justify-content: center;
-	padding: 10rem 0rem;
+	padding: 10rem 1rem;
 	align-items: center;
 	background-color: ${(props) => props.backgroundColor};
 
@@ -36,7 +42,7 @@ export const Announcement = styled.div<AnnouncementProps>`
 			color: #666;
 		}
 
-		@media screen and (max-width: 940px) {
+		@media screen and (max-width: 960px) {
 			flex-direction: column;
 		}
 
@@ -45,11 +51,15 @@ export const Announcement = styled.div<AnnouncementProps>`
 			font-size: 3rem;
 			font-family: "Taviraj";
 			margin: 0;
-			text-align: ${({ flexDir }) =>
-				flexDir === "reverse" || flexDir === "column" ? "center" : "left"};
 
-			@media screen and (max-width: 940px) {
+			@media screen and (min-width: 961px) {
+				text-align: ${({ flexDir }) =>
+				flexDir === "row-reverse" || flexDir === "column" ? "center" : "left"};
+			}
+
+			@media screen and (max-width: 960px) {
 				font-size: 2rem;
+				text-align: center;
 			}
 		}
 	}

@@ -20,6 +20,7 @@ const StyledMasonry = styled(Masonry)`
 
 	@media screen and (max-width: 750px) {
 		margin-left: 0;
+		padding: 0;
 
 		.masonry-grid-column {
 			padding: 0;

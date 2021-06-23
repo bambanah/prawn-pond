@@ -86,7 +86,7 @@ const Announcements = () => (
 				</Announcement>
 				<Announcement
 					backgroundColor={theme.colors.pastelGreen}
-					flexDir="reverse"
+					flexDir="row-reverse"
 				>
 					<div>
 						<h1>Consider donating to these charities</h1>
