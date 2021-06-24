@@ -7,6 +7,39 @@ export type MemoryCategory =
   | "other"
   | "stories";
 
+export type MemoryCategoryExtended =
+  | "photography_and_nature"
+  | "young_sean"
+  | "playful_sean"
+  | "other"
+  | "stories"
+  | "all";
+
+type CategoryOption = { label: string; value: MemoryCategory };
+
+export const categoryOptions: CategoryOption[] = [
+  {
+    label: "Sean's Photography and Nature",
+    value: "photography_and_nature"
+  },
+  {
+    label: "Young Sean",
+    value: "young_sean"
+  },
+  {
+    label: "Playful Sean",
+    value: "playful_sean"
+  },
+  {
+    label: "Stories",
+    value: "stories"
+  },
+  {
+    label: "Other",
+    value: "other"
+  }
+];
+
 export interface Memory {
   description: string;
   category: MemoryCategory;

@@ -1,10 +1,12 @@
 import Link from "@Components/NavLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { MemoryObject } from "@Shared/types";
+import { MemoryCategory, MemoryObject } from "@Shared/types";
 import { getNextMemories } from "@Utils/firebase";
 import firebase from "firebase";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
+
 import MemoryCard from "../MemoryCard";
+import CategorySelection from "./molecules/CategorySelection";
 import {
   FooterContainer,
   MemoryLink,
@@ -29,6 +31,7 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
   const [memories, setMemories] = useState(initialMemories);
   const [loading, setLoading] = useState(false);
   const [loadedAllMemories, setLoadedAllMemories] = useState(false);
+  const [category, setCategory] = useState<MemoryCategory | "all">("all");
 
   const checkScroll = () => {
     if (!loadedAllMemories) {
@@ -76,6 +79,19 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
     return () => window.removeEventListener("scroll", checkScroll);
   }, []);
 
+  const filteredMemories = useMemo(() => {
+    if (category === "all") {
+      return memories;
+    }
+    const filtered: MemoryObject = {};
+    Object.keys(memories)
+      .filter((key) => memories[key].category === category)
+      .forEach((key) => {
+        filtered[key] = memories[key];
+      });
+    return filtered;
+  }, [memories, category]);
+
   if (!memories) return null;
 
   return (
@@ -86,12 +102,14 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
         <MemoryLink>Add a memory</MemoryLink>
       </Link>
 
+      <CategorySelection selected={category} onChange={setCategory} />
+
       <StyledMasonry
         breakpointCols={columnBreakpoints}
         className="masonry-grid"
         columnClassName="masonry-grid-column"
       >
-        {Object.entries(memories).map(([id, memory]) => (
+        {Object.entries(filteredMemories).map(([id, memory]) => (
           <MemoryCard memory={memory} key={id} />
         ))}
       </StyledMasonry>

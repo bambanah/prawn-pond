@@ -11,7 +11,7 @@ import PostValidationSchema from "@Schema/PostValidationSchema";
 import Form from "@Components/forms/Form";
 import Input from "@Components/forms/Input";
 import Label from "@Components/forms/Label";
-import { Memory, MemoryCategory } from "@Shared/types";
+import { categoryOptions, Memory, MemoryCategory } from "@Shared/types";
 import { toast } from "react-toastify";
 import RadioButtonGroup from "@Components/RadioButtonGroup";
 import {
@@ -24,31 +24,6 @@ import {
 function imageLoader({ src }: ImageLoaderProps) {
   return src;
 }
-
-type CategoryOption = { label: string; value: MemoryCategory };
-
-const categoryOptions: CategoryOption[] = [
-  {
-    label: "Sean's Photography and Nature",
-    value: "photography_and_nature"
-  },
-  {
-    label: "Young Sean",
-    value: "young_sean"
-  },
-  {
-    label: "Playful Sean",
-    value: "playful_sean"
-  },
-  {
-    label: "Other",
-    value: "other"
-  },
-  {
-    label: "Stories",
-    value: "stories"
-  }
-];
 
 const UploadForm = () => {
   const [images, setImages] = useState<File[]>([]);
