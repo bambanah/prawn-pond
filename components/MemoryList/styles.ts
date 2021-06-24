@@ -91,4 +91,9 @@ export const CategorySelectionContainer = styled.div`
   }
 `;
 
-export const CategoryBlock = styled.div``;
+export const TableViewSelectContainer = styled.div`
+  display: flex;
+  width: 150px;
+  flex-direction: row;
+  justify-content: space-between;
+`;

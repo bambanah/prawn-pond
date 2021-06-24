@@ -11,7 +11,8 @@ import {
   FooterContainer,
   MemoryLink,
   MemoryListContainer,
-  StyledMasonry
+  StyledMasonry,
+  TableViewSelectContainer
 } from "./styles";
 
 interface Props {
@@ -103,6 +104,11 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
       </Link>
 
       <CategorySelection selected={category} onChange={setCategory} />
+
+      <TableViewSelectContainer>
+        <FontAwesomeIcon icon="list" size="2x" />
+        <FontAwesomeIcon icon="th-large" size="2x" />
+      </TableViewSelectContainer>
 
       <StyledMasonry
         breakpointCols={columnBreakpoints}
