@@ -1,7 +1,8 @@
 import { Field } from "formik";
+import { InputHTMLAttributes } from "react";
 import styled from "styled-components";
 
-interface InputProps {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;
 }
 
