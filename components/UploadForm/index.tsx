@@ -101,7 +101,7 @@ const UploadForm = () => {
       validateOnChange
       validateOnBlur
     >
-      {({ handleSubmit, errors, isValid, isSubmitting, handleChange }) => (
+      {({ handleSubmit, errors, isValid, isSubmitting }) => (
         <Form>
           <DropZoneContainer {...getRootProps()}>
             <input {...getInputProps()} />

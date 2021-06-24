@@ -1,14 +1,27 @@
+import Link from "@Components/NavLink";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { MemoryObject } from "@Shared/types";
 import { getNextMemories } from "@Utils/firebase";
 import firebase from "firebase";
 import React, { useEffect, useState } from "react";
 import MemoryCard from "../MemoryCard";
-import { MemoryListContainer, StyledMasonry } from "./styles";
+import {
+  FooterContainer,
+  MemoryLink,
+  MemoryListContainer,
+  StyledMasonry
+} from "./styles";
 
 interface Props {
   initialMemories: MemoryObject;
-  startFrom: firebase.firestore.Timestamp;
+  startFrom: firebase.firestore.Timestamp | undefined;
 }
+
+const columnBreakpoints = {
+  default: 3,
+  1270: 2,
+  900: 1
+};
 
 const MemoryList = ({ initialMemories, startFrom }: Props) => {
   const [last, setLast] =
@@ -17,11 +30,17 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
   const [loading, setLoading] = useState(false);
   const [loadedAllMemories, setLoadedAllMemories] = useState(false);
 
-  useEffect(() => {
-    const lastCreated =
-      Object.values(memories)[Object.values(memories).length - 1].created;
-    setLast(lastCreated);
-  }, [memories]);
+  const checkScroll = () => {
+    if (!loadedAllMemories) {
+      const gapToBottom = 400;
+
+      const atBottom =
+        Math.abs(document.body.getBoundingClientRect().y) + gapToBottom >
+        document.body.getBoundingClientRect().height - window.innerHeight;
+
+      if (atBottom) setLoading(true);
+    }
+  };
 
   const loadNextBatch = async (): Promise<void> => {
     if (!last) return;
@@ -37,20 +56,19 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
   };
 
   useEffect(() => {
+    if (Object.values(memories).length > 1) {
+      const lastCreated =
+        Object.values(memories)[Object.values(memories).length - 1].created;
+      setLast(lastCreated);
+    } else {
+      setLoading(false);
+      setLoadedAllMemories(true);
+    }
+  }, [memories]);
+
+  useEffect(() => {
     if (loading) loadNextBatch();
   }, [loading]);
-
-  const checkScroll = () => {
-    if (!loadedAllMemories) {
-      const gapToBottom = 400;
-
-      const atBottom =
-        Math.abs(document.body.getBoundingClientRect().y) + gapToBottom >
-        document.body.getBoundingClientRect().height - window.innerHeight;
-
-      if (atBottom) setLoading(true);
-    }
-  };
 
   useEffect(() => {
     window.addEventListener("scroll", checkScroll);
@@ -58,17 +76,16 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
     return () => window.removeEventListener("scroll", checkScroll);
   }, []);
 
-  const columnBreakpoints = {
-    default: 3,
-    1270: 2,
-    900: 1
-  };
-
   if (!memories) return null;
 
   return (
     <MemoryListContainer>
       <h1>Memories</h1>
+
+      <Link href="/upload">
+        <MemoryLink>Add a memory</MemoryLink>
+      </Link>
+
       <StyledMasonry
         breakpointCols={columnBreakpoints}
         className="masonry-grid"
@@ -78,20 +95,20 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
           <MemoryCard memory={memory} key={id} />
         ))}
       </StyledMasonry>
-      {loadedAllMemories && (
-        <>
-          <p>You&rsquo;ve reached the bottom</p>
-          <a
-            onClick={() =>
-              window.scroll({ top: 0, left: 0, behavior: "smooth" })
-            }
-            aria-hidden="true"
-          >
-            Back to the top
-          </a>
-        </>
+
+      {loading && !loadedAllMemories && (
+        <FontAwesomeIcon icon="spinner" size="2x" className="spinner" />
       )}
-      {loading && !loadedAllMemories && <p>Loading...</p>}
+
+      <FooterContainer>
+        <p>You&rsquo;ve reached the bottom</p>
+        <a
+          onClick={() => window.scroll({ top: 0, left: 0, behavior: "smooth" })}
+          aria-hidden="true"
+        >
+          Back to the top
+        </a>
+      </FooterContainer>
     </MemoryListContainer>
   );
 };
