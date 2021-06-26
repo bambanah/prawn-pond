@@ -2,14 +2,14 @@ import Masonry from "react-masonry-css";
 import styled from "styled-components";
 
 export const MemoryListContainer = styled.div`
-	padding: 0rem 1rem;
+	padding: 0rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
 
 	path {
-		color: ${({ theme }) => theme.colors.accent};
+		color: ${({ theme }) => theme.colors.fg};
 	}
 
 	h1 {
@@ -23,7 +23,7 @@ export const StyledMasonry = styled(Masonry)`
 	display: flex;
 	width: auto;
 	max-width: 1500px;
-	padding: 0 1em;
+	padding: 0;
 	margin-top: 2em;
 	min-height: 400px;
 
@@ -39,6 +39,7 @@ export const StyledMasonry = styled(Masonry)`
 
 		.masonry-grid-column {
 			padding: 0;
+			margin: 0;
 		}
 	}
 `;
@@ -59,50 +60,35 @@ export const MemoryLink = styled.a`
 	margin: 2rem 0;
 `;
 
-export const CategorySelectionContainer = styled.div`
-	padding: 1em;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	width: 100%;
-
-	button {
-		border: none;
-		background-color: white;
-		width: 100%;
-		height: 4rem;
-
-		&:hover {
-			background-color: ${({ theme }) => theme.colors.pastelGreen};
-		}
-	}
-
-	.selected {
-		background-color: ${({ theme }) => theme.colors.pastelGreen};
-	}
-
-	// TODO: Make this responsive in another way e.g. with a dropdown on smaller screens
-	@media screen and (max-width: 900px) {
-		flex-direction: column;
-
-		button {
-			height: 3rem;
-		}
-	}
-`;
-
 export const ListHeader = styled.div`
 	width: 100%;
 	max-width: 1500px;
 	padding: 0 2em;
 	display: flex;
 	justify-content: space-between;
+	gap: 1em;
+	margin-top: 1em;
+
+	@media screen and (max-width: 750px) {
+		padding: 0 1em;
+	}
 `;
 
 export const TableViewSelectContainer = styled.div`
 	display: flex;
-	width: 150px;
-	flex-direction: row;
-	justify-content: space-between;
+	gap: 2em;
+
+	svg {
+		cursor: pointer;
+
+		&:hover {
+			* {
+				color: black;
+			}
+		}
+	}
+
+	@media screen and (max-width: 750px) {
+		gap: 1em;
+	}
 `;

@@ -114,7 +114,7 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 
 				<TableViewSelectContainer>
 					<FontAwesomeIcon
-						icon="list"
+						icon="stream"
 						size="2x"
 						onClick={() => setMultiColumn(false)}
 					/>
