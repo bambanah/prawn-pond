@@ -8,7 +8,7 @@ interface CategorySelectionProps {
 
 const extendedCategoryOptions = [
 	{
-		label: "All",
+		label: "All Categories",
 		value: "all",
 	},
 	...categoryOptions,

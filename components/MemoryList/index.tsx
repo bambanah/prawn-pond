@@ -90,9 +90,19 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 		if (category === "all") {
 			return memories;
 		}
+		if (category === "other") {
+			const filtered: MemoryObject = {};
+			Object.keys(memories)
+				.filter((key) => !memories[key].categories.length)
+				.forEach((key) => {
+					filtered[key] = memories[key];
+				});
+			return filtered;
+		}
+
 		const filtered: MemoryObject = {};
 		Object.keys(memories)
-			.filter((key) => memories[key].category === category)
+			.filter((key) => memories[key].categories?.includes(category))
 			.forEach((key) => {
 				filtered[key] = memories[key];
 			});
