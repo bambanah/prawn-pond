@@ -21,10 +21,14 @@ interface Props {
 	startFrom: firebase.firestore.Timestamp | undefined;
 }
 
-const columnBreakpoints = {
+const multiColumnBreakpoints = {
 	default: 3,
 	1270: 2,
 	900: 1,
+};
+
+const singleColumnBreakpoints = {
+	default: 1,
 };
 
 const MemoryList = ({ initialMemories, startFrom }: Props) => {
@@ -34,6 +38,7 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 	const [loading, setLoading] = useState(false);
 	const [loadedAllMemories, setLoadedAllMemories] = useState(false);
 	const [category, setCategory] = useState<MemoryCategory | "all">("all");
+	const [multiColumn, setMultiColumn] = useState(true);
 
 	const checkScroll = () => {
 		if (!loadedAllMemories) {
@@ -108,13 +113,23 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 				<CategorySelection handleChange={setCategory} />
 
 				<TableViewSelectContainer>
-					<FontAwesomeIcon icon="list" size="2x" />
-					<FontAwesomeIcon icon="th-large" size="2x" />
+					<FontAwesomeIcon
+						icon="list"
+						size="2x"
+						onClick={() => setMultiColumn(false)}
+					/>
+					<FontAwesomeIcon
+						icon="th-large"
+						size="2x"
+						onClick={() => setMultiColumn(true)}
+					/>
 				</TableViewSelectContainer>
 			</ListHeader>
 
 			<StyledMasonry
-				breakpointCols={columnBreakpoints}
+				breakpointCols={
+					multiColumn ? multiColumnBreakpoints : singleColumnBreakpoints
+				}
 				className="masonry-grid"
 				columnClassName="masonry-grid-column"
 			>

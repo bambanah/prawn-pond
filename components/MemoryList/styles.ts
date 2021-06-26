@@ -93,7 +93,11 @@ export const CategorySelectionContainer = styled.div`
 `;
 
 export const ListHeader = styled.div`
+	width: 100%;
+	max-width: 1500px;
+	padding: 0 2em;
 	display: flex;
+	justify-content: space-between;
 `;
 
 export const TableViewSelectContainer = styled.div`
