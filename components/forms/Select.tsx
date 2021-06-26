@@ -1,15 +1,13 @@
-import { Field } from "formik";
+import { MemoryCategoryExtended } from "@Shared/types";
 import React from "react";
 import styled from "styled-components";
 
 interface SelectProps {
-	error?: boolean;
+	handleChange: (category: MemoryCategoryExtended) => void;
 }
 
-const SelectContainer = styled.div<SelectProps>`
+const SelectContainer = styled.div`
 	border-radius: 3px;
-	border: 1px solid
-		${(props) => (props.error ? props.theme.colors.error : "transparent")};
 	outline: none;
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
 
@@ -34,8 +32,7 @@ const SelectContainer = styled.div<SelectProps>`
 	}
 
 	&:focus {
-		border: 1px solid
-			${(props) => (props.error ? props.theme.colors.error : "#6e6e6e")};
+		border: 1px solid #6e6e6e;
 	}
 
 	&::after {
@@ -52,13 +49,14 @@ const SelectContainer = styled.div<SelectProps>`
 
 const Select = ({
 	children,
-	name,
-	error,
+	handleChange,
 }: React.HTMLProps<HTMLSelectElement> & SelectProps) => (
-	<SelectContainer error={error || false}>
-		<Field as="select" id={name} name={name}>
+	<SelectContainer>
+		<select
+			onChange={(e) => handleChange(e.target.value as MemoryCategoryExtended)}
+		>
 			{children}
-		</Field>
+		</select>
 	</SelectContainer>
 );
 

@@ -1,35 +1,29 @@
+import Select from "@Components/forms/Select";
 import { categoryOptions, MemoryCategoryExtended } from "@Shared/types";
 import React from "react";
-import { CategorySelectionContainer } from "../styles";
 
 interface CategorySelectionProps {
-  selected: MemoryCategoryExtended;
-  onChange: (category: MemoryCategoryExtended) => void;
+	handleChange: (category: MemoryCategoryExtended) => void;
 }
 
 const extendedCategoryOptions = [
-  {
-    label: "All",
-    value: "all"
-  },
-  ...categoryOptions
+	{
+		label: "All",
+		value: "all",
+	},
+	...categoryOptions,
 ];
 
 const CategorySelection: React.FC<CategorySelectionProps> = ({
-  selected,
-  onChange
+	handleChange,
 }) => (
-  <CategorySelectionContainer>
-    {extendedCategoryOptions.map((category) => (
-      <button
-        className={selected === category.value ? "selected" : "not-selected"}
-        type="button"
-        onClick={() => onChange(category.value as MemoryCategoryExtended)}
-      >
-        <p>{category.label}</p>
-      </button>
-    ))}
-  </CategorySelectionContainer>
+	<Select handleChange={handleChange}>
+		{extendedCategoryOptions.map((category) => (
+			<option key={category.value} value={category.value}>
+				{category.label}
+			</option>
+		))}
+	</Select>
 );
 
 export default CategorySelection;
