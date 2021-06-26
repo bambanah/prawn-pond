@@ -35,6 +35,7 @@ export const ImageContainer = styled.div`
 		position: relative !important;
 		height: auto !important;
 		width: 100% !important;
+		filter: none !important;
 	}
 
 	svg {
@@ -69,10 +70,12 @@ export const FullscreenContainer = styled.div`
 	align-items: center;
 `;
 
+export const FullscreenContent = styled.div`
+	position: relative;
+	max-width: 800px;
+`;
+
 export const FullscreenImage = styled.div`
-	width: 70%;
-	height: 80%;
-	padding: 2rem 4rem;
 	flex: 1;
 	box-sizing: border-box;
 	display: flex;
@@ -88,14 +91,10 @@ export const FullscreenImage = styled.div`
 `;
 
 export const FullscreenCaption = styled.div`
-	margin-bottom: 1em;
+	display: flex;
+	align-items: center;
 	background-color: white;
-	width: 80%;
-	padding: 0.5em;
-	height: 20%;
-	overflow-y: auto;
-	border: 10px solid;
-	border-image: ${(props) => props.theme.colors.accentGradient} 1;
+	padding: 2em;
 `;
 
 export const IconButton = styled.div`
@@ -119,22 +118,24 @@ export const CloseFullscreenButton = styled(IconButton)`
 export const LeftArrowContainer = styled(IconButton)`
 	position: absolute;
 	left: 1rem;
+	top: 40%;
 `;
 
 export const RightArrowContainer = styled(IconButton)`
 	position: absolute;
 	right: 1rem;
+	top: 40%;
 `;
 
 export const AlbumIndexContainer = styled.div`
 	position: absolute;
 	left: 1rem;
 	top: 0.5rem;
-`;
 
-export const AlbumIndexText = styled.h2`
-	color: white;
-	margin: 0px;
+	h2 {
+		margin: 0;
+		font-size: 1rem;
+	}
 `;
 
 export const LoadingContainer = styled.div`

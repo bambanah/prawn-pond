@@ -82,7 +82,7 @@ const MemoryCard = ({ memory }: Props) => {
 						<Image
 							src={imageUrl}
 							layout="fill"
-							objectFit="contain"
+							objectFit="cover"
 							placeholder="blur"
 							blurDataURL={placeholderUrl}
 						/>

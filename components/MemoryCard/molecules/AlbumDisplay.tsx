@@ -1,101 +1,102 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import {
-  FullscreenContainer,
-  CloseFullscreenButton,
-  FullscreenImage,
-  FullscreenCaption,
-  LeftArrowContainer,
-  RightArrowContainer,
-  AlbumIndexContainer,
-  LoadingContainer
+	FullscreenContainer,
+	CloseFullscreenButton,
+	FullscreenImage,
+	FullscreenCaption,
+	LeftArrowContainer,
+	RightArrowContainer,
+	AlbumIndexContainer,
+	LoadingContainer,
+	FullscreenContent,
 } from "../styles";
 
 interface AlbumDisplayProps {
-  description: string;
-  show: boolean;
-  imageUrls: string[];
-  onClose: () => void;
+	description: string;
+	show: boolean;
+	imageUrls: string[];
+	onClose: () => void;
 }
 
 const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
-  description,
-  show,
-  imageUrls,
-  onClose
+	description,
+	show,
+	imageUrls,
+	onClose,
 }) => {
-  const [index, setIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
+	const [index, setIndex] = useState(0);
+	const [loading, setLoading] = useState(true);
 
-  const handleLeftClick = () => {
-    if (index > 0) {
-      setLoading(true);
-      setIndex((i) => i - 1);
-    }
-  };
+	const handleLeftClick = () => {
+		if (index > 0) {
+			setLoading(true);
+			setIndex((i) => i - 1);
+		}
+	};
 
-  const handleRightClick = () => {
-    if (index + 1 < imageUrls.length) {
-      setLoading(true);
-      setIndex((i) => i + 1);
-    }
-  };
+	const handleRightClick = () => {
+		if (index + 1 < imageUrls.length) {
+			setLoading(true);
+			setIndex((i) => i + 1);
+		}
+	};
 
-  const handleOnLoad = () => {
-    setLoading(false);
-  };
+	const handleOnLoad = () => {
+		setLoading(false);
+	};
 
-  const handleOnLoadStart = () => {
-    setLoading(true);
-  };
+	const handleOnLoadStart = () => {
+		setLoading(true);
+	};
 
-  return show ? (
-    <FullscreenContainer>
-      {index > 0 && (
-        <LeftArrowContainer onClick={handleLeftClick}>
-          <FontAwesomeIcon icon="arrow-left" size="3x" />
-        </LeftArrowContainer>
-      )}
+	return show ? (
+		<FullscreenContainer>
+			<FullscreenContent>
+				<CloseFullscreenButton onClick={onClose}>
+					<FontAwesomeIcon icon="times" size="3x" />
+				</CloseFullscreenButton>
 
-      {index < imageUrls.length - 1 && (
-        <RightArrowContainer onClick={handleRightClick}>
-          <FontAwesomeIcon icon="arrow-right" size="3x" />
-        </RightArrowContainer>
-      )}
+				{loading && (
+					<LoadingContainer>
+						<FontAwesomeIcon icon="spinner" size="3x" className="spinner" />
+					</LoadingContainer>
+				)}
 
-      <CloseFullscreenButton onClick={onClose}>
-        <FontAwesomeIcon icon="times" size="3x" />
-      </CloseFullscreenButton>
+				<AlbumIndexContainer>
+					<h2 style={{ color: "white" }}>
+						{index + 1}/{imageUrls.length}
+					</h2>
+				</AlbumIndexContainer>
 
-      {loading && (
-        <LoadingContainer>
-          <FontAwesomeIcon icon="spinner" size="3x" className="spinner" />
-        </LoadingContainer>
-      )}
+				<FullscreenImage>
+					{index > 0 && (
+						<LeftArrowContainer onClick={handleLeftClick}>
+							<FontAwesomeIcon icon="arrow-left" size="lg" />
+						</LeftArrowContainer>
+					)}
+					<img
+						src={imageUrls[index]}
+						alt="memory"
+						onLoad={handleOnLoad}
+						onLoadStart={handleOnLoadStart}
+						onError={handleOnLoad}
+					/>
+					{index < imageUrls.length - 1 && (
+						<RightArrowContainer onClick={handleRightClick}>
+							<FontAwesomeIcon icon="arrow-right" size="lg" />
+						</RightArrowContainer>
+					)}
+				</FullscreenImage>
 
-      <AlbumIndexContainer>
-        <h2 style={{ color: "white" }}>
-          {index + 1}/{imageUrls.length}
-        </h2>
-      </AlbumIndexContainer>
-
-      <FullscreenImage>
-        <img
-          src={imageUrls[index]}
-          alt="memory"
-          onLoad={handleOnLoad}
-          onLoadStart={handleOnLoadStart}
-          onError={handleOnLoad}
-        />
-      </FullscreenImage>
-
-      {description.length > 0 && (
-        <FullscreenCaption>{description}</FullscreenCaption>
-      )}
-    </FullscreenContainer>
-  ) : (
-    <></>
-  );
+				{description.length > 0 && (
+					<FullscreenCaption>{description}</FullscreenCaption>
+				)}
+			</FullscreenContent>
+		</FullscreenContainer>
+	) : (
+		<></>
+	);
 };
 
 export default AlbumDisplay;
