@@ -1,9 +1,10 @@
-import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
+import React from "react";
 import { ThemeConsumer } from "styled-components";
 import {
-	AnnouncementContainer,
 	Announcement,
+	AnnouncementContainer,
 	CharityTiles,
 	FuneralInfo,
 } from "./styles";
@@ -62,27 +63,24 @@ const Announcements = () => (
 					</div>
 				</Announcement>
 				<Announcement flexDir="column">
-					<div>
+					<FuneralInfo>
 						<h1>Funeral Information</h1>
-						<p>Funeral Address Here</p>
-						<a href="https://google.com/maps">Show in Google Maps</a>
-						<FuneralInfo>
-							<div>
-								<ul>
-									<li>Address: 123 Name Street, Suburb, 4321</li>
-									<li>
-										<a href="https://google.com/maps">Show in Google Maps</a>
-									</li>
-								</ul>
-							</div>
-							<div>
-								<ul>
-									<li>More info can go here</li>
-									<li>Maybe the funeral link here?</li>
-								</ul>
-							</div>
-						</FuneralInfo>
-					</div>
+						<p>
+							<FontAwesomeIcon icon="clock" /> Friday 2 July, 1pm
+						</p>
+						<p>
+							<FontAwesomeIcon icon="map-marker-alt" /> St Peter&#39;s Lutheran
+							College Chapel
+							<br />
+							Indooroopilly
+						</p>
+						<a href="https://goo.gl/maps/dBr655d4JfDdgjpMA">
+							Show in Google Maps
+						</a>
+
+						<h3>Livestream</h3>
+						<a>Link goes here</a>
+					</FuneralInfo>
 				</Announcement>
 				<Announcement
 					backgroundColor={theme.colors.pastelGreen}

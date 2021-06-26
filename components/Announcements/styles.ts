@@ -5,7 +5,7 @@ export const AnnouncementContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
-	
+
 	@media screen and (max-width: 750px) {
 		> div:first-of-type {
 			padding-top: 12rem;
@@ -37,11 +37,6 @@ export const Announcement = styled.div<AnnouncementProps>`
 		justify-content: center;
 		align-items: center;
 
-		p:first-of-type {
-			font-size: 1.1rem;
-			color: #666;
-		}
-
 		@media screen and (max-width: 960px) {
 			flex-direction: column;
 		}
@@ -54,7 +49,9 @@ export const Announcement = styled.div<AnnouncementProps>`
 
 			@media screen and (min-width: 961px) {
 				text-align: ${({ flexDir }) =>
-				flexDir === "row-reverse" || flexDir === "column" ? "center" : "left"};
+					flexDir === "row-reverse" || flexDir === "column"
+						? "center"
+						: "left"};
 			}
 
 			@media screen and (max-width: 960px) {
@@ -96,4 +93,18 @@ export const CharityTiles = styled.div`
 
 export const FuneralInfo = styled.div`
 	display: flex;
+	flex-direction: column;
+
+	p {
+		margin-top: 0;
+		margin-bottom: 0.5rem;
+
+		text-align: center;
+		color: #666;
+	}
+
+	h3 {
+		margin-top: 1.5em;
+		margin-bottom: 0.5rem;
+	}
 `;

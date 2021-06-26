@@ -9,6 +9,8 @@ import {
 	faArrowRight,
 	faThLarge,
 	faStream,
+	faMapMarkerAlt,
+	faClock,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle, faFacebookF } from "@fortawesome/free-brands-svg-icons";
 import { faImages } from "@fortawesome/free-regular-svg-icons";
@@ -25,7 +27,9 @@ export const importIcons = () => {
 		faImages,
 		faChevronDown,
 		faThLarge,
-		faStream
+		faStream,
+		faMapMarkerAlt,
+		faClock
 	);
 };
 
