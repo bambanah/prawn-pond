@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
+import { useSwipeable } from "react-swipeable";
 import {
 	FullscreenContainer,
 	CloseFullscreenButton,
@@ -50,6 +51,20 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 		setLoading(true);
 	};
 
+	const swipeConfig = {
+		delta: 10, // min distance(px) before a swipe starts
+		preventDefaultTouchmoveEvent: true, // call e.preventDefault *See Details*
+		trackTouch: true, // track touch input
+		trackMouse: true, // track mouse input
+		rotationAngle: 0, // set a rotation angle
+	};
+
+	const swipeHandlers = useSwipeable({
+		onSwipedRight: () => handleLeftClick(),
+		onSwipedLeft: () => handleRightClick(),
+		...swipeConfig,
+	});
+
 	return show ? (
 		<FullscreenContainer>
 			<FullscreenContent>
@@ -69,7 +84,7 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 					</h2>
 				</AlbumIndexContainer>
 
-				<FullscreenImage>
+				<FullscreenImage {...swipeHandlers}>
 					{index > 0 && (
 						<LeftArrowContainer onClick={handleLeftClick}>
 							<FontAwesomeIcon icon="arrow-circle-left" size="lg" />
