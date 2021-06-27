@@ -72,7 +72,7 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 				<FullscreenImage>
 					{index > 0 && (
 						<LeftArrowContainer onClick={handleLeftClick}>
-							<FontAwesomeIcon icon="arrow-left" size="lg" />
+							<FontAwesomeIcon icon="arrow-circle-left" size="lg" />
 						</LeftArrowContainer>
 					)}
 					<img
@@ -84,7 +84,7 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 					/>
 					{index < imageUrls.length - 1 && (
 						<RightArrowContainer onClick={handleRightClick}>
-							<FontAwesomeIcon icon="arrow-right" size="lg" />
+							<FontAwesomeIcon icon="arrow-circle-right" size="lg" />
 						</RightArrowContainer>
 					)}
 				</FullscreenImage>

@@ -8,9 +8,9 @@ export const MemoryListContainer = styled.div`
 	align-items: center;
 	width: 100%;
 
-	path {
+	/* path {
 		color: ${({ theme }) => theme.colors.fg};
-	}
+	} */
 
 	h1 {
 		font-family: "Taviraj";

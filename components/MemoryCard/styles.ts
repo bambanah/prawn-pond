@@ -80,6 +80,7 @@ export const FullscreenImage = styled.div`
 	box-sizing: border-box;
 	display: flex;
 	justify-content: center;
+	position: relative;
 
 	img {
 		display: block;
@@ -102,9 +103,10 @@ export const IconButton = styled.div`
 	path {
 		color: ${({ theme }) => theme.colors.bg};
 	}
+
 	&:hover {
 		path {
-			color: ${({ theme }) => theme.colors.link};
+			color: #dddddd;
 		}
 	}
 `;
@@ -118,19 +120,20 @@ export const CloseFullscreenButton = styled(IconButton)`
 export const LeftArrowContainer = styled(IconButton)`
 	position: absolute;
 	left: 1rem;
-	top: 40%;
+	top: 50%;
 `;
 
 export const RightArrowContainer = styled(IconButton)`
 	position: absolute;
 	right: 1rem;
-	top: 40%;
+	top: 50%;
 `;
 
 export const AlbumIndexContainer = styled.div`
 	position: absolute;
 	left: 1rem;
 	top: 0.5rem;
+	z-index: 1;
 
 	h2 {
 		margin: 0;
