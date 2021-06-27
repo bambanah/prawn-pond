@@ -88,7 +88,7 @@ export const TableViewSelectContainer = styled.div`
 		}
 	}
 
-	@media screen and (max-width: 750px) {
-		gap: 1em;
+	@media screen and (max-width: 900px) {
+		display: none;
 	}
 `;
