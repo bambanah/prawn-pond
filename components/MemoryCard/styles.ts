@@ -1,17 +1,24 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 
 export const Card = styled.div`
 	width: 100%;
-	display: inline-flex;
+	min-width: fit-content;
+	display: flex;
 	flex-direction: column;
 	box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6);
 	margin-bottom: 2rem;
 	cursor: pointer;
-	border-radius: 5px;
+	border-radius: 2px;
 	overflow: hidden;
+
+	&:hover {
+		box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.8);
+	}
 
 	@media screen and (max-width: 750px) {
 		border-radius: 0;
+		margin-bottom: 4rem;
 	}
 `;
 
@@ -21,60 +28,54 @@ export const ImageContainer = styled.div`
 
 	div {
 		position: relative !important;
+		top: 0px;
 	}
 
 	img {
 		position: relative !important;
 		height: auto !important;
 		width: 100% !important;
+		filter: none !important;
 	}
 
 	svg {
 		position: absolute;
 		right: 10px;
 		bottom: 10px;
-		z-index: 50;
-		background: white;
-		padding: 10px;
-		border-radius: 100px;
-		opacity: 0.75;
 
-		* {
-			color: #53b4cc;
-		}
-	}
-
-	:hover {
-		svg {
-			opacity: 1;
+		path {
+			color: ${({ theme }) => theme.colors.bg};
 		}
 	}
 `;
 
 export const TextContainer = styled.div`
-	flex: 0 0 auto;
-	padding: 1rem;
+	display: flex;
+	flex: 1;
+	padding: 2rem 1.2rem;
 `;
 
 export const FullscreenContainer = styled.div`
 	position: fixed;
-	top: 0;
+	top: 5rem;
 	left: 0;
 	width: 100%;
-	height: 100%;
-	z-index: 100;
+	height: calc(100% - 5rem);
+	z-index: 10;
 
-	background: rgba(0, 0, 0, 0.8);
+	background: rgba(0, 0, 0, 0.3);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 `;
 
+export const FullscreenContent = styled.div`
+	position: relative;
+	max-width: 800px;
+`;
+
 export const FullscreenImage = styled.div`
-	width: 100%;
-	height: 80%;
-	padding: 2rem 4rem;
 	flex: 1;
 	box-sizing: border-box;
 	display: flex;
@@ -90,17 +91,13 @@ export const FullscreenImage = styled.div`
 `;
 
 export const FullscreenCaption = styled.div`
-	margin-bottom: 1em;
+	display: flex;
+	align-items: center;
 	background-color: white;
-	width: 80%;
-	padding: 0.5em;
-	height: 20%;
-	overflow-y: auto;
-	border: 10px solid;
-	border-image: ${(props) => props.theme.colors.accentGradient} 1;
+	padding: 2em;
 `;
 
-const IconButton = styled.div`
+export const IconButton = styled.div`
 	cursor: pointer;
 	path {
 		color: ${({ theme }) => theme.colors.bg};
@@ -114,29 +111,31 @@ const IconButton = styled.div`
 
 export const CloseFullscreenButton = styled(IconButton)`
 	position: fixed;
-	top: 0.5rem;
+	top: 5.5rem;
 	right: 1rem;
 `;
 
 export const LeftArrowContainer = styled(IconButton)`
 	position: absolute;
 	left: 1rem;
+	top: 40%;
 `;
 
 export const RightArrowContainer = styled(IconButton)`
 	position: absolute;
 	right: 1rem;
+	top: 40%;
 `;
 
 export const AlbumIndexContainer = styled.div`
 	position: absolute;
 	left: 1rem;
 	top: 0.5rem;
-`;
 
-export const AlbumIndexText = styled.h2`
-	color: white;
-	margin: 0px;
+	h2 {
+		margin: 0;
+		font-size: 1rem;
+	}
 `;
 
 export const LoadingContainer = styled.div`
@@ -146,9 +145,13 @@ export const LoadingContainer = styled.div`
 	justify-content: center;
 	width: 100%;
 	height: 100%;
-	z-index: 100;
 
 	path {
 		color: ${({ theme }) => theme.colors.bg};
 	}
+`;
+
+export const AlbumIcon = styled(FontAwesomeIcon)`
+	width: auto;
+	color: ${({ theme }) => theme.colors.bg};
 `;

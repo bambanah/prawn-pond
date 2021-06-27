@@ -19,6 +19,10 @@ const MemoryCard = ({ memory }: Props) => {
 	const [imageUrl, setImageUrl] = useState<string | null>(null);
 	const [placeholderUrl, setPlaceholderUrl] = useState<string | null>(null);
 
+	const handleFullClose = () => {
+		setFullDisplay(false);
+	};
+
 	useEffect(() => {
 		if (memory.images) {
 			Promise.all(memory.images.map(async (img) => getImageUrl(img))).then(
@@ -31,11 +35,8 @@ const MemoryCard = ({ memory }: Props) => {
 		setLoading(false);
 	}, []);
 
-	const handleFullClose = () => {
-		setFullDisplay(false);
-	};
 	useEffect(() => {
-		if (!imageUrl && memory.images) {
+		if (!imageUrl && memory.images?.length) {
 			getPlaceholderUrl(memory.images[0], "800").then((url) => {
 				if (typeof url !== "string") {
 					setImageUrl("");
@@ -58,6 +59,7 @@ const MemoryCard = ({ memory }: Props) => {
 		return null;
 	}
 
+	// Prevent scrolling in body if displaying fullscreen
 	document.body.style.overflow = fullDisplay ? "hidden" : "visible";
 
 	return (
@@ -80,7 +82,7 @@ const MemoryCard = ({ memory }: Props) => {
 						<Image
 							src={imageUrl}
 							layout="fill"
-							objectFit="contain"
+							objectFit="cover"
 							placeholder="blur"
 							blurDataURL={placeholderUrl}
 						/>
@@ -88,7 +90,7 @@ const MemoryCard = ({ memory }: Props) => {
 							<div>
 								<FontAwesomeIcon
 									icon={["far", "images"]}
-									size="3x"
+									size="lg"
 									style={{ width: "auto" }}
 								/>
 							</div>

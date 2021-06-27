@@ -93,18 +93,28 @@ export const signInWithProvider = async (
  * Creates an account with a given email and password
  * @param email Email of user
  * @param password Password of user
+ * @param displayName The name of the user
  * @returns The created user
  */
 export const registerWithEmailAndPassword = async (
 	email: string,
-	password: string
+	password: string,
+	displayName: string
 ) =>
 	firebase
 		.auth()
 		.createUserWithEmailAndPassword(email, password)
 		.then((userCredential) => {
-			router.push("/");
-			return userCredential.user;
+			// Set displayname on created user
+			firebase
+				.auth()
+				.currentUser?.updateProfile({
+					displayName,
+				})
+				.then(() => {
+					router.push("/");
+					return userCredential.user;
+				});
 		})
 		.catch((error: firebase.auth.Error) => {
 			if (["auth/email-already-in-use"].includes(error.code)) {
@@ -297,24 +307,37 @@ export const getImageUrl = async (
 ): Promise<string | null> => {
 	if (!validate(imageId) && !thumbnail) return null;
 
-	let imageRef;
+	function tryFetch(limit: number) {
+		let i = 1;
+		return new Promise<string | null>((resolve) => {
+			const interval = setInterval(async () => {
+				let imageRef;
 
-	if (thumbnail) {
-		imageRef = storage.ref().child(`thumb@${thumbnailSize}_${imageId}`);
-	} else {
-		imageRef = storage.ref().child(imageId);
+				if (thumbnail) {
+					imageRef = storage.ref().child(`thumb@${thumbnailSize}_${imageId}`);
+				} else {
+					imageRef = storage.ref().child(imageId);
+				}
+
+				try {
+					const url = await imageRef.getDownloadURL();
+					if (typeof url === "string") {
+						clearInterval(interval);
+						resolve(url);
+					}
+				} catch (error) {
+					if (error.code !== "storage/object-not-found" || i >= limit) {
+						clearInterval(interval);
+						resolve(null);
+					}
+				}
+
+				i += 1;
+			}, 2000);
+		});
 	}
 
-	return imageRef
-		.getDownloadURL()
-		.then((url) => {
-			if (typeof url === "string") return url;
-			return null;
-		})
-		.catch((error) => {
-			console.error(error);
-			return null;
-		});
+	return tryFetch(5);
 };
 
 export const getPlaceholderUrl = async (

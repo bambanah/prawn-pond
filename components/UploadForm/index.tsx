@@ -1,19 +1,21 @@
-import { Formik } from "formik";
+import Button from "@Components/Button";
+import ButtonGroup from "@Components/ButtonGroup";
+import Form from "@Components/forms/Form";
+import Input from "@Components/forms/Input";
+import Label from "@Components/forms/Label";
+import Heading from "@Components/text/Heading";
+import Subheading from "@Components/text/Subheading";
+import PostValidationSchema from "@Schema/PostValidationSchema";
+import { categoryOptions, Memory, MemoryCategory } from "@Shared/types";
+import { createMemory, uploadFile } from "@Utils/firebase";
+import { FieldArray, Formik } from "formik";
 import Image, { ImageLoaderProps } from "next/image";
 import Router from "next/router";
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
-import Button from "@Components/Button";
-import ButtonGroup from "@Components/ButtonGroup";
-import Subheading from "@Components/text/Subheading";
-import { createMemory, uploadFile } from "@Utils/firebase";
-import PostValidationSchema from "@Schema/PostValidationSchema";
-import Form from "@Components/forms/Form";
-import Input from "@Components/forms/Input";
-import Label from "@Components/forms/Label";
-import { Memory } from "@Shared/types";
 import { toast } from "react-toastify";
 import {
+	Categories,
 	DropZoneContainer,
 	ImageContainer,
 	ImagePreviewContainer,
@@ -40,12 +42,20 @@ const UploadForm = () => {
 		onDrop,
 	});
 
+	const initialValues: Memory = {
+		description: "",
+		categories: [],
+	};
+
 	return (
 		<Formik
-			initialValues={{
-				description: "",
-			}}
+			initialValues={initialValues}
 			onSubmit={async (values) => {
+				if (!values.description && !images.length) {
+					toast.error("Please add some details");
+					return;
+				}
+
 				try {
 					// Upload all images to firebase
 					const fileNames = await Promise.all(
@@ -55,14 +65,15 @@ const UploadForm = () => {
 					// Attach filenames to Memory object
 					const newMemory: Memory = {
 						...values,
+						categories: values.categories as MemoryCategory[],
 						images: fileNames,
 					};
 
 					// Create memory document
 					await createMemory(newMemory);
 
-					// Navigate to home with a delay to give the cloud function some time to process
-					setTimeout(() => Router.push("/"), 1000);
+					// Navigate to home
+					Router.push("/");
 				} catch (e) {
 					console.error(e);
 					toast.error("Failed to upload images, please try again.");
@@ -73,7 +84,7 @@ const UploadForm = () => {
 			validateOnChange
 			validateOnBlur
 		>
-			{({ handleSubmit, errors, isValid, isSubmitting }) => (
+			{({ errors, values, handleSubmit, isValid, isSubmitting }) => (
 				<Form>
 					<DropZoneContainer {...getRootProps()}>
 						<input {...getInputProps()} />
@@ -112,6 +123,41 @@ const UploadForm = () => {
 							<Subheading>{errors.description}</Subheading>
 						)}
 					</Label>
+
+					<FieldArray
+						name="categories"
+						render={(arrayHelpers) => (
+							<Categories>
+								<Heading>Categories</Heading>
+								<Subheading>Select any that apply</Subheading>
+								{categoryOptions.map(
+									(category) =>
+										category.value !== "other" && (
+											<label key={category.value} htmlFor={category.value}>
+												<input
+													name="categories"
+													type="checkbox"
+													id={category.value}
+													value={category.value}
+													checked={values.categories.includes(category.value)}
+													onChange={(e) => {
+														if (e.target.checked) {
+															arrayHelpers.push(category.value);
+														} else {
+															const idx = values.categories.indexOf(
+																category.value
+															);
+															arrayHelpers.remove(idx);
+														}
+													}}
+												/>
+												<span>{category.label}</span>
+											</label>
+										)
+								)}
+							</Categories>
+						)}
+					/>
 
 					<ButtonGroup>
 						<Button

@@ -11,6 +11,7 @@ export const ImageContainer = styled.div`
 	width: 200px;
 	height: 100px;
 	position: relative;
+	margin: 0.5em;
 `;
 
 export const DropZoneContainer = styled.div`
@@ -32,5 +33,15 @@ export const DropZoneContainer = styled.div`
 		p {
 			color: ${(props) => props.theme.colors.link};
 		}
+	}
+`;
+
+export const Categories = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 0.2rem;
+
+	h2 {
+		margin: 0.5rem 0;
 	}
 `;

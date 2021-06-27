@@ -1,18 +1,21 @@
+import { AuthProvider, useAuth } from "@Hooks/useAuth";
+import GlobalStyle from "@Shared/GlobalStyle";
+import "@Styles/font-imports.scss";
+import { importIcons } from "@Utils/helpers";
+import { AppProps } from "next/app";
 import Head from "next/head";
 import React from "react";
 import { ToastContainer } from "react-toastify";
-import { ThemeProvider } from "styled-components";
-import GlobalStyle from "@Shared/GlobalStyle";
-import { AuthProvider, useAuth } from "@Hooks/useAuth";
-import { importIcons } from "@Utils/helpers";
-import { AppProps } from "next/app";
 import "react-toastify/dist/ReactToastify.css";
-import "@Styles/font-imports.scss";
+import { ThemeProvider } from "styled-components";
 
 const theme = {
 	colors: {
 		fg: "#414141",
 		bg: "#f3f7fa",
+		pastelPink: "#ffebe7",
+		pastelGreen: "#ebfcf6",
+		pastelBlue: "",
 		link: "#3273dc",
 		brand: "#6B2875",
 		error: "#ff6961",

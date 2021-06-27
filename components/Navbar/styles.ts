@@ -5,7 +5,7 @@ export const Header = styled.header`
 	top: 0;
 	width: 100vw;
 	box-sizing: border-box;
-	z-index: 2;
+	z-index: 10;
 
 	background-color: white;
 	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
@@ -24,7 +24,7 @@ export const Header = styled.header`
 		&.top {
 			background-color: transparent;
 			box-shadow: none;
-			text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
+			text-shadow: 2px 2px 6px #000000;
 
 			p {
 				color: ${({ theme }) => theme.colors.bg};

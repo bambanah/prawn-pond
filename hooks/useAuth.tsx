@@ -3,44 +3,45 @@ import firebase from "firebase/app";
 import { auth } from "@Utils/firebase";
 
 interface AuthProps {
-  user: firebase.User | null;
-  authenticated: boolean;
-  loadingAuthState: boolean;
+	user: firebase.User | null;
+	authenticated: boolean;
+	loadingAuthState: boolean;
 }
 
 export const AuthContext = createContext<Partial<AuthProps>>({
-  user: null
+	user: null,
 });
 
 export const AuthProvider: React.FC = ({
-  children
+	children,
 }: {
-  children?: React.ReactNode;
+	children?: React.ReactNode;
 }) => {
-  const [user, setUser] = useState<firebase.User | null>(null);
-  const [loadingAuthState, setLoadingAuthState] = useState(true);
-  useEffect(() => {
-    let isMounted = true;
+	const [user, setUser] = useState<firebase.User | null>(null);
+	const [loadingAuthState, setLoadingAuthState] = useState(true);
 
-    auth.onAuthStateChanged(async (firebaseUser) => {
-      if (isMounted) {
-        setUser(firebaseUser);
-        setLoadingAuthState(false);
-      }
-    });
+	useEffect(() => {
+		let isMounted = true;
 
-    return () => {
-      isMounted = false;
-    };
-  });
+		auth.onAuthStateChanged(async (firebaseUser) => {
+			if (isMounted) {
+				setUser(firebaseUser);
+				setLoadingAuthState(false);
+			}
+		});
 
-  return (
-    <AuthContext.Provider
-      value={{ user, authenticated: user !== null, loadingAuthState }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+		return () => {
+			isMounted = false;
+		};
+	});
+
+	return (
+		<AuthContext.Provider
+			value={{ user, authenticated: user !== null, loadingAuthState }}
+		>
+			{children}
+		</AuthContext.Provider>
+	);
 };
 
 export const useAuth = () => useContext(AuthContext);
