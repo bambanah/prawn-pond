@@ -32,8 +32,9 @@ const singleColumnBreakpoints = {
 };
 
 const MemoryList = ({ initialMemories, startFrom }: Props) => {
-	const [last, setLast] =
-		useState<firebase.firestore.Timestamp | undefined>(startFrom);
+	const [last, setLast] = useState<firebase.firestore.Timestamp | undefined>(
+		startFrom
+	);
 	const [memories, setMemories] = useState(initialMemories);
 	const [loading, setLoading] = useState(false);
 	const [loadedAllMemories, setLoadedAllMemories] = useState(false);
@@ -113,7 +114,7 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 
 	return (
 		<MemoryListContainer>
-			<h1>Memories</h1>
+			<h1 id="memories">Memories</h1>
 
 			<Link href="/upload">
 				<MemoryLink>Add a memory</MemoryLink>

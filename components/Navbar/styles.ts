@@ -24,7 +24,7 @@ export const Header = styled.header`
 		&.top {
 			background-color: transparent;
 			box-shadow: none;
-			text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
+			text-shadow: 2px 2px 6px #000000;
 
 			p {
 				color: ${({ theme }) => theme.colors.bg};

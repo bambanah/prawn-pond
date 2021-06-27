@@ -41,28 +41,10 @@ const Announcements = () => (
 	<ThemeConsumer>
 		{(theme) => (
 			<AnnouncementContainer>
-				<Announcement backgroundColor={theme.colors.pastelPink}>
-					<div>
-						<h1>If you&#39;re struggling, please reach out</h1>
-						<CharityTiles>
-							<CharityLink
-								href="https://www.lifeline.org.au/"
-								imgSrc="/logos/lifeline-logo.png"
-								alt="Lifeline"
-								imgWidth="171px"
-								imgHeight="100px"
-							/>
-							<CharityLink
-								href="https://www.ruok.org.au/"
-								imgSrc="/logos/ruok-logo.webp"
-								alt="R U Ok"
-								imgWidth="187px"
-								imgHeight="100px"
-							/>
-						</CharityTiles>
-					</div>
-				</Announcement>
-				<Announcement flexDir="column">
+				<Announcement
+					backgroundColor={theme.colors.pastelPink}
+					flexDir="column"
+				>
 					<FuneralInfo>
 						<h1>Funeral Information</h1>
 						<p>
@@ -82,10 +64,7 @@ const Announcements = () => (
 						<a>Link goes here</a>
 					</FuneralInfo>
 				</Announcement>
-				<Announcement
-					backgroundColor={theme.colors.pastelGreen}
-					flexDir="row-reverse"
-				>
+				<Announcement flexDir="row-reverse">
 					<div>
 						<h1 id="charities">Consider donating to these charities</h1>
 						<CharityTiles>
@@ -103,6 +82,27 @@ const Announcements = () => (
 								href="https://npaq.org.au/donate/"
 								imgSrc="/logos/npaq-logo.jpg"
 								alt="National Parks Association of Queensland"
+							/>
+						</CharityTiles>
+					</div>
+				</Announcement>
+				<Announcement backgroundColor={theme.colors.pastelGreen}>
+					<div>
+						<h1>If you&#39;re struggling, please reach out</h1>
+						<CharityTiles>
+							<CharityLink
+								href="https://www.lifeline.org.au/"
+								imgSrc="/logos/lifeline-logo.png"
+								alt="Lifeline"
+								imgWidth="171px"
+								imgHeight="100px"
+							/>
+							<CharityLink
+								href="https://www.ruok.org.au/"
+								imgSrc="/logos/ruok-logo.webp"
+								alt="R U Ok"
+								imgWidth="187px"
+								imgHeight="100px"
 							/>
 						</CharityTiles>
 					</div>
