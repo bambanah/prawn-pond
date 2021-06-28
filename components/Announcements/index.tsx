@@ -51,12 +51,6 @@ const Announcements = () => (
 						<p>
 							<FontAwesomeIcon icon="clock" /> Friday 2 July, 1pm
 						</p>
-						<a href="https://goo.gl/maps/dBr655d4JfDdgjpMA">
-							<FontAwesomeIcon icon="map-marker-alt" /> St Peter&#39;s Lutheran
-							College Chapel
-							<br />
-							Indooroopilly
-						</a>
 						<FuneralMessage>
 							<p>
 								Due to new COVID restrictions, attendance at Sean’s funeral and
@@ -64,7 +58,10 @@ const Announcements = () => (
 							</p>
 							<p>
 								A live stream of the funeral service can be viewed via{" "}
-								<a>this link</a>. Register now for a reminder alert.
+								<a href="https://livestream.com/stp/funeralofseanwilson">
+									this link
+								</a>
+								. Register now for a reminder alert.
 							</p>
 							<p>
 								We will, when the restrictions lift, have a fabulous celebration
