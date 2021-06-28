@@ -7,6 +7,7 @@ import {
 	AnnouncementContainer,
 	CharityTiles,
 	FuneralInfo,
+	FuneralMessage,
 } from "./styles";
 
 interface CharityProps {
@@ -42,7 +43,7 @@ const Announcements = () => (
 		{(theme) => (
 			<AnnouncementContainer>
 				<Announcement
-					backgroundColor={theme.colors.pastelPink}
+					backgroundColor={theme.colors.pastelBlue}
 					flexDir="column"
 				>
 					<FuneralInfo>
@@ -50,24 +51,41 @@ const Announcements = () => (
 						<p>
 							<FontAwesomeIcon icon="clock" /> Friday 2 July, 1pm
 						</p>
-						<p>
+						<a href="https://goo.gl/maps/dBr655d4JfDdgjpMA">
 							<FontAwesomeIcon icon="map-marker-alt" /> St Peter&#39;s Lutheran
 							College Chapel
 							<br />
 							Indooroopilly
-						</p>
-						<a href="https://goo.gl/maps/dBr655d4JfDdgjpMA">
-							Show in Google Maps
 						</a>
+						<FuneralMessage>
+							<p>
+								Due to new COVID restrictions, attendance at Sean’s funeral and
+								wake will be limited.
+							</p>
+							<p>
+								A live stream of the funeral service can be viewed via{" "}
+								<a>this link</a>. Register now for a reminder alert.
+							</p>
+							<p>
+								We will, when the restrictions lift, have a fabulous celebration
+								of Sean’s life. Looking forward to seeing you then.
+							</p>
 
-						<h3>Livestream</h3>
-						<a>Link goes here</a>
+							<p>Nicky, Anthony, Georgia and Ollie</p>
+						</FuneralMessage>
 					</FuneralInfo>
 				</Announcement>
 				<Announcement flexDir="row-reverse">
 					<div>
-						<h1 id="charities">Consider donating to these charities</h1>
+						<h1 id="charities">
+							Consider donating to these charities in lieu of flowers
+						</h1>
 						<CharityTiles>
+							<CharityLink
+								href="https://npaq.org.au/donate/"
+								imgSrc="/logos/npaq-logo.jpg"
+								alt="National Parks Association of Queensland"
+							/>
 							<CharityLink
 								href="https://www.beyondblue.org.au/get-involved/make-a-donation"
 								imgSrc="/logos/beyond-blue-logo.jpg"
@@ -78,17 +96,12 @@ const Announcements = () => (
 								imgSrc="/logos/black-dog-logo.jpg"
 								alt="Black Dog Institute"
 							/>
-							<CharityLink
-								href="https://npaq.org.au/donate/"
-								imgSrc="/logos/npaq-logo.jpg"
-								alt="National Parks Association of Queensland"
-							/>
 						</CharityTiles>
 					</div>
 				</Announcement>
-				<Announcement backgroundColor={theme.colors.pastelGreen}>
+				<Announcement backgroundColor={theme.colors.pastelPink}>
 					<div>
-						<h1>If you&#39;re struggling, please reach out</h1>
+						<h1>If you or a loved one are struggling, please reach out</h1>
 						<CharityTiles>
 							<CharityLink
 								href="https://www.lifeline.org.au/"

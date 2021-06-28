@@ -1,4 +1,4 @@
-import Link from "@Components/NavLink";
+import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { MemoryCategory, MemoryObject } from "@Shared/types";
 import { getNextMemories } from "@Utils/firebase";
@@ -116,12 +116,12 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 		<MemoryListContainer>
 			<h1 id="memories">Memories</h1>
 
-			<Link href="/upload">
-				<MemoryLink>Add a memory</MemoryLink>
-			</Link>
-
 			<ListHeader>
 				<CategorySelection handleChange={setCategory} />
+
+				<Link href="/upload">
+					<MemoryLink>Add a memory</MemoryLink>
+				</Link>
 
 				<TableViewSelectContainer>
 					<FontAwesomeIcon
@@ -153,15 +153,19 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 				<FontAwesomeIcon icon="spinner" size="2x" className="spinner" />
 			)}
 
-			<FooterContainer>
-				<p>You&rsquo;ve reached the bottom</p>
-				<a
-					onClick={() => window.scroll({ top: 0, left: 0, behavior: "smooth" })}
-					aria-hidden="true"
-				>
-					Back to the top
-				</a>
-			</FooterContainer>
+			{loadedAllMemories && (
+				<FooterContainer>
+					<p>You&rsquo;ve reached the bottom</p>
+					<a
+						onClick={() =>
+							window.scroll({ top: 0, left: 0, behavior: "smooth" })
+						}
+						aria-hidden="true"
+					>
+						Back to the top
+					</a>
+				</FooterContainer>
+			)}
 		</MemoryListContainer>
 	);
 };

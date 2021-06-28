@@ -1,4 +1,3 @@
-import Head from "next/head";
 import React from "react";
 import Hero from "@Components/Hero";
 import Layout from "@Components/Layout";
@@ -26,20 +25,17 @@ const ContentContainer = styled.div`
 	background-color: white;
 	box-shadow: 0px 0px 19px rgba(0, 0, 0, 0.5);
 
-	@media screen and (min-width: 751px) {
-		margin-top: 96vh;
-	}
+	margin-top: 96vh;
 
 	@media screen and (max-width: 750px) {
 		padding: inherit 0;
+
+		margin-top: 90vh;
 	}
 `;
 
 const Home: NextPage<Props> = ({ initialMemories, lastCreated }) => (
 	<Layout>
-		<Head>
-			<title>Gallery - Sean Wilson</title>
-		</Head>
 		<Hero />
 		<ContentContainer>
 			<Announcements />
