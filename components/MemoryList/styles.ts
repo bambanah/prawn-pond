@@ -8,14 +8,12 @@ export const MemoryListContainer = styled.div`
 	align-items: center;
 	width: 100%;
 
-	/* path {
-		color: ${({ theme }) => theme.colors.fg};
-	} */
-
 	h1 {
 		font-family: "Taviraj";
 		font-size: 3rem;
 		text-align: center;
+		margin-top: 5rem;
+		margin-bottom: 0;
 	}
 `;
 
@@ -25,6 +23,7 @@ export const StyledMasonry = styled(Masonry)`
 	max-width: 1500px;
 	padding: 0;
 	margin-top: 2em;
+	margin-bottom: 5rem;
 	min-height: 400px;
 
 	.masonry-grid-column {
@@ -57,17 +56,47 @@ export const FooterContainer = styled.div`
 `;
 
 export const MemoryLink = styled.a`
-	margin: 2rem 0;
+	flex: 0 0 11.8rem;
+	padding: 0.5rem 1.5rem;
+	margin-left: auto;
+
+	border: 2px solid;
+	border-radius: 2px;
+
+	color: ${({ theme }) => theme.colors.fg};
+	font-weight: bold;
+	font-size: 1.2rem;
+
+	transition-duration: 0.1s;
+
+	box-shadow: 2px 2px 6px 2px rgba(0, 0, 0, 0.2);
+
+	&:hover {
+		color: ${({ theme }) => theme.colors.link};
+		border-color: ${({ theme }) => theme.colors.link};
+	}
+
+	&:active {
+		box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2);
+	}
 `;
 
 export const ListHeader = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 	width: 100%;
 	max-width: 1500px;
 	padding: 0 2em;
-	display: flex;
-	justify-content: space-between;
-	gap: 1em;
-	margin-top: 1em;
+	gap: 2rem;
+
+	select {
+		font-size: 1.1rem;
+	}
+
+	> div {
+		box-sizing: border-box;
+	}
 
 	@media screen and (max-width: 750px) {
 		padding: 0 1em;
@@ -77,6 +106,7 @@ export const ListHeader = styled.div`
 export const TableViewSelectContainer = styled.div`
 	display: flex;
 	gap: 2em;
+	justify-content: right;
 
 	svg {
 		cursor: pointer;

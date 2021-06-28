@@ -17,7 +17,7 @@ const theme = {
 		pastelGreen: "#ebfcf6",
 		pastelBlue: "#e0edfd",
 		link: "#3273dc",
-		brand: "#6B2875",
+		brand: "#075252",
 		error: "#ff6961",
 		accent: "#7ac5d8",
 		accentGradient:
@@ -27,6 +27,10 @@ const theme = {
 	},
 	fonts: {
 		cursive: "Patrick Hand",
+		monospace: "Roboto Mono",
+		display: "",
+		serif: "",
+		sansSerif: "",
 	},
 };
 
@@ -50,6 +54,10 @@ function App({ Component, pageProps }: AppProps) {
 						/>
 						<link
 							href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap"
+							rel="stylesheet"
+						/>
+						<link
+							href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap"
 							rel="stylesheet"
 						/>
 					</Head>

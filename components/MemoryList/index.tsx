@@ -1,4 +1,4 @@
-import Link from "@Components/NavLink";
+import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { MemoryCategory, MemoryObject } from "@Shared/types";
 import { getNextMemories } from "@Utils/firebase";
@@ -116,12 +116,12 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 		<MemoryListContainer>
 			<h1 id="memories">Memories</h1>
 
-			<Link href="/upload">
-				<MemoryLink>Add a memory</MemoryLink>
-			</Link>
-
 			<ListHeader>
 				<CategorySelection handleChange={setCategory} />
+
+				<Link href="/upload">
+					<MemoryLink>Add a memory</MemoryLink>
+				</Link>
 
 				<TableViewSelectContainer>
 					<FontAwesomeIcon
