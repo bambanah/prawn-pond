@@ -1,4 +1,3 @@
-import Head from "next/head";
 import React from "react";
 import Hero from "@Components/Hero";
 import Layout from "@Components/Layout";
@@ -37,9 +36,6 @@ const ContentContainer = styled.div`
 
 const Home: NextPage<Props> = ({ initialMemories, lastCreated }) => (
 	<Layout>
-		<Head>
-			<title>Gallery - Sean Wilson</title>
-		</Head>
 		<Hero />
 		<ContentContainer>
 			<Announcements />

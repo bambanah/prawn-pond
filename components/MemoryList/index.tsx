@@ -153,15 +153,19 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 				<FontAwesomeIcon icon="spinner" size="2x" className="spinner" />
 			)}
 
-			<FooterContainer>
-				<p>You&rsquo;ve reached the bottom</p>
-				<a
-					onClick={() => window.scroll({ top: 0, left: 0, behavior: "smooth" })}
-					aria-hidden="true"
-				>
-					Back to the top
-				</a>
-			</FooterContainer>
+			{loadedAllMemories && (
+				<FooterContainer>
+					<p>You&rsquo;ve reached the bottom</p>
+					<a
+						onClick={() =>
+							window.scroll({ top: 0, left: 0, behavior: "smooth" })
+						}
+						aria-hidden="true"
+					>
+						Back to the top
+					</a>
+				</FooterContainer>
+			)}
 		</MemoryListContainer>
 	);
 };

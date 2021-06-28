@@ -5,12 +5,6 @@ export const AnnouncementContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
-
-	@media screen and (max-width: 750px) {
-		> div:first-of-type {
-			padding-top: 12rem;
-		}
-	}
 `;
 
 interface AnnouncementProps {
@@ -28,6 +22,10 @@ export const Announcement = styled.div<AnnouncementProps>`
 
 	color: ${({ theme }) => theme.colors.fg};
 	width: 100%;
+
+	@media screen and (max-width: 750px) {
+		padding: 6rem 1em;
+	}
 
 	> div {
 		max-width: 1100px;
