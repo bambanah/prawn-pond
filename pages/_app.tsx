@@ -1,6 +1,5 @@
 import { AuthProvider, useAuth } from "@Hooks/useAuth";
 import GlobalStyle from "@Shared/GlobalStyle";
-import "@Styles/font-imports.scss";
 import { importIcons } from "@Utils/helpers";
 import { AppProps } from "next/app";
 import Head from "next/head";
@@ -28,9 +27,9 @@ const theme = {
 	fonts: {
 		cursive: "Patrick Hand",
 		monospace: "Roboto Mono",
-		display: "",
-		serif: "",
-		sansSerif: "",
+		display: "Taviraj",
+		serif: "Poppins",
+		sansSerif: "Inter",
 	},
 };
 
@@ -46,20 +45,6 @@ function App({ Component, pageProps }: AppProps) {
 				<ThemeProvider theme={theme}>
 					<Head>
 						<title>Sean Wilson</title>
-						<link rel="preconnect" href="https://fonts.googleapis.com" />
-						<link
-							rel="preconnect"
-							href="https://fonts.gstatic.com"
-							crossOrigin="use-credentials"
-						/>
-						<link
-							href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap"
-							rel="stylesheet"
-						/>
-						<link
-							href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap"
-							rel="stylesheet"
-						/>
 					</Head>
 					<GlobalStyle />
 					<Component {...pageProps} />
