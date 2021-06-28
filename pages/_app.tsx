@@ -12,10 +12,10 @@ import { ThemeProvider } from "styled-components";
 const theme = {
 	colors: {
 		fg: "#414141",
-		bg: "#f3f7fa",
+		bg: "#fafcff",
 		pastelPink: "#ffebe7",
 		pastelGreen: "#ebfcf6",
-		pastelBlue: "",
+		pastelBlue: "#e0edfd",
 		link: "#3273dc",
 		brand: "#6B2875",
 		error: "#ff6961",
@@ -24,6 +24,9 @@ const theme = {
 			"linear-gradient(24deg, rgba(126,249,145,1) 0%, rgba(120,199,254,1) 100%)",
 		transparentAccent:
 			"linear-gradient(24deg, rgba(126,249,145,0.5) 0%, rgba(120,199,254,0.5) 100%)",
+	},
+	fonts: {
+		cursive: "Patrick Hand",
 	},
 };
 
@@ -39,6 +42,16 @@ function App({ Component, pageProps }: AppProps) {
 				<ThemeProvider theme={theme}>
 					<Head>
 						<title>Sean Wilson</title>
+						<link rel="preconnect" href="https://fonts.googleapis.com" />
+						<link
+							rel="preconnect"
+							href="https://fonts.gstatic.com"
+							crossOrigin="use-credentials"
+						/>
+						<link
+							href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap"
+							rel="stylesheet"
+						/>
 					</Head>
 					<GlobalStyle />
 					<Component {...pageProps} />

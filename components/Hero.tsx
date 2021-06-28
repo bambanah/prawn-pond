@@ -17,9 +17,9 @@ const HeroContainer = styled.div`
 	background-position: center 50%;
 	background-size: cover;
 
-	@media screen and (max-width: 750px) {
+	/* @media screen and (max-width: 750px) {
 		display: none;
-	}
+	} */
 `;
 
 const Hero = () => <HeroContainer />;

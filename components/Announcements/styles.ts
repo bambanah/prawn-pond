@@ -23,7 +23,8 @@ export const Announcement = styled.div<AnnouncementProps>`
 	justify-content: center;
 	padding: 10rem 1rem;
 	align-items: center;
-	background-color: ${(props) => props.backgroundColor};
+	background-color: ${(props) =>
+		props.backgroundColor || props.theme.colors.bg};
 
 	color: ${({ theme }) => theme.colors.fg};
 	width: 100%;
@@ -43,7 +44,7 @@ export const Announcement = styled.div<AnnouncementProps>`
 
 		h1 {
 			flex: 1 0 50%;
-			font-size: 3rem;
+			font-size: 2.2rem;
 			font-family: "Taviraj";
 			margin: 0;
 
@@ -63,7 +64,6 @@ export const Announcement = styled.div<AnnouncementProps>`
 `;
 
 Announcement.defaultProps = {
-	backgroundColor: "white",
 	flexDir: "row",
 };
 
@@ -100,11 +100,38 @@ export const FuneralInfo = styled.div`
 		margin-bottom: 0.5rem;
 
 		text-align: center;
-		color: #666;
+	}
+
+	a {
+		text-align: center;
 	}
 
 	h3 {
 		margin-top: 1.5em;
 		margin-bottom: 0.5rem;
+	}
+`;
+
+export const FuneralMessage = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	font-size: 1.1rem;
+
+	margin-top: 1rem;
+	max-width: 800px;
+	background-color: ${({ theme }) => theme.colors.bg};
+
+	padding: 2rem 5rem;
+	border-radius: 5px;
+
+	p:first-of-type {
+		font-weight: bold;
+	}
+
+	p:last-of-type {
+		font-family: ${({ theme }) => theme.fonts.cursive};
+		/* font-weight: bold; */
+		font-size: 1.5rem;
 	}
 `;

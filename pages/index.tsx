@@ -26,9 +26,7 @@ const ContentContainer = styled.div`
 	background-color: white;
 	box-shadow: 0px 0px 19px rgba(0, 0, 0, 0.5);
 
-	@media screen and (min-width: 751px) {
-		margin-top: 96vh;
-	}
+	margin-top: 96vh;
 
 	@media screen and (max-width: 750px) {
 		padding: inherit 0;
