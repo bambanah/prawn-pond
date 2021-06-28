@@ -14,12 +14,8 @@ const HeroContainer = styled.div`
 	padding: 0 5rem;
 
 	background-image: url("./hero.jpg");
-	background-position: center 50%;
+	background-position: 60% 50%;
 	background-size: cover;
-
-	/* @media screen and (max-width: 750px) {
-		display: none;
-	} */
 `;
 
 const Hero = () => <HeroContainer />;

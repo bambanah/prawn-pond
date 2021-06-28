@@ -74,7 +74,7 @@ export const CharityTiles = styled.div`
 	align-items: center;
 	justify-content: center;
 	column-gap: 2rem;
-	row-gap: 1rem;
+	row-gap: 2rem;
 	padding: 1rem 0;
 
 	a > div {
@@ -118,7 +118,7 @@ export const FuneralMessage = styled.div`
 	gap: 1rem;
 	font-size: 1.1rem;
 
-	margin-top: 1rem;
+	margin-top: 3rem;
 	max-width: 800px;
 	background-color: ${({ theme }) => theme.colors.bg};
 
@@ -132,6 +132,6 @@ export const FuneralMessage = styled.div`
 	p:last-of-type {
 		font-family: ${({ theme }) => theme.fonts.cursive};
 		/* font-weight: bold; */
-		font-size: 1.5rem;
+		font-size: 1.3rem;
 	}
 `;

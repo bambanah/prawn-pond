@@ -30,6 +30,8 @@ const ContentContainer = styled.div`
 
 	@media screen and (max-width: 750px) {
 		padding: inherit 0;
+
+		margin-top: 90vh;
 	}
 `;
 
