@@ -78,13 +78,13 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 					</LoadingContainer>
 				)}
 
-				<AlbumIndexContainer>
-					<h2 style={{ color: "white" }}>
-						{index + 1}/{imageUrls.length}
-					</h2>
-				</AlbumIndexContainer>
-
 				<FullscreenImage {...swipeHandlers}>
+					<AlbumIndexContainer>
+						<h2 style={{ color: "white" }}>
+							{index + 1}/{imageUrls.length}
+						</h2>
+					</AlbumIndexContainer>
+
 					{index > 0 && (
 						<LeftArrowContainer onClick={handleLeftClick}>
 							<FontAwesomeIcon icon="arrow-circle-left" size="lg" />
