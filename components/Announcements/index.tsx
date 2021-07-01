@@ -53,7 +53,7 @@ const Announcements = () => (
 						</p>
 						<FuneralMessage>
 							<p>
-								Due to new COVID restrictions, attendance at Sean’s funeral and
+								Due to new COVID restrictions, attendance at Sean&#39;s funeral and
 								wake will be limited.
 							</p>
 							<p>
@@ -65,7 +65,7 @@ const Announcements = () => (
 							</p>
 							<p>
 								We will, when the restrictions lift, have a fabulous celebration
-								of Sean’s life. Looking forward to seeing you then.
+								of Sean&#39;s life. Looking forward to seeing you then.
 							</p>
 
 							<p>Nicky, Anthony, Georgia and Ollie</p>
