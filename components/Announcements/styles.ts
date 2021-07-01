@@ -98,6 +98,11 @@ export const FuneralInfo = styled.div`
 		margin-bottom: 0.5rem;
 
 		text-align: center;
+
+		&.old-date, &.old-date path {
+			text-decoration: line-through;
+			color: #777;
+		}
 	}
 
 	a {
@@ -116,7 +121,7 @@ export const FuneralMessage = styled.div`
 	gap: 1rem;
 	font-size: 1.1rem;
 
-	margin-top: 3rem;
+	margin-top: 2rem;
 	max-width: 800px;
 	background-color: ${({ theme }) => theme.colors.bg};
 

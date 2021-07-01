@@ -51,6 +51,9 @@ const Announcements = () => (
 						<p>
 							<FontAwesomeIcon icon="clock" /> Saturday 3 July, 1pm
 						</p>
+						<p className="old-date">
+							Friday 2 July
+						</p>
 						<FuneralMessage>
 							<p>
 								Due to new COVID restrictions, attendance at Sean&#39;s funeral and
