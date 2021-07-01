@@ -49,7 +49,7 @@ const Announcements = () => (
 					<FuneralInfo>
 						<h1>Funeral Information</h1>
 						<p>
-							<FontAwesomeIcon icon="clock" /> Friday 2 July, 1pm
+							<FontAwesomeIcon icon="clock" /> Saturday 3 July, 1pm
 						</p>
 						<FuneralMessage>
 							<p>
