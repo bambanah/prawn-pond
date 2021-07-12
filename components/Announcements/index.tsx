@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import React from "react";
 import { ThemeConsumer } from "styled-components";
@@ -47,29 +46,32 @@ const Announcements = () => (
 					flexDir="column"
 				>
 					<FuneralInfo>
-						<h1>Funeral Information</h1>
-						<p>
-							<FontAwesomeIcon icon="clock" /> Saturday 3 July, 1pm
-						</p>
-						<p className="old-date">
-							Friday 2 July
-						</p>
+						<h1>A Celebration of Sean&#39;s Life</h1>
+						{/* <YoutubeEmbed embedId="JMccs9zm93g" /> */}
 						<FuneralMessage>
 							<p>
-								Due to new COVID restrictions, attendance at Sean&#39;s funeral and
-								wake will be limited.
+								On Saturday 3 July, we said farewell, for now, to our son, our
+								brother, our friend. Due to new COVID restrictions, attendance
+								at Sean&#39;s funeral was sadly limited to 20 people, however we
+								were joined by so many family and friends across the world via
+								livestream.
 							</p>
 							<p>
-								A live stream of the funeral service can be viewed via{" "}
+								The livestream can be viewed again via{" "}
 								<a href="https://livestream.com/stp/funeralofseanwilson">
 									this link
 								</a>
-								. Register now for a reminder alert.
+								.
 							</p>
 							<p>
-								We will, when the restrictions lift, have a fabulous celebration
-								of Sean&#39;s life. Looking forward to seeing you then.
+								You can also view a video snapshot of his life{" "}
+								<a href="https://www.youtube.com/watch?v=JMccs9zm93g">here</a>.
 							</p>
+							<p>
+								When restrictions lift, we will arrange a larger gathering to
+								come together and celebrate Sean&#39;s life.
+							</p>
+							<p>Looking forward to seeing you then.</p>
 
 							<p>Nicky, Anthony, Georgia and Ollie</p>
 						</FuneralMessage>
