@@ -128,10 +128,6 @@ export const FuneralMessage = styled.div`
 	padding: 2rem 5rem;
 	border-radius: 5px;
 
-	p:first-of-type {
-		font-weight: bold;
-	}
-
 	p:last-of-type {
 		font-family: ${({ theme }) => theme.fonts.cursive};
 		/* font-weight: bold; */
