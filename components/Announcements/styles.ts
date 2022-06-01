@@ -99,7 +99,8 @@ export const FuneralInfo = styled.div`
 
 		text-align: center;
 
-		&.old-date, &.old-date path {
+		&.old-date,
+		&.old-date path {
 			text-decoration: line-through;
 			color: #777;
 		}

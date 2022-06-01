@@ -20,6 +20,7 @@
 		"react": "^18.1.0",
 		"react-dom": "^18.1.0",
 		"react-dropzone": "^11.3.4",
+		"react-loading-skeleton": "^3.1.0",
 		"react-masonry-css": "^1.0.16",
 		"react-spinners": "^0.12.0",
 		"react-swipeable": "^6.1.2",

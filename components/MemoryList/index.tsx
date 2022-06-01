@@ -58,19 +58,6 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 		}
 	};
 
-	const loadNextBatch = async (): Promise<void> => {
-		if (!last) return;
-
-		getNextMemories(last).then((nextMemories) => {
-			if (Object.keys(nextMemories).length > 0) {
-				setMemories({ ...memories, ...nextMemories });
-				setTimeout(() => setLoading(false), 1000);
-			} else {
-				setLoadedAllMemories(true);
-			}
-		});
-	};
-
 	useEffect(() => {
 		if (Object.values(memories).length > 1) {
 			const lastCreated =
@@ -83,8 +70,17 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 	}, [memories]);
 
 	useEffect(() => {
-		if (loading) loadNextBatch();
-	}, [loading]);
+		if (!last || !loading) return;
+
+		getNextMemories(last).then((nextMemories) => {
+			if (Object.keys(nextMemories).length > 0) {
+				setMemories({ ...memories, ...nextMemories });
+				setTimeout(() => setLoading(false), 1000);
+			} else {
+				setLoadedAllMemories(true);
+			}
+		});
+	}, [last, loading, memories]);
 
 	useEffect(() => {
 		window.addEventListener("scroll", checkScroll);
@@ -125,7 +121,7 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 				<CategorySelection handleChange={setCategory} />
 
 				<Link href="/upload">
-					<MemoryLink>Add a memory</MemoryLink>
+					<MemoryLink>Share Memory</MemoryLink>
 				</Link>
 
 				<TableViewSelectContainer>
@@ -161,14 +157,9 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 			{loadedAllMemories && (
 				<FooterContainer>
 					<p>You&rsquo;ve reached the bottom</p>
-					<a
-						onClick={() =>
-							window.scroll({ top: 0, left: 0, behavior: "smooth" })
-						}
-						aria-hidden="true"
-					>
-						Back to the top
-					</a>
+					<Link href="#memories">
+						<a>Back to the top</a>
+					</Link>
 				</FooterContainer>
 			)}
 		</MemoryListContainer>

@@ -44,7 +44,7 @@ const Navbar = () => {
 
 	useEffect(() => {
 		if (router.pathname !== "/") setTop(false);
-	}, []);
+	}, [router.pathname]);
 
 	return (
 		<Header className={`${scrolled ? "scrolled" : ""} ${top ? "top" : ""}`}>

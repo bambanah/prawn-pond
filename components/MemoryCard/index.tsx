@@ -1,3 +1,4 @@
+import { faImages } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Memory } from "@Shared/types";
 import { getImageUrl, getPlaceholderUrl } from "@Utils/firebase";
@@ -33,7 +34,7 @@ const MemoryCard = ({ memory }: Props) => {
 			);
 		}
 		setLoading(false);
-	}, []);
+	}, [memory.images]);
 
 	useEffect(() => {
 		if (!imageUrl && memory.images?.length) {
@@ -53,10 +54,10 @@ const MemoryCard = ({ memory }: Props) => {
 			});
 			setLoading(false);
 		}
-	}, []);
+	}, [imageUrl, memory.images]);
 
 	if (loading) {
-		return null;
+		return <div>Loading</div>;
 	}
 
 	// Prevent scrolling in body if displaying fullscreen
@@ -77,26 +78,22 @@ const MemoryCard = ({ memory }: Props) => {
 					setFullDisplay(true);
 				}}
 			>
-				{imageUrl && placeholderUrl && (
-					<ImageContainer>
-						<Image
-							src={imageUrl}
-							layout="fill"
-							objectFit="cover"
-							placeholder="blur"
-							blurDataURL={placeholderUrl}
-						/>
-						{memory.images && memory.images.length > 1 && (
-							<div>
-								<FontAwesomeIcon
-									icon={["far", "images"]}
-									size="lg"
-									style={{ width: "auto" }}
-								/>
-							</div>
-						)}
-					</ImageContainer>
-				)}
+				<ImageContainer>
+					{imageUrl && placeholderUrl && (
+						<>
+							<Image src={imageUrl} layout="fill" objectFit="contain" />
+							{memory.images && memory.images.length > 1 && (
+								<div>
+									<FontAwesomeIcon
+										icon={faImages}
+										size="lg"
+										style={{ width: "auto" }}
+									/>
+								</div>
+							)}
+						</>
+					)}
+				</ImageContainer>
 
 				{memory.description && (
 					<TextContainer>

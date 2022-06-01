@@ -31,7 +31,8 @@ export const ImageContainer = styled.div`
 		top: 0px;
 	}
 
-	img {
+	img,
+	span {
 		position: relative !important;
 		height: auto !important;
 		width: 100% !important;
@@ -61,9 +62,10 @@ export const FullscreenContainer = styled.div`
 	left: 0;
 	width: 100%;
 	height: calc(100% - 5rem);
+	max-height: 100vh;
 	z-index: 10;
 
-	background: rgba(0, 0, 0, 0.3);
+	background: rgba(0, 0, 0, 0.5);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -81,6 +83,8 @@ export const FullscreenImage = styled.div`
 	display: flex;
 	justify-content: center;
 	position: relative;
+	max-height: 80vh;
+	background: #111;
 
 	img {
 		display: block;
@@ -95,7 +99,12 @@ export const FullscreenCaption = styled.div`
 	display: flex;
 	align-items: center;
 	background-color: white;
-	padding: 2em;
+	padding: 2rem;
+
+	&.story {
+		font-size: 1.2rem;
+		padding: 8rem;
+	}
 `;
 
 export const IconButton = styled.div`
