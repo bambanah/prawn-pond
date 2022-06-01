@@ -12,7 +12,11 @@ export const AuthContext = createContext<Partial<AuthProps>>({
 	user: null,
 });
 
-export const AuthProvider: React.FC = ({
+interface Props {
+	children: React.ReactNode;
+}
+
+export const AuthProvider: React.FC<Props> = ({
 	children,
 }: {
 	children?: React.ReactNode;

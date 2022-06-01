@@ -1,4 +1,7 @@
+.next
+next-env.d.ts
 node_modules
-build
+yarn.lock
 public
+coverage/
 functions

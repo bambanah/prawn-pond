@@ -1,3 +1,4 @@
+import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { signInWithProvider } from "@Utils/firebase";
 import Head from "next/head";
@@ -51,10 +52,10 @@ const AuthPage = ({ type }: Props) => (
 
 			<ProviderButtons>
 				<Button onClick={() => signInWithProvider("google")}>
-					<FontAwesomeIcon icon={["fab", "google"]} />
+					<FontAwesomeIcon icon={faGoogle} />
 				</Button>
 				<Button onClick={() => signInWithProvider("facebook")}>
-					<FontAwesomeIcon icon={["fab", "facebook-f"]} />
+					<FontAwesomeIcon icon={faFacebook} />
 				</Button>
 			</ProviderButtons>
 

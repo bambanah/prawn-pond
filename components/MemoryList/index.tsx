@@ -15,6 +15,11 @@ import {
 	TableViewSelectContainer,
 	ListHeader,
 } from "./styles";
+import {
+	faSpinner,
+	faStream,
+	faThLarge,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
 	initialMemories: MemoryObject;
@@ -57,7 +62,7 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 		if (!last) return;
 
 		getNextMemories(last).then((nextMemories) => {
-			if (Object.keys(nextMemories).length !== 0) {
+			if (Object.keys(nextMemories).length > 0) {
 				setMemories({ ...memories, ...nextMemories });
 				setTimeout(() => setLoading(false), 1000);
 			} else {
@@ -93,20 +98,20 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 		}
 		if (category === "other") {
 			const filtered: MemoryObject = {};
-			Object.keys(memories)
-				.filter((key) => !memories[key].categories?.length)
-				.forEach((key) => {
-					filtered[key] = memories[key];
-				});
+			for (const key of Object.keys(memories).filter(
+				(key) => !memories[key].categories?.length
+			)) {
+				filtered[key] = memories[key];
+			}
 			return filtered;
 		}
 
 		const filtered: MemoryObject = {};
-		Object.keys(memories)
-			.filter((key) => memories[key].categories?.includes(category))
-			.forEach((key) => {
-				filtered[key] = memories[key];
-			});
+		for (const key of Object.keys(memories).filter((key) =>
+			memories[key].categories?.includes(category)
+		)) {
+			filtered[key] = memories[key];
+		}
 		return filtered;
 	}, [memories, category]);
 
@@ -125,12 +130,12 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 
 				<TableViewSelectContainer>
 					<FontAwesomeIcon
-						icon="stream"
+						icon={faStream}
 						size="2x"
 						onClick={() => setMultiColumn(false)}
 					/>
 					<FontAwesomeIcon
-						icon="th-large"
+						icon={faThLarge}
 						size="2x"
 						onClick={() => setMultiColumn(true)}
 					/>
@@ -150,7 +155,7 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 			</StyledMasonry>
 
 			{loading && !loadedAllMemories && (
-				<FontAwesomeIcon icon="spinner" size="2x" className="spinner" />
+				<FontAwesomeIcon icon={faSpinner} size="2x" className="spinner" />
 			)}
 
 			{loadedAllMemories && (

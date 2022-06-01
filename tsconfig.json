@@ -24,7 +24,8 @@
 			"@Styles/*": ["styles/*"],
 			"@Utils/*": ["utils/*"],
 			"@Schema/*": ["schema/*"]
-		}
+		},
+		"incremental": true
 	},
 	"include": ["**/*.ts", "**/*.tsx", "**/*.js", ".eslintrc.js"],
 	"exclude": ["node_modules", "functions"]

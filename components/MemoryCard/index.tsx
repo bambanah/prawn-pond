@@ -101,7 +101,10 @@ const MemoryCard = ({ memory }: Props) => {
 				{memory.description && (
 					<TextContainer>
 						{memory.description.length > maxMessageLength
-							? `${memory.description.substr(0, maxMessageLength - 1)}...`
+							? `${memory.description.slice(
+									0,
+									Math.max(0, maxMessageLength - 1)
+							  )}...`
 							: memory.description}
 					</TextContainer>
 				)}

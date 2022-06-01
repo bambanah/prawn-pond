@@ -19,7 +19,7 @@ const firebaseConfig = {
 };
 
 // If no firebase app is initialised, initialise the app
-if (!firebase.apps.length) {
+if (firebase.apps.length === 0) {
 	firebase.initializeApp(firebaseConfig);
 }
 
@@ -156,8 +156,8 @@ export const signInWithEmailAndPassword = async (
  * Sign out of firebase
  */
 export const signOut = async () => {
-	auth.signOut().catch((err) => {
-		console.error(err.message);
+	auth.signOut().catch((error) => {
+		console.error(error.message);
 	});
 };
 
@@ -209,11 +209,11 @@ export const getInitialMemories = async () => {
 	const data = await query.get();
 
 	const memories: MemoryObject = {};
-	data.docs.forEach((doc) => {
+	for (const doc of data.docs) {
 		const memory: any = doc.data();
 
 		memories[doc.id] = memory;
-	});
+	}
 
 	return memories;
 };
@@ -233,11 +233,11 @@ export const getNextMemories = async (last: firebase.firestore.Timestamp) => {
 	const data = await query.get();
 
 	const memories: MemoryObject = {};
-	data.docs.forEach((doc) => {
+	for (const doc of data.docs) {
 		const memory: any = doc.data();
 
 		memories[doc.id] = memory;
-	});
+	}
 
 	return memories;
 };
@@ -258,7 +258,7 @@ export const createMemory = async (memory: Memory) => {
 		.then(() => true)
 		.catch((error) => {
 			toast.error("Error saving memory");
-			console.error("Error writing document: ", error);
+			console.error("Error writing document:", error);
 
 			return null;
 		});
@@ -302,7 +302,7 @@ export const uploadFile = async (file: File): Promise<string> => {
  */
 export const getImageUrl = async (
 	imageId: string,
-	thumbnail: boolean = false,
+	thumbnail = false,
 	thumbnailSize?: "32" | "800"
 ): Promise<string | null> => {
 	if (!validate(imageId) && !thumbnail) return null;
@@ -311,13 +311,9 @@ export const getImageUrl = async (
 		let i = 1;
 		return new Promise<string | null>((resolve) => {
 			const interval = setInterval(async () => {
-				let imageRef;
-
-				if (thumbnail) {
-					imageRef = storage.ref().child(`thumb@${thumbnailSize}_${imageId}`);
-				} else {
-					imageRef = storage.ref().child(imageId);
-				}
+				const imageRef = thumbnail
+					? storage.ref().child(`thumb@${thumbnailSize}_${imageId}`)
+					: storage.ref().child(imageId);
 
 				try {
 					const url = await imageRef.getDownloadURL();
@@ -325,7 +321,7 @@ export const getImageUrl = async (
 						clearInterval(interval);
 						resolve(url);
 					}
-				} catch (error) {
+				} catch (error: any) {
 					if (error.code !== "storage/object-not-found" || i >= limit) {
 						clearInterval(interval);
 						resolve(null);

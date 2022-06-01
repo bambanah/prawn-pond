@@ -1,6 +1,5 @@
 import { AuthProvider, useAuth } from "@Hooks/useAuth";
 import GlobalStyle from "@Shared/GlobalStyle";
-import { importIcons } from "@Utils/helpers";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import React from "react";
@@ -32,9 +31,6 @@ const theme = {
 		sansSerif: "Inter",
 	},
 };
-
-// Import Fontawesome Icons
-importIcons();
 
 function App({ Component, pageProps }: AppProps) {
 	const { loadingAuthState } = useAuth();

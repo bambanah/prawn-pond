@@ -1,3 +1,4 @@
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAuth } from "@Hooks/useAuth";
 import useScrollPosition from "@Hooks/useScroll";
@@ -68,7 +69,7 @@ const Navbar = () => {
 					) : (
 						<Link href="/">
 							<AuthLink>
-								<FontAwesomeIcon icon="arrow-left" /> Home
+								<FontAwesomeIcon icon={faArrowLeft} /> Home
 							</AuthLink>
 						</Link>
 					)}
