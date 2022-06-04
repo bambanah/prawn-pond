@@ -50,30 +50,30 @@ const Announcements = () => (
 						{/* <YoutubeEmbed embedId="JMccs9zm93g" /> */}
 						<FuneralMessage>
 							<p>
-								On Saturday 3 July, we said farewell, for now, to our son, our
-								brother, our friend. Due to new COVID restrictions, attendance
-								at Sean&#39;s funeral was sadly limited to 20 people, however we
-								were joined by so many family and friends across the world via
-								livestream.
+								In memory of a loving son, brother and friend, the Wilson/Hughes
+								families will be hosting a memorial at the{" "}
+								<b>West End Croquet Club</b> on the <b>18th of June</b> from
+								1:30pm.
 							</p>
 							<p>
-								The livestream can be viewed again via{" "}
+								We come together to reminisce on all the good times we got to
+								spend with such a loveable young man. There will likely be some
+								speeches so if you feel like you want to say anything on the day
+								feel free.
+							</p>
+							<p>Looking forward to seeing you then.</p>
+							<p className="signature">Ollie, Nicky, Anthony and Georgia</p>
+							<p>
+								You can also view a{" "}
+								<a href="https://www.youtube.com/watch?v=JMccs9zm93g">
+									video snapshot of his life
+								</a>
+								, or rewatch the{" "}
 								<a href="https://livestream.com/stp/funeralofseanwilson">
-									this link
+									livestream of his funeral
 								</a>
 								.
 							</p>
-							<p>
-								You can also view a video snapshot of his life{" "}
-								<a href="https://www.youtube.com/watch?v=JMccs9zm93g">here</a>.
-							</p>
-							<p>
-								When restrictions lift, we will arrange a larger gathering to
-								come together and celebrate Sean&#39;s life.
-							</p>
-							<p>Looking forward to seeing you then.</p>
-
-							<p>Nicky, Anthony, Georgia and Ollie</p>
 						</FuneralMessage>
 					</FuneralInfo>
 				</Announcement>

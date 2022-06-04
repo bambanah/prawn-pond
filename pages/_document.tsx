@@ -19,12 +19,6 @@ class MyDocument extends Document {
 			<Html>
 				<Head>
 					<link
-						rel="preconnect"
-						href="https://fonts.gstatic.com"
-						crossOrigin="true"
-					/>
-					<link rel="preconnect" href="https://fonts.googleapis.com" />
-					<link
 						href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter&family=Poppins:wght@400;500;700&family=Roboto+Mono&family=Taviraj:wght@300;400&family=Patrick+Hand&family=Roboto+Slab:wght@700&display=swap"
 						rel="stylesheet"
 					/>

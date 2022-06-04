@@ -129,7 +129,7 @@ export const FuneralMessage = styled.div`
 	padding: 2rem 5rem;
 	border-radius: 5px;
 
-	p:last-of-type {
+	p.signature {
 		font-family: ${({ theme }) => theme.fonts.cursive};
 		/* font-weight: bold; */
 		font-size: 1.3rem;
