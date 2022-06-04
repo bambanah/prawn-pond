@@ -56,16 +56,16 @@ export const FooterContainer = styled.div`
 `;
 
 export const MemoryLink = styled.a`
-	flex: 0 0 11.8rem;
+	flex: 0 0 11rem;
 	padding: 0.5rem 1.5rem;
 	margin-left: auto;
+	text-align: center;
 
 	border: 2px solid;
 	border-radius: 2px;
 
 	color: ${({ theme }) => theme.colors.fg};
-	font-weight: bold;
-	font-size: 1.2rem;
+	font-size: 1.1rem;
 
 	transition-duration: 0.1s;
 

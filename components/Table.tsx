@@ -7,6 +7,12 @@ const StyledTable = styled.table`
 	border: 0px;
 `;
 
-const Table: React.FC = ({ children }) => <StyledTable>{children}</StyledTable>;
+interface Props {
+	children: React.ReactNode;
+}
+
+const Table: React.FC<Props> = ({ children }) => (
+	<StyledTable>{children}</StyledTable>
+);
 
 export default Table;

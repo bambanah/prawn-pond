@@ -1,12 +1,16 @@
 import { AuthProvider, useAuth } from "@Hooks/useAuth";
 import GlobalStyle from "@Shared/GlobalStyle";
-import { importIcons } from "@Utils/helpers";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import React from "react";
+import { ThemeProvider } from "styled-components";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ThemeProvider } from "styled-components";
+
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+config.autoAddCss = false;
 
 const theme = {
 	colors: {
@@ -27,14 +31,11 @@ const theme = {
 	fonts: {
 		cursive: "Patrick Hand",
 		monospace: "Roboto Mono",
-		display: "Taviraj",
+		display: "Roboto Slab",
 		serif: "Poppins",
 		sansSerif: "Inter",
 	},
 };
-
-// Import Fontawesome Icons
-importIcons();
 
 function App({ Component, pageProps }: AppProps) {
 	const { loadingAuthState } = useAuth();
