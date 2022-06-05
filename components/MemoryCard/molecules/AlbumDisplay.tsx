@@ -88,11 +88,13 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 
 				{hasImages && (
 					<FullscreenImage {...swipeHandlers}>
-						<AlbumIndexContainer>
-							<h2 style={{ color: "white" }}>
-								{index + 1}/{imageUrls.length}
-							</h2>
-						</AlbumIndexContainer>
+						{imageUrls.length > 1 && (
+							<AlbumIndexContainer>
+								<h2 style={{ color: "white" }}>
+									{index + 1}/{imageUrls.length}
+								</h2>
+							</AlbumIndexContainer>
+						)}
 						{index > 0 && (
 							<LeftArrowContainer onClick={handleLeftClick}>
 								<FontAwesomeIcon icon={faArrowCircleLeft} size="lg" />

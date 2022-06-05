@@ -30,10 +30,9 @@ const theme = {
 	},
 	fonts: {
 		cursive: "Patrick Hand",
-		monospace: "Roboto Mono",
-		display: "Roboto Slab",
-		serif: "Poppins",
+		display: "Taviraj",
 		sansSerif: "Inter",
+		title: "Poppins",
 	},
 };
 

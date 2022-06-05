@@ -43,7 +43,7 @@ export const Announcement = styled.div<AnnouncementProps>`
 		h1 {
 			flex: 1 0 50%;
 			font-size: 2.2rem;
-			font-family: "Taviraj";
+			font-family: ${({ theme }) => theme.fonts.display};
 			margin: 0;
 
 			@media screen and (min-width: 961px) {

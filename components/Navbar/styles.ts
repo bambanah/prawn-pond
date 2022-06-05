@@ -59,7 +59,7 @@ export const NavLogo = styled.div`
 	p {
 		cursor: pointer;
 		margin: 0;
-		font-family: "Poppins", "Archivo Black";
+		font-family: "Poppins";
 		font-size: 2rem;
 	}
 `;
