@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import Navbar from "@Components/Navbar";
 
 interface Props {
 	children: React.ReactNode;
@@ -34,8 +33,6 @@ const Content = styled.div`
 
 const Layout: React.FC<Props> = ({ children }) => (
 	<Container>
-		{/* <Navbar /> */}
-
 		<Content>{children}</Content>
 	</Container>
 );
