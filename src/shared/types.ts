@@ -55,3 +55,21 @@ export interface MemoryImages {
 export interface MemoryObject {
 	[id: string]: Memory;
 }
+
+export interface ImageMetadata {
+	bucket: string;
+	contentDisposition: string;
+	contentEncoding: string;
+	contentType: string;
+	customMetadata: {
+		filename: string;
+	};
+	fullPath: string;
+	generation: string;
+	md5Hash: string;
+	name: string;
+	size: number;
+	type: string;
+	timeCreated: string;
+	updated: string;
+}

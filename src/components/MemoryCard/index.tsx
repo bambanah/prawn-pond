@@ -1,7 +1,7 @@
 import { faImages } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Memory } from "@shared/types";
-import { getImageUrl, getPlaceholderUrl } from "@utils/firebase";
+import { ImageMetadata, Memory } from "@shared/types";
+import { getImageData, getPlaceholderUrl } from "@utils/firebase";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import AlbumDisplay from "./molecules/AlbumDisplay";
@@ -14,7 +14,7 @@ interface Props {
 const maxMessageLength = 150;
 
 const MemoryCard = ({ memory }: Props) => {
-	const [imageUrls, setImageUrls] = useState<string[]>([]);
+	const [imageUrls, setImageUrls] = useState<[string, ImageMetadata][]>([]);
 	const [loading, setLoading] = useState(true);
 	const [fullDisplay, setFullDisplay] = useState(false);
 	const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -26,10 +26,10 @@ const MemoryCard = ({ memory }: Props) => {
 
 	useEffect(() => {
 		if (memory.images) {
-			Promise.all(memory.images.map(async (img) => getImageUrl(img))).then(
+			Promise.all(memory.images.map(async (img) => getImageData(img))).then(
 				(urls) => {
 					urls.filter((url) => url !== null);
-					setImageUrls(urls as string[]);
+					setImageUrls(urls as [string, ImageMetadata][]);
 				}
 			);
 		}
@@ -78,22 +78,28 @@ const MemoryCard = ({ memory }: Props) => {
 					setFullDisplay(true);
 				}}
 			>
-				<ImageContainer>
-					{imageUrl && placeholderUrl && (
-						<>
+				{imageUrls.length > 0 && imageUrl && placeholderUrl && (
+					<ImageContainer>
+						{imageUrls[0][1].contentType.includes("image") && (
 							<Image src={imageUrl} layout="fill" objectFit="contain" />
-							{memory.images && memory.images.length > 1 && (
-								<div>
-									<FontAwesomeIcon
-										icon={faImages}
-										size="lg"
-										style={{ width: "auto" }}
-									/>
-								</div>
-							)}
-						</>
-					)}
-				</ImageContainer>
+						)}
+
+						{imageUrls[0][1].contentType.includes("video") && (
+							<span>
+								{/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+								<video src={imageUrl} />
+							</span>
+						)}
+
+						{memory.images && memory.images.length > 1 && (
+							<FontAwesomeIcon
+								icon={faImages}
+								size="lg"
+								style={{ width: "auto" }}
+							/>
+						)}
+					</ImageContainer>
+				)}
 
 				{memory.description && (
 					<TextContainer>

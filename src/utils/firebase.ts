@@ -1,4 +1,4 @@
-import { Memory, MemoryObject } from "@shared/types";
+import { Memory, MemoryObject, ImageMetadata } from "@shared/types";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
@@ -295,31 +295,42 @@ export const uploadFile = async (file: File): Promise<string> => {
 	return fileId;
 };
 
+export const getImageMetadata = async (
+	imageId: string
+): Promise<ImageMetadata> => {
+	const imageRef = storage.ref().child(imageId);
+
+	return imageRef.getMetadata();
+};
+
 /**
  * Takes in an imageId and returns download URL
  * @param imageId UUID of image in storage
  * @returns Download URL
  */
-export const getImageUrl = async (
+export const getImageData = async (
 	imageId: string,
 	thumbnail = false,
 	thumbnailSize?: "32" | "800"
-): Promise<string | null> => {
+): Promise<[string, ImageMetadata] | null> => {
 	if (!validate(imageId) && !thumbnail) return null;
 
 	function tryFetch(limit: number) {
 		let i = 1;
-		return new Promise<string | null>((resolve) => {
+		return new Promise<[string, ImageMetadata] | null>((resolve) => {
 			const interval = setInterval(async () => {
-				const imageRef = thumbnail
-					? storage.ref().child(`thumb@${thumbnailSize}_${imageId}`)
-					: storage.ref().child(imageId);
+				const metadata = await getImageMetadata(imageId);
+				const imageRef =
+					thumbnail && metadata.contentType.includes("image")
+						? storage.ref().child(`thumb@${thumbnailSize}_${imageId}`)
+						: storage.ref().child(imageId);
 
 				try {
 					const url = await imageRef.getDownloadURL();
+
 					if (typeof url === "string") {
 						clearInterval(interval);
-						resolve(url);
+						resolve([url, metadata]);
 					}
 				} catch (error: any) {
 					if (error.code !== "storage/object-not-found" || i >= limit) {
@@ -340,8 +351,10 @@ export const getPlaceholderUrl = async (
 	imageId: string,
 	imageWidth: "32" | "800"
 ): Promise<string | ArrayBuffer | null> => {
-	const imageUrl = await getImageUrl(imageId, true, imageWidth);
-	if (!imageUrl) return null;
+	const imageData = await getImageData(imageId, true, imageWidth);
+
+	if (!imageData) return null;
+	const [imageUrl, _] = imageData;
 
 	const dataUrl = await toDataUrl(imageUrl);
 
