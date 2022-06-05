@@ -1,6 +1,6 @@
 import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { signInWithProvider } from "@Utils/firebase";
+import { signInWithProvider } from "@utils/firebase";
 import Head from "next/head";
 import Link from "next/link";
 import React from "react";

@@ -1,4 +1,4 @@
-import { Memory, MemoryObject } from "@Shared/types";
+import { Memory, MemoryObject } from "@shared/types";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";

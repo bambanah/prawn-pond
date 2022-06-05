@@ -1,5 +1,5 @@
-import Select from "@Components/forms/Select";
-import { categoryOptions, MemoryCategoryExtended } from "@Shared/types";
+import Select from "@components/forms/Select";
+import { categoryOptions, MemoryCategoryExtended } from "@shared/types";
 import React from "react";
 
 interface CategorySelectionProps {

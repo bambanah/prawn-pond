@@ -17,13 +17,13 @@
 		"noFallthroughCasesInSwitch": true,
 		"noImplicitReturns": true,
 		"paths": {
-			"@Components/*": ["components/*"],
-			"@Pages/*": ["pages/*"],
-			"@Hooks/*": ["hooks/*"],
-			"@Shared/*": ["shared/*"],
-			"@Styles/*": ["styles/*"],
-			"@Utils/*": ["utils/*"],
-			"@Schema/*": ["schema/*"]
+			"@components/*": ["src/components/*"],
+			"@hooks/*": ["src/hooks/*"],
+			"@pages/*": ["src/pages/*"],
+			"@schema/*": ["src/schema/*"],
+			"@shared/*": ["src/shared/*"],
+			"@styles/*": ["src/styles/*"],
+			"@utils/*": ["src/utils/*"]
 		},
 		"pretty": true,
 		"resolveJsonModule": true,

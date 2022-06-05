@@ -1,6 +1,6 @@
-import Button from "@Components/Button";
-import Form from "@Components/forms/Form";
-import { signInWithEmailAndPassword } from "@Utils/firebase";
+import Button from "@components/Button";
+import Form from "@components/forms/Form";
+import { signInWithEmailAndPassword } from "@utils/firebase";
 import { Formik } from "formik";
 import Link from "next/link";
 import React from "react";

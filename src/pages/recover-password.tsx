@@ -1,14 +1,14 @@
-import Button from "@Components/Button";
-import Form from "@Components/forms/Form";
-import Input from "@Components/forms/Input";
-import Label from "@Components/forms/Label";
-import { sendPasswordResetEmail } from "@Utils/firebase";
+import Button from "@components/Button";
+import Form from "@components/forms/Form";
+import Input from "@components/forms/Input";
+import Label from "@components/forms/Label";
+import { sendPasswordResetEmail } from "@utils/firebase";
 import { Formik } from "formik";
 import React, { useState } from "react";
 import styled from "styled-components";
-import Text from "@Components/text/Text";
+import Text from "@components/text/Text";
 import Link from "next/link";
-import Layout from "@Components/Layout";
+import Layout from "@components/Layout";
 
 const Container = styled.div`
 	display: flex;

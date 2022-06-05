@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import firebase from "firebase/app";
-import { auth } from "@Utils/firebase";
+import { auth } from "@utils/firebase";
 
 interface AuthProps {
 	user: firebase.User | null;

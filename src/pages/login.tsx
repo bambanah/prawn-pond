@@ -1,4 +1,4 @@
-import AuthPage from "@Components/AuthPage";
+import AuthPage from "@components/AuthPage";
 import React from "react";
 
 export default function Login() {
