@@ -6,14 +6,16 @@ export const Card = styled.div`
 	min-width: fit-content;
 	display: flex;
 	flex-direction: column;
-	box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6);
+	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
 	margin-bottom: 2rem;
 	cursor: pointer;
 	border-radius: 2px;
 	overflow: hidden;
 
+	transition: all 0.1s;
+
 	&:hover {
-		box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.8);
+		box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
 	}
 
 	@media screen and (max-width: 750px) {
@@ -58,14 +60,14 @@ export const TextContainer = styled.div`
 
 export const FullscreenContainer = styled.div`
 	position: fixed;
-	top: 5rem;
+	top: 0;
 	left: 0;
 	width: 100%;
-	height: calc(100% - 5rem);
+	height: 100vh;
 	max-height: 100vh;
 	z-index: 10;
 
-	background: rgba(0, 0, 0, 0.5);
+	background: rgba(0, 0, 0, 0.7);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -122,7 +124,7 @@ export const IconButton = styled.div`
 
 export const CloseFullscreenButton = styled(IconButton)`
 	position: fixed;
-	top: 5.5rem;
+	top: 0.5rem;
 	right: 1rem;
 `;
 

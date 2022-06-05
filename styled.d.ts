@@ -19,10 +19,9 @@ declare module "styled-components" {
 
 		fonts: {
 			cursive: string;
-			monospace: string;
 			display: string;
-			serif: string;
 			sansSerif: string;
+			title: string;
 		};
 	}
 }

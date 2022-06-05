@@ -9,7 +9,7 @@ export const MemoryListContainer = styled.div`
 	width: 100%;
 
 	h1 {
-		font-family: "Taviraj";
+		font-family: ${({ theme }) => theme.fonts.display};
 		font-size: 3rem;
 		text-align: center;
 		margin-top: 5rem;
@@ -61,7 +61,7 @@ export const MemoryLink = styled.a`
 	margin-left: auto;
 	text-align: center;
 
-	border: 2px solid;
+	border: 1px solid;
 	border-radius: 2px;
 
 	color: ${({ theme }) => theme.colors.fg};
@@ -89,6 +89,7 @@ export const ListHeader = styled.div`
 	max-width: 1500px;
 	padding: 0 2em;
 	gap: 2rem;
+	margin-top: 2rem;
 
 	select {
 		font-size: 1.1rem;

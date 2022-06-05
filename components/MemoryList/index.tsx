@@ -115,9 +115,7 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 
 	return (
 		<MemoryListContainer>
-			<h1 id="memories">Memories</h1>
-
-			<ListHeader>
+			<ListHeader id="memories">
 				<CategorySelection handleChange={setCategory} />
 
 				<Link href="/upload">

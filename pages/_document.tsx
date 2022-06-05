@@ -19,7 +19,7 @@ class MyDocument extends Document {
 			<Html>
 				<Head>
 					<link
-						href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter&family=Poppins:wght@400;500;700&family=Roboto+Mono&family=Taviraj:wght@300;400&family=Patrick+Hand&family=Roboto+Slab:wght@700&display=swap"
+						href="https://fonts.googleapis.com/css2?family=Inter&family=Taviraj&family=Patrick+Hand&display=swap"
 						rel="stylesheet"
 					/>
 				</Head>
