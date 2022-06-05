@@ -27,6 +27,10 @@ export const Card = styled.div`
 export const ImageContainer = styled.div`
 	flex: 0 0 auto;
 	width: 100%;
+	max-height: 400px;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
 
 	div {
 		position: relative !important;
@@ -34,17 +38,20 @@ export const ImageContainer = styled.div`
 	}
 
 	img,
-	span {
+	span,
+	video {
 		position: relative !important;
 		height: auto !important;
+		min-width: 100%;
 		width: 100% !important;
 		filter: none !important;
 	}
 
 	svg {
-		position: absolute;
-		right: 10px;
+		position: relative;
+		right: 30px;
 		bottom: 10px;
+		align-self: flex-end;
 
 		path {
 			color: ${({ theme }) => theme.colors.bg};
@@ -86,6 +93,7 @@ export const FullscreenImage = styled.div`
 	justify-content: center;
 	position: relative;
 	max-height: 80vh;
+	min-width: 30rem;
 	background: #111;
 
 	img {

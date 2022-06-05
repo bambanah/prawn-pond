@@ -19,6 +19,7 @@
 		"import/no-anonymous-default-export": "off",
 		"prefer-template": "error",
 		"arrow-parens": ["error", "always"],
+		"@next/next/no-img-element": "off",
 		"no-console": [
 			"error",
 			{
@@ -28,7 +29,8 @@
 		"styled-components-a11y/anchor-is-valid": "off",
 		"jsx-a11y/anchor-is-valid": "off",
 		"jsx-a11y/no-static-element-interactions": "off",
-		"jsx-a11y/click-events-have-key-events": "off"
+		"jsx-a11y/click-events-have-key-events": "off",
+		"jsx-a11y/media-has-caption": "off"
 	},
 	"overrides": [
 		// Only uses Testing Library lint rules in test files

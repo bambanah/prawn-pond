@@ -5,6 +5,7 @@ import {
 	faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ImageMetadata } from "@shared/types";
 import React, { useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import {
@@ -22,7 +23,7 @@ import {
 interface AlbumDisplayProps {
 	description: string;
 	show: boolean;
-	imageUrls: string[];
+	imageUrls: [string, ImageMetadata][];
 	onClose: () => void;
 }
 
@@ -100,14 +101,18 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 								<FontAwesomeIcon icon={faArrowCircleLeft} size="lg" />
 							</LeftArrowContainer>
 						)}
-						{/* eslint-disable-next-line @next/next/no-img-element */}
-						<img
-							src={imageUrls[index]}
-							alt="memory"
-							onLoad={handleOnLoad}
-							onLoadStart={handleOnLoadStart}
-							onError={handleOnLoad}
-						/>
+						{imageUrls[index][1].contentType.includes("image") && (
+							<img
+								src={imageUrls[index][0]}
+								alt="memory"
+								onLoad={handleOnLoad}
+								onLoadStart={handleOnLoadStart}
+								onError={handleOnLoad}
+							/>
+						)}
+						{imageUrls[index][1].contentType.includes("video") && (
+							<video src={imageUrls[index][0]} controls />
+						)}
 						{index < imageUrls.length - 1 && (
 							<RightArrowContainer onClick={handleRightClick}>
 								<FontAwesomeIcon icon={faArrowCircleRight} size="lg" />
