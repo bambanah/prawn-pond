@@ -1,5 +1,7 @@
-import { AuthProvider, useAuth } from "@Hooks/useAuth";
-import GlobalStyle from "@Shared/GlobalStyle";
+import "@styles/imports.css";
+
+import { AuthProvider, useAuth } from "@hooks/useAuth";
+import GlobalStyle from "@shared/GlobalStyle";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import React from "react";

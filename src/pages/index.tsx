@@ -1,12 +1,12 @@
 import React from "react";
-import Hero from "@Components/Hero";
-import Layout from "@Components/Layout";
+import Hero from "@components/Hero";
+import Layout from "@components/Layout";
 import { NextPage } from "next";
-import { getInitialMemories } from "@Utils/firebase";
-import { MemoryObject } from "@Shared/types";
+import { getInitialMemories } from "@utils/firebase";
+import { MemoryObject } from "@shared/types";
 import firebase from "firebase";
-import Announcements from "@Components/Announcements";
-import MemoryList from "@Components/MemoryList";
+import Announcements from "@components/Announcements";
+import MemoryList from "@components/MemoryList";
 import styled from "styled-components";
 
 interface Props {

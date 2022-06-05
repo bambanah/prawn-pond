@@ -1,4 +1,4 @@
-import { MemoryCategory } from "@Shared/types";
+import { MemoryCategory } from "@shared/types";
 import * as yup from "yup";
 
 const memoryCategories: MemoryCategory[] = [

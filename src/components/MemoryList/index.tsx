@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { MemoryCategory, MemoryObject } from "@Shared/types";
-import { getNextMemories } from "@Utils/firebase";
+import { MemoryCategory, MemoryObject } from "@shared/types";
+import { getNextMemories } from "@utils/firebase";
 import firebase from "firebase";
 import React, { useEffect, useState, useMemo } from "react";
 

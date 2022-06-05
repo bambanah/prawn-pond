@@ -1,6 +1,6 @@
-import Button from "@Components/Button";
-import Form from "@Components/forms/Form";
-import { registerWithEmailAndPassword } from "@Utils/firebase";
+import Button from "@components/Button";
+import Form from "@components/forms/Form";
+import { registerWithEmailAndPassword } from "@utils/firebase";
 import { Formik } from "formik";
 import React from "react";
 import * as yup from "yup";

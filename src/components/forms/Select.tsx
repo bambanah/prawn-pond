@@ -1,4 +1,4 @@
-import { MemoryCategoryExtended } from "@Shared/types";
+import { MemoryCategoryExtended } from "@shared/types";
 import React from "react";
 import styled from "styled-components";
 
