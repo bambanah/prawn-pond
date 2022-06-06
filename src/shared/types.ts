@@ -40,20 +40,32 @@ export const categoryOptions: CategoryOption[] = [
 	},
 ];
 
-export interface Memory {
+export interface CreatedMemory {
 	description: string;
 	categories: MemoryCategory[];
-	created?: firebase.firestore.Timestamp;
 	images?: string[];
+	created?: firebase.firestore.Timestamp;
 	owner?: string;
 }
 
-export interface MemoryImages {
-	[id: string]: string[];
+export interface Memory {
+	description: string;
+	categories: MemoryCategory[];
+	id?: string;
+	created?: firebase.firestore.Timestamp;
+	images?: Image[];
+	owner?: string;
 }
 
-export interface MemoryObject {
-	[id: string]: Memory;
+export interface Image {
+	src: string;
+	thumbnailUrls?: {
+		small?: string;
+		large?: string;
+	};
+	width: number;
+	height: number;
+	metadata: ImageMetadata;
 }
 
 export interface ImageMetadata {
@@ -72,4 +84,12 @@ export interface ImageMetadata {
 	type: string;
 	timeCreated: string;
 	updated: string;
+}
+
+export interface MemoryImages {
+	[id: string]: string[];
+}
+
+export interface MemoryObject {
+	[id: string]: Memory;
 }

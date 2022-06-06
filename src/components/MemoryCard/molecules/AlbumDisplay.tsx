@@ -5,7 +5,7 @@ import {
 	faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ImageMetadata } from "@shared/types";
+import { Image } from "@shared/types";
 import React, { useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import {
@@ -23,17 +23,17 @@ import {
 interface AlbumDisplayProps {
 	description: string;
 	show: boolean;
-	imageUrls: [string, ImageMetadata][];
+	images: Image[];
 	onClose: () => void;
 }
 
 const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 	description,
 	show,
-	imageUrls,
+	images,
 	onClose,
 }) => {
-	const hasImages = imageUrls.length > 0;
+	const hasImages = images.length > 0;
 
 	const [index, setIndex] = useState(0);
 	const [loading, setLoading] = useState(hasImages);
@@ -46,7 +46,7 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 	};
 
 	const handleRightClick = () => {
-		if (index + 1 < imageUrls.length) {
+		if (index + 1 < images.length) {
 			setLoading(true);
 			setIndex((i) => i + 1);
 		}
@@ -89,10 +89,10 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 
 				{hasImages && (
 					<FullscreenImage {...swipeHandlers}>
-						{imageUrls.length > 1 && (
+						{images.length > 1 && (
 							<AlbumIndexContainer>
 								<h2 style={{ color: "white" }}>
-									{index + 1}/{imageUrls.length}
+									{index + 1}/{images.length}
 								</h2>
 							</AlbumIndexContainer>
 						)}
@@ -101,19 +101,19 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 								<FontAwesomeIcon icon={faArrowCircleLeft} size="lg" />
 							</LeftArrowContainer>
 						)}
-						{imageUrls[index][1].contentType.includes("image") && (
+						{images[index].metadata.contentType.includes("image") && (
 							<img
-								src={imageUrls[index][0]}
+								src={images[index].src}
 								alt="memory"
 								onLoad={handleOnLoad}
 								onLoadStart={handleOnLoadStart}
 								onError={handleOnLoad}
 							/>
 						)}
-						{imageUrls[index][1].contentType.includes("video") && (
-							<video src={imageUrls[index][0]} controls />
+						{images[index].metadata.contentType.includes("video") && (
+							<video src={images[index].src} controls />
 						)}
-						{index < imageUrls.length - 1 && (
+						{index < images.length - 1 && (
 							<RightArrowContainer onClick={handleRightClick}>
 								<FontAwesomeIcon icon={faArrowCircleRight} size="lg" />
 							</RightArrowContainer>

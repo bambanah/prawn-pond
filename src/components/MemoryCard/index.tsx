@@ -1,7 +1,6 @@
 import { faImages } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ImageMetadata, Memory } from "@shared/types";
-import { getImageData, getPlaceholderUrl } from "@utils/firebase";
+import { Memory } from "@shared/types";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import AlbumDisplay from "./molecules/AlbumDisplay";
@@ -9,13 +8,15 @@ import { Card, ImageContainer, TextContainer } from "./styles";
 
 interface Props {
 	memory: Memory;
+	displayGrid: boolean;
 }
 
 const maxMessageLength = 150;
 
-const MemoryCard = ({ memory }: Props) => {
-	const [imageUrls, setImageUrls] = useState<[string, ImageMetadata][]>([]);
-	const [loading, setLoading] = useState(true);
+const MemoryCard = ({ memory, displayGrid }: Props) => {
+	const [loading, setLoading] = useState(
+		memory.images !== undefined && memory.images.length > 0
+	);
 	const [fullDisplay, setFullDisplay] = useState(false);
 	const [imageUrl, setImageUrl] = useState<string | null>(null);
 	const [placeholderUrl, setPlaceholderUrl] = useState<string | null>(null);
@@ -25,33 +26,12 @@ const MemoryCard = ({ memory }: Props) => {
 	};
 
 	useEffect(() => {
-		if (memory.images) {
-			Promise.all(memory.images.map(async (img) => getImageData(img))).then(
-				(urls) => {
-					urls.filter((url) => url !== null);
-					setImageUrls(urls as [string, ImageMetadata][]);
-				}
-			);
-		}
-		setLoading(false);
-	}, [memory.images]);
-
-	useEffect(() => {
 		if (!imageUrl && memory.images?.length) {
-			getPlaceholderUrl(memory.images[0], "800").then((url) => {
-				if (typeof url !== "string") {
-					setImageUrl("");
-					return;
-				}
-				setImageUrl(url);
-			});
-			getPlaceholderUrl(memory.images[0], "32").then((dataUrl) => {
-				if (typeof dataUrl !== "string") {
-					setPlaceholderUrl("");
-					return;
-				}
-				setPlaceholderUrl(dataUrl);
-			});
+			const firstImage = memory.images[0];
+
+			setImageUrl(firstImage.thumbnailUrls?.large ?? firstImage.src);
+			setPlaceholderUrl(firstImage.thumbnailUrls?.small ?? firstImage.src);
+
 			setLoading(false);
 		}
 	}, [imageUrl, memory.images]);
@@ -63,13 +43,17 @@ const MemoryCard = ({ memory }: Props) => {
 	// Prevent scrolling in body if displaying fullscreen
 	document.body.style.overflow = fullDisplay ? "hidden" : "visible";
 
+	const displayImage = memory.images && imageUrl && placeholderUrl;
+	const displayText =
+		memory.description && (!memory.images?.length || !displayGrid);
+
 	return (
 		<>
 			<AlbumDisplay
 				show={fullDisplay}
 				onClose={handleFullClose}
 				description={memory.description}
-				imageUrls={imageUrls}
+				images={memory.images ?? []}
 			/>
 
 			<Card
@@ -77,14 +61,21 @@ const MemoryCard = ({ memory }: Props) => {
 				onClick={() => {
 					setFullDisplay(true);
 				}}
+				className={displayGrid ? "grid" : "feed"}
 			>
-				{imageUrls.length > 0 && imageUrl && placeholderUrl && (
-					<ImageContainer>
-						{imageUrls[0][1].contentType.includes("image") && (
-							<Image src={imageUrl} layout="fill" objectFit="contain" />
+				{displayImage && (
+					<ImageContainer className="media-container">
+						{memory.images?.at(0)?.metadata.contentType.includes("image") && (
+							<Image
+								src={imageUrl}
+								layout="fill"
+								placeholder="blur"
+								blurDataURL={placeholderUrl}
+								objectFit={displayGrid ? "cover" : "cover"}
+							/>
 						)}
 
-						{imageUrls[0][1].contentType.includes("video") && (
+						{memory.images?.at(0)?.metadata.contentType.includes("video") && (
 							<span>
 								{/* eslint-disable-next-line jsx-a11y/media-has-caption */}
 								<video src={imageUrl} />
@@ -101,7 +92,7 @@ const MemoryCard = ({ memory }: Props) => {
 					</ImageContainer>
 				)}
 
-				{memory.description && (
+				{displayText && (
 					<TextContainer>
 						{memory.description.length > maxMessageLength
 							? `${memory.description.slice(
@@ -116,4 +107,4 @@ const MemoryCard = ({ memory }: Props) => {
 	);
 };
 
-export default MemoryCard;
+export default React.memo(MemoryCard);

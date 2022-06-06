@@ -1,4 +1,3 @@
-import Masonry from "react-masonry-css";
 import styled from "styled-components";
 
 export const MemoryListContainer = styled.div`
@@ -6,7 +5,9 @@ export const MemoryListContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: center;
 	width: 100%;
+	max-width: 1200px;
 
 	h1 {
 		font-family: ${({ theme }) => theme.fonts.display};
@@ -17,29 +18,23 @@ export const MemoryListContainer = styled.div`
 	}
 `;
 
-export const StyledMasonry = styled(Masonry)`
-	display: flex;
-	width: auto;
-	max-width: 1500px;
+export const ListContent = styled.div`
+	width: 100%;
 	padding: 0;
 	margin-top: 2em;
 	margin-bottom: 5rem;
 	min-height: 400px;
 
-	.masonry-grid-column {
-		background-clip: padding-box;
-		margin-right: 1em;
-		margin-left: 1em;
-	}
+	display: grid;
+	grid-template-columns: repeat(auto-fill, 300px);
+	column-gap: 3rem;
+	gap: 2rem;
+	justify-content: center;
 
-	@media screen and (max-width: 750px) {
-		margin-left: 0;
-		padding: 0;
-
-		.masonry-grid-column {
-			padding: 0;
-			margin: 0;
-		}
+	&.feed {
+		max-width: 40rem;
+		display: flex;
+		flex-direction: column;
 	}
 `;
 

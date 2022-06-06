@@ -2,15 +2,45 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 
 export const Card = styled.div`
-	width: 100%;
-	min-width: fit-content;
+	position: relative;
+
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	&.grid {
+		height: 0;
+		padding-bottom: 100%;
+		overflow: hidden;
+
+		> div {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+		}
+	}
+
+	&.feed {
+		display: flex;
+		align-content: stretch;
+		align-items: stretch;
+		flex-direction: column;
+		justify-content: center;
+
+		.media-container {
+			position: relative;
+			overflow: hidden;
+			display: block;
+
+			height: 0;
+			padding-bottom: 120%;
+		}
+	}
+
 	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-	margin-bottom: 2rem;
 	cursor: pointer;
 	border-radius: 2px;
-	overflow: hidden;
 
 	transition: all 0.1s;
 
@@ -25,26 +55,32 @@ export const Card = styled.div`
 `;
 
 export const ImageContainer = styled.div`
-	flex: 0 0 auto;
+	flex: 1 0 auto;
+
 	width: 100%;
-	max-height: 400px;
-	overflow: hidden;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 
-	div {
-		position: relative !important;
-		top: 0px;
+	span {
+		position: absolute;
+		width: initial;
+		height: initial;
+		display: block;
+		box-sizing: border-box;
+		object-fit: cover;
+		inset: 0;
 	}
 
 	img,
-	span,
 	video {
-		position: relative !important;
-		height: auto !important;
+		object-fit: cover;
+		width: 0;
+		height: 0;
 		min-width: 100%;
-		width: 100% !important;
-		filter: none !important;
+		max-width: 100%;
+		min-height: 100%;
+		max-height: 100%;
 	}
 
 	svg {

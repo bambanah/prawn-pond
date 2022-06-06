@@ -6,7 +6,7 @@ import Label from "@components/forms/Label";
 import Heading from "@components/text/Heading";
 import Subheading from "@components/text/Subheading";
 import PostValidationSchema from "@schema/PostValidationSchema";
-import { categoryOptions, Memory, MemoryCategory } from "@shared/types";
+import { categoryOptions, CreatedMemory, MemoryCategory } from "@shared/types";
 import { createMemory, uploadFile } from "@utils/firebase";
 import { FieldArray, Formik } from "formik";
 import Image, { ImageLoaderProps } from "next/image";
@@ -42,7 +42,7 @@ const UploadForm = () => {
 		onDrop,
 	});
 
-	const initialValues: Memory = {
+	const initialValues: CreatedMemory = {
 		description: "",
 		categories: [],
 	};
@@ -63,7 +63,7 @@ const UploadForm = () => {
 					);
 
 					// Attach filenames to Memory object
-					const newMemory: Memory = {
+					const newMemory: CreatedMemory = {
 						...values,
 						categories: values.categories as MemoryCategory[],
 						images: fileNames,

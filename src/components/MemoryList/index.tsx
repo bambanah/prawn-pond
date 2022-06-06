@@ -1,117 +1,66 @@
-import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { MemoryCategory, MemoryObject } from "@shared/types";
-import { getNextMemories } from "@utils/firebase";
-import firebase from "firebase";
-import React, { useEffect, useState, useMemo } from "react";
-
-import MemoryCard from "../MemoryCard";
-import CategorySelection from "./molecules/CategorySelection";
-import {
-	FooterContainer,
-	MemoryLink,
-	MemoryListContainer,
-	StyledMasonry,
-	TableViewSelectContainer,
-	ListHeader,
-} from "./styles";
 import {
 	faSpinner,
 	faStream,
 	faThLarge,
 } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MemoryCategory } from "@shared/types";
+import Link from "next/link";
+import React, { useEffect, useMemo, useState } from "react";
+import { useMemoryContext } from "src/context/memory-context";
+import MemoryCard from "../MemoryCard";
+import CategorySelection from "./molecules/CategorySelection";
+import {
+	FooterContainer,
+	ListContent,
+	ListHeader,
+	MemoryLink,
+	MemoryListContainer,
+	TableViewSelectContainer,
+} from "./styles";
 
-interface Props {
-	initialMemories: MemoryObject;
-	startFrom: firebase.firestore.Timestamp | undefined;
-}
-
-const multiColumnBreakpoints = {
-	default: 3,
-	1270: 2,
-	900: 1,
-};
-
-const singleColumnBreakpoints = {
-	default: 1,
-};
-
-const MemoryList = ({ initialMemories, startFrom }: Props) => {
-	const [last, setLast] = useState<firebase.firestore.Timestamp | undefined>(
-		startFrom
-	);
-	const [memories, setMemories] = useState(initialMemories);
+const MemoryList = () => {
 	const [loading, setLoading] = useState(false);
 	const [loadedAllMemories, setLoadedAllMemories] = useState(false);
 	const [category, setCategory] = useState<MemoryCategory | "all">("all");
-	const [multiColumn, setMultiColumn] = useState(true);
+	const [displayGrid, enableGrid] = useState(true);
 
-	const checkScroll = () => {
-		if (!loadedAllMemories) {
-			const gapToBottom = 400;
-
-			const atBottom =
-				Math.abs(document.body.getBoundingClientRect().y) + gapToBottom >
-				document.body.getBoundingClientRect().height - window.innerHeight;
-
-			if (atBottom) setLoading(true);
-		}
-	};
+	const [memories, fetchNextMemories] = useMemoryContext();
 
 	useEffect(() => {
-		if (Object.values(memories).length > 1) {
-			const lastCreated =
-				Object.values(memories)[Object.values(memories).length - 1].created;
-			setLast(lastCreated);
-		} else {
-			setLoading(false);
-			setLoadedAllMemories(true);
-		}
-	}, [memories]);
+		const checkScroll = () => {
+			if (!loadedAllMemories) {
+				const gapToBottom = 400;
 
-	useEffect(() => {
-		if (!last || !loading) return;
+				const atBottom =
+					Math.abs(document.body.getBoundingClientRect().y) + gapToBottom >
+					document.body.getBoundingClientRect().height - window.innerHeight;
 
-		getNextMemories(last).then((nextMemories) => {
-			if (Object.keys(nextMemories).length > 0) {
-				setMemories({ ...memories, ...nextMemories });
-				setTimeout(() => setLoading(false), 1000);
-			} else {
-				setLoadedAllMemories(true);
+				if (atBottom) {
+					fetchNextMemories().then((loadedMore) => {
+						setLoadedAllMemories(!loadedMore);
+						setTimeout(() => setLoading(false), 1000);
+					});
+				}
 			}
-		});
-	}, [last, loading, memories]);
+		};
 
-	useEffect(() => {
 		window.addEventListener("scroll", checkScroll);
 
 		return () => window.removeEventListener("scroll", checkScroll);
-	}, []);
+	}, [fetchNextMemories, loadedAllMemories]);
 
 	const filteredMemories = useMemo(() => {
 		if (category === "all") {
 			return memories;
-		}
-		if (category === "other") {
-			const filtered: MemoryObject = {};
-			for (const key of Object.keys(memories).filter(
-				(key) => !memories[key].categories?.length
-			)) {
-				filtered[key] = memories[key];
-			}
-			return filtered;
+		} else if (category === "other") {
+			return memories.filter((memory) => !memory.categories);
 		}
 
-		const filtered: MemoryObject = {};
-		for (const key of Object.keys(memories).filter((key) =>
-			memories[key].categories?.includes(category)
-		)) {
-			filtered[key] = memories[key];
-		}
-		return filtered;
+		return memories.filter((memory) => memory.categories?.includes(category));
 	}, [memories, category]);
 
-	if (!memories) return null;
+	if (!memories) return <div>Loading memories...</div>;
 
 	return (
 		<MemoryListContainer>
@@ -126,27 +75,25 @@ const MemoryList = ({ initialMemories, startFrom }: Props) => {
 					<FontAwesomeIcon
 						icon={faStream}
 						size="2x"
-						onClick={() => setMultiColumn(false)}
+						onClick={() => enableGrid(false)}
 					/>
 					<FontAwesomeIcon
 						icon={faThLarge}
 						size="2x"
-						onClick={() => setMultiColumn(true)}
+						onClick={() => enableGrid(true)}
 					/>
 				</TableViewSelectContainer>
 			</ListHeader>
 
-			<StyledMasonry
-				breakpointCols={
-					multiColumn ? multiColumnBreakpoints : singleColumnBreakpoints
-				}
-				className="masonry-grid"
-				columnClassName="masonry-grid-column"
-			>
-				{Object.entries(filteredMemories).map(([id, memory]) => (
-					<MemoryCard memory={memory} key={id} />
+			<ListContent className={displayGrid ? "grid" : "feed"}>
+				{filteredMemories.map((memory) => (
+					<MemoryCard
+						memory={memory}
+						key={memory.id}
+						displayGrid={displayGrid}
+					/>
 				))}
-			</StyledMasonry>
+			</ListContent>
 
 			{loading && !loadedAllMemories && (
 				<FontAwesomeIcon icon={faSpinner} size="2x" className="spinner" />

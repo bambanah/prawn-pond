@@ -2,17 +2,10 @@ import React from "react";
 import Hero from "@components/Hero";
 import Layout from "@components/Layout";
 import { NextPage } from "next";
-import { getInitialMemories } from "@utils/firebase";
-import { MemoryObject } from "@shared/types";
-import firebase from "firebase";
 import Announcements from "@components/Announcements";
 import MemoryList from "@components/MemoryList";
 import styled from "styled-components";
-
-interface Props {
-	initialMemories?: MemoryObject;
-	lastCreated?: firebase.firestore.Timestamp;
-}
+import { MemoryContextProvider } from "@context/memory-context";
 
 const ContentContainer = styled.div`
 	display: flex;
@@ -34,29 +27,16 @@ const ContentContainer = styled.div`
 	}
 `;
 
-const Home: NextPage<Props> = ({ initialMemories, lastCreated }) => (
+const Home: NextPage = () => (
 	<Layout>
 		<Hero />
-		<ContentContainer>
-			<Announcements />
-			{initialMemories && (
-				<MemoryList initialMemories={initialMemories} startFrom={lastCreated} />
-			)}
-		</ContentContainer>
+		<MemoryContextProvider>
+			<ContentContainer>
+				<Announcements />
+				<MemoryList />
+			</ContentContainer>
+		</MemoryContextProvider>
 	</Layout>
 );
-
-Home.getInitialProps = async () => {
-	const initialMemories = await getInitialMemories();
-
-	let lastCreated: firebase.firestore.Timestamp | undefined;
-	if (Object.keys(initialMemories).length > 0) {
-		lastCreated =
-			Object.values(initialMemories)[Object.values(initialMemories).length - 1]
-				.created;
-	}
-
-	return { initialMemories, lastCreated };
-};
 
 export default Home;
