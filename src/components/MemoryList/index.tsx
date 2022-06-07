@@ -25,7 +25,7 @@ const MemoryList = () => {
 	const [category, setCategory] = useState<MemoryCategory | "all">("all");
 	const [displayGrid, enableGrid] = useState(true);
 
-	const [memories, fetchNextMemories] = useMemoryContext();
+	const [memories, fetchNextMemories, memoriesLoading] = useMemoryContext();
 
 	useEffect(() => {
 		const checkScroll = () => {
@@ -36,7 +36,7 @@ const MemoryList = () => {
 					Math.abs(document.body.getBoundingClientRect().y) + gapToBottom >
 					document.body.getBoundingClientRect().height - window.innerHeight;
 
-				if (atBottom) {
+				if (atBottom && !memoriesLoading) {
 					fetchNextMemories().then((loadedMore) => {
 						setLoadedAllMemories(!loadedMore);
 						setTimeout(() => setLoading(false), 1000);
@@ -47,8 +47,12 @@ const MemoryList = () => {
 
 		window.addEventListener("scroll", checkScroll);
 
+		if (loadedAllMemories) {
+			window.removeEventListener("scroll", checkScroll);
+		}
+
 		return () => window.removeEventListener("scroll", checkScroll);
-	}, [fetchNextMemories, loadedAllMemories]);
+	}, [fetchNextMemories, loadedAllMemories, memoriesLoading]);
 
 	const filteredMemories = useMemo(() => {
 		if (category === "all") {

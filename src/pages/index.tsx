@@ -15,7 +15,7 @@ const ContentContainer = styled.div`
 	box-sizing: border-box;
 	padding-bottom: 3rem;
 	width: 100%;
-	background-color: white;
+	background-color: ${({ theme }) => theme.colors.bg};
 	box-shadow: 0px 0px 19px rgba(0, 0, 0, 0.5);
 
 	margin-top: 96vh;

@@ -63,9 +63,14 @@ export const ImageContainer = styled.div`
 	justify-content: center;
 
 	span {
+		z-index: 1;
 		position: absolute;
-		width: initial;
-		height: initial;
+		width: 0;
+		height: 0;
+		min-width: 100%;
+		max-width: 100%;
+		min-height: 100%;
+		max-height: 100%;
 		display: block;
 		box-sizing: border-box;
 		object-fit: cover;
@@ -74,6 +79,7 @@ export const ImageContainer = styled.div`
 
 	img,
 	video {
+		z-index: 10;
 		object-fit: cover;
 		width: 0;
 		height: 0;
@@ -98,7 +104,18 @@ export const ImageContainer = styled.div`
 export const TextContainer = styled.div`
 	display: flex;
 	flex: 1;
+
+	justify-content: center;
+	align-items: center;
+
 	padding: 2rem 1.2rem;
+	width: 100%;
+	z-index: 10;
+	background-color: ${(props) => props.theme.colors.bg};
+
+	&.text-only {
+		min-height: 200px;
+	}
 `;
 
 export const FullscreenContainer = styled.div`
@@ -108,7 +125,7 @@ export const FullscreenContainer = styled.div`
 	width: 100%;
 	height: 100vh;
 	max-height: 100vh;
-	z-index: 10;
+	z-index: 100;
 
 	background: rgba(0, 0, 0, 0.7);
 	display: flex;
@@ -144,7 +161,7 @@ export const FullscreenImage = styled.div`
 export const FullscreenCaption = styled.div`
 	display: flex;
 	align-items: center;
-	background-color: white;
+	background-color: ${({ theme }) => theme.colors.bg};
 	padding: 2rem;
 
 	&.story {

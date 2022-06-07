@@ -6,7 +6,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Image } from "@shared/types";
-import React, { useState } from "react";
+import { getImageData } from "@utils/firebase";
+import React, { useEffect, useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import {
 	FullscreenContainer,
@@ -23,31 +24,49 @@ import {
 interface AlbumDisplayProps {
 	description: string;
 	show: boolean;
-	images: Image[];
+	imageIds: string[];
 	onClose: () => void;
 }
 
 const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 	description,
 	show,
-	images,
+	imageIds,
 	onClose,
 }) => {
-	const hasImages = images.length > 0;
+	const hasImages = imageIds?.length > 0;
 
 	const [index, setIndex] = useState(0);
 	const [loading, setLoading] = useState(hasImages);
 
+	const [images, setImages] = useState<Image[]>([]);
+
+	useEffect(() => {
+		if (!hasImages) {
+			setLoading(false);
+			return;
+		}
+
+		const promises: Promise<Image | null>[] = [];
+
+		imageIds.map((id) => {
+			promises.push(getImageData(id, true));
+		});
+
+		Promise.all(promises).then((fetchedImages) => {
+			setImages(fetchedImages.filter((i) => i !== null) as Image[]);
+			setLoading(false);
+		});
+	}, [hasImages, imageIds]);
+
 	const handleLeftClick = () => {
 		if (index > 0) {
-			setLoading(true);
 			setIndex((i) => i - 1);
 		}
 	};
 
 	const handleRightClick = () => {
 		if (index + 1 < images.length) {
-			setLoading(true);
 			setIndex((i) => i + 1);
 		}
 	};
@@ -87,7 +106,7 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 					</LoadingContainer>
 				)}
 
-				{hasImages && (
+				{hasImages && !loading && (
 					<FullscreenImage {...swipeHandlers}>
 						{images.length > 1 && (
 							<AlbumIndexContainer>
@@ -101,7 +120,7 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 								<FontAwesomeIcon icon={faArrowCircleLeft} size="lg" />
 							</LeftArrowContainer>
 						)}
-						{images[index].metadata.contentType.includes("image") && (
+						{images[index].metadata?.contentType.includes("image") && (
 							<img
 								src={images[index].src}
 								alt="memory"
@@ -110,7 +129,7 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 								onError={handleOnLoad}
 							/>
 						)}
-						{images[index].metadata.contentType.includes("video") && (
+						{images[index].metadata?.contentType.includes("video") && (
 							<video src={images[index].src} controls />
 						)}
 						{index < images.length - 1 && (

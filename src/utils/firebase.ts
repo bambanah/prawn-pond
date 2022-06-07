@@ -6,7 +6,7 @@ import "firebase/storage";
 import router from "next/router";
 import { toast } from "react-toastify";
 import { v4, validate } from "uuid";
-import { toDataUrl } from "./helpers";
+import { PAGE_SIZE } from "./constants";
 
 const firebaseConfig = {
 	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -182,13 +182,11 @@ export const sendPasswordResetEmail = async (email: string) =>
 // --- Firestore ---
 //
 
-const pageSize = 5;
-
 export const getInitialMemories = async () => {
 	const query = firestore
 		.collection("memories")
 		.orderBy("created", "desc")
-		.limit(pageSize);
+		.limit(PAGE_SIZE);
 
 	return fetchQuery(query);
 };
@@ -198,7 +196,7 @@ export const getNextMemories = async (last: firebase.firestore.Timestamp) => {
 		.collection("memories")
 		.orderBy("created", "desc")
 		.startAfter(last)
-		.limit(pageSize);
+		.limit(PAGE_SIZE);
 
 	return fetchQuery(query);
 };
@@ -215,17 +213,9 @@ const fetchQuery = async (
 			id: doc.id,
 			description: data.description,
 			categories: data.categories,
+			created: data.created,
+			imageIds: data.images ?? [],
 		};
-
-		if (!data.images) return memory;
-
-		const images = data.images.map(
-			async (imageId) => await getImageData(imageId)
-		);
-
-		const result = await Promise.all(images);
-
-		memory.images = result.filter((i) => i !== null) as Image[];
 
 		return memory;
 	});
@@ -293,49 +283,29 @@ export const uploadFile = async (file: File): Promise<string> => {
  */
 export const getImageData = async (
 	imageId: string,
-	thumbnail = false
+	includeMetadata = false
 ): Promise<Image | null> => {
-	if (!validate(imageId) && !thumbnail) return null;
+	if (!validate(imageId)) return null;
 
 	const imageRef = storage.ref().child(imageId);
-	const metadata = await imageRef.getMetadata();
 
-	try {
-		const url = await imageRef.getDownloadURL();
+	const promises = [];
 
-		const image: Image = {
-			src: url,
-			width: 500,
-			height: 500,
-			metadata,
-		};
+	promises.push(imageRef.getDownloadURL());
+	if (includeMetadata) promises.push(imageRef.getMetadata());
 
-		// Get placeholder images
-		if (metadata.contentType.includes("image")) {
-			const smallThumbnailUrl: string = await storage
-				.ref()
-				.child(`thumb@32_${imageId}`)
-				.getDownloadURL();
-
-			const largeThumbnailUrl: string = await storage
-				.ref()
-				.child(`thumb@800_${imageId}`)
-				.getDownloadURL();
-
-			image.thumbnailUrls = {
-				small: (await toDataUrl(smallThumbnailUrl)) ?? "",
-				large: largeThumbnailUrl,
+	return Promise.all(promises)
+		.then((values) => {
+			const image: Image = {
+				src: values[0],
 			};
-		}
 
-		if (typeof url === "string") {
+			if (includeMetadata) image.metadata = values[1];
+
 			return image;
-		}
-	} catch (error: any) {
-		if (error.code !== "storage/object-not-found") {
+		})
+		.catch((error) => {
+			console.error(error);
 			return null;
-		}
-	}
-
-	return null;
+		});
 };

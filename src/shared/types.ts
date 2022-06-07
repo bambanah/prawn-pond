@@ -51,21 +51,17 @@ export interface CreatedMemory {
 export interface Memory {
 	description: string;
 	categories: MemoryCategory[];
+	imageIds: string[];
 	id?: string;
 	created?: firebase.firestore.Timestamp;
-	images?: Image[];
 	owner?: string;
 }
 
 export interface Image {
 	src: string;
-	thumbnailUrls?: {
-		small?: string;
-		large?: string;
-	};
-	width: number;
-	height: number;
-	metadata: ImageMetadata;
+	metadata?: ImageMetadata;
+	width?: number;
+	height?: number;
 }
 
 export interface ImageMetadata {
