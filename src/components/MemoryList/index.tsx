@@ -4,7 +4,7 @@ import {
 	faThLarge,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { MemoryCategory } from "@shared/types";
+import { MemoryCategoryExtended } from "@shared/types";
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
 import { useMemoryContext } from "src/context/memory-context";
@@ -22,10 +22,25 @@ import {
 const MemoryList = () => {
 	const [loading, setLoading] = useState(false);
 	const [loadedAllMemories, setLoadedAllMemories] = useState(false);
-	const [category, setCategory] = useState<MemoryCategory | "all">("all");
+	const [category, setCategory] = useState<MemoryCategoryExtended>("all");
 	const [displayGrid, enableGrid] = useState(true);
 
 	const [memories, fetchNextMemories, memoriesLoading] = useMemoryContext();
+
+	useEffect(() => {
+		const localCategory = localStorage.getItem("category");
+		const localDisplayGrid = localStorage.getItem("displayGrid") as
+			| string
+			| null;
+
+		if (localCategory !== null && localCategory.length > 0) {
+			// TODO: Display category on first load
+			setCategory(localCategory as MemoryCategoryExtended);
+		}
+		if (localDisplayGrid !== null && localDisplayGrid.length > 0) {
+			enableGrid(localDisplayGrid === "true");
+		}
+	}, []);
 
 	useEffect(() => {
 		const checkScroll = () => {
@@ -69,7 +84,12 @@ const MemoryList = () => {
 	return (
 		<MemoryListContainer>
 			<ListHeader id="memories">
-				<CategorySelection handleChange={setCategory} />
+				<CategorySelection
+					handleChange={(category) => {
+						localStorage.setItem("category", category);
+						setCategory(category);
+					}}
+				/>
 
 				<Link href="/upload">
 					<MemoryLink>Share Memory</MemoryLink>
@@ -79,12 +99,18 @@ const MemoryList = () => {
 					<FontAwesomeIcon
 						icon={faStream}
 						size="2x"
-						onClick={() => enableGrid(false)}
+						onClick={() => {
+							enableGrid(false);
+							localStorage.setItem("displayGrid", "false");
+						}}
 					/>
 					<FontAwesomeIcon
 						icon={faThLarge}
 						size="2x"
-						onClick={() => enableGrid(true)}
+						onClick={() => {
+							enableGrid(true);
+							localStorage.setItem("displayGrid", "true");
+						}}
 					/>
 				</TableViewSelectContainer>
 			</ListHeader>
