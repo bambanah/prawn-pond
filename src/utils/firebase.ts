@@ -1,4 +1,4 @@
-import { Memory, ImageMetadata, CreatedMemory, Image } from "@shared/types";
+import { CreatedMemory, Image, Memory } from "@shared/types";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
@@ -26,7 +26,7 @@ if (firebase.apps.length === 0) {
 // Initialise services
 export const auth = firebase.auth();
 const firestore = firebase.firestore();
-const storage = firebase.storage();
+export const storage = firebase.storage();
 
 //
 // --- Auth ---
@@ -312,7 +312,6 @@ export const getImageData = async (
 
 		// Get placeholder images
 		if (metadata.contentType.includes("image")) {
-			const start = performance.now();
 			const smallThumbnailUrl: string = await storage
 				.ref()
 				.child(`thumb@32_${imageId}`)
@@ -327,8 +326,6 @@ export const getImageData = async (
 				small: (await toDataUrl(smallThumbnailUrl)) ?? "",
 				large: largeThumbnailUrl,
 			};
-			const end = performance.now();
-			// console.log(`Total time: ${(end - start) / 1000} seconds`);
 		}
 
 		if (typeof url === "string") {

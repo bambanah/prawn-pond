@@ -34,6 +34,12 @@
 		"target": "es2018",
 		"tsBuildInfoFile": ".next/cache/.tsbuildinfo"
 	},
-	"include": ["**/*.ts", "**/*.tsx", "**/*.js", ".eslintrc.js"],
+	"include": [
+		"**/*.ts",
+		"**/*.tsx",
+		"**/*.js",
+		".eslintrc.js",
+		"jest.setup.ts"
+	],
 	"exclude": ["node_modules", "functions"]
 }

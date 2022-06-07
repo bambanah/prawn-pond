@@ -16,17 +16,10 @@ interface Props {
 
 export const MemoryContextProvider: React.FC<Props> = ({ children }) => {
 	const [memories, setMemories] = useState<Memory[]>([]);
-	const [loading, setLoading] = useState<boolean>(true);
 
 	useEffect(() => {
-		const start = performance.now();
-
 		getInitialMemories().then((memories) => {
 			setMemories(memories);
-			setLoading(false);
-
-			const end = performance.now();
-			// console.log(`Total time: ${(end - start) / 1000} seconds`);
 		});
 	}, []);
 
