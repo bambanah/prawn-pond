@@ -19,7 +19,7 @@ type CategoryOption = { label: string; value: MemoryCategory };
 
 export const categoryOptions: CategoryOption[] = [
 	{
-		label: "Sean's Photography and Nature",
+		label: "Photography and Nature",
 		value: "photography_and_nature",
 	},
 	{

@@ -77,7 +77,7 @@ export const CharityTiles = styled.div`
 
 	a > div {
 		border-radius: 10px;
-		box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
+		box-shadow: var(--shadow-low);
 		padding: 1rem;
 
 		transition: box-shadow 0.15s ease;
@@ -129,9 +129,12 @@ export const FuneralMessage = styled.div`
 	padding: 2rem 5rem;
 	border-radius: 5px;
 
+	@media screen and (max-width: 750px) {
+		padding: 1rem;
+	}
+
 	p.signature {
 		font-family: ${({ theme }) => theme.fonts.cursive};
-		/* font-weight: bold; */
 		font-size: 1.3rem;
 	}
 `;

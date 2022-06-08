@@ -7,7 +7,13 @@ export const MemoryListContainer = styled.div`
 	align-items: center;
 	justify-content: center;
 	width: 100%;
-	max-width: 1200px;
+	max-width: 50rem;
+
+	@media screen and (min-width: 900px) {
+		&.grid {
+			max-width: 75rem;
+		}
+	}
 
 	h1 {
 		font-family: ${({ theme }) => theme.fonts.display};
@@ -20,21 +26,31 @@ export const MemoryListContainer = styled.div`
 
 export const ListContent = styled.div`
 	width: 100%;
+	min-height: 400px;
+	max-width: 35rem;
+
 	padding: 0;
 	margin-top: 2em;
 	margin-bottom: 5rem;
-	min-height: 400px;
 
-	display: grid;
-	grid-template-columns: repeat(auto-fill, 300px);
-	column-gap: 3rem;
-	gap: 2rem;
+	display: flex;
+	flex-direction: column;
 	justify-content: center;
 
-	&.feed {
-		max-width: 40rem;
-		display: flex;
-		flex-direction: column;
+	gap: 1rem;
+	column-gap: 3rem;
+
+	@media screen and (max-width: 650px) {
+		max-width: 100%;
+	}
+
+	@media screen and (min-width: 900px) {
+		&.grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, 300px);
+
+			max-width: 100%;
+		}
 	}
 `;
 
@@ -81,7 +97,6 @@ export const ListHeader = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	width: 100%;
-	max-width: 1500px;
 	padding: 0 2em;
 	gap: 2rem;
 	margin-top: 2rem;

@@ -82,7 +82,7 @@ const MemoryList = () => {
 	if (!memories) return <div>Loading memories...</div>;
 
 	return (
-		<MemoryListContainer>
+		<MemoryListContainer className={displayGrid ? "grid" : "feed"}>
 			<ListHeader id="memories">
 				<CategorySelection
 					handleChange={(category) => {

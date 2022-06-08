@@ -1,6 +1,12 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
+	:root {
+		--shadow-low: 3px 3px 12px rgba(0, 0, 0, 0.17);
+		--shadow-medium: 8px 8px 20px rgba(0, 0, 0, 0.17);
+		--shadow-high: 16px 16px 48px rgba(0, 0, 0, 0.22);
+	}
+
 	html,
 	body {
 		margin: 0;

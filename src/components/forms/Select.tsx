@@ -12,8 +12,8 @@ const SelectContainer = styled.div`
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
 
 	width: 100%;
-	min-width: 15ch;
-	max-width: 30ch;
+	min-width: 5rem;
+	max-width: 15.5rem;
 	border-radius: 0.25em;
 	line-height: 1.1;
 	display: grid;

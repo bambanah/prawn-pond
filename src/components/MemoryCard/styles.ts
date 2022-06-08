@@ -38,19 +38,20 @@ export const Card = styled.div`
 		}
 	}
 
-	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
 	cursor: pointer;
 	border-radius: 2px;
 
-	transition: all 0.1s;
+	transition: all 0.2s;
+	box-shadow: var(--shadow-low);
 
-	&:hover {
-		box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+	@media screen and (min-width: 750px) {
+		&:hover {
+			box-shadow: var(--shadow-medium);
+		}
 	}
 
 	@media screen and (max-width: 750px) {
-		border-radius: 0;
-		margin-bottom: 4rem;
+		width: 100%;
 	}
 `;
 
