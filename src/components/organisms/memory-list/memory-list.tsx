@@ -7,9 +7,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { MemoryCategoryExtended } from "@shared/types";
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
-import { useMemoryContext } from "src/context/memory-context";
-import MemoryCard from "../MemoryCard";
-import CategorySelection from "./molecules/CategorySelection";
+import { useMemoryContext } from "@context/memory-context";
+import MemoryCard from "@molecules/memory-card";
+import CategorySelection from "@molecules/category-selection";
 import {
 	FooterContainer,
 	ListContent,
@@ -17,7 +17,7 @@ import {
 	MemoryLink,
 	MemoryListContainer,
 	TableViewSelectContainer,
-} from "./styles";
+} from "./memory-list.styles";
 
 const MemoryList = () => {
 	const [loading, setLoading] = useState(false);

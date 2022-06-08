@@ -1,4 +1,4 @@
-import Select from "@components/forms/Select";
+import Select from "@atoms/select";
 import { categoryOptions, MemoryCategoryExtended } from "@shared/types";
 import React from "react";
 

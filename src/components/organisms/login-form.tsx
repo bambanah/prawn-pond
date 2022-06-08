@@ -1,14 +1,14 @@
-import Button from "@components/Button";
-import Form from "@components/forms/Form";
+import Button from "@atoms/button";
+import ErrorMessage from "@atoms/error-message";
+import Form from "@atoms/form";
+import Input from "@atoms/input";
+import Label from "@atoms/label";
 import { signInWithEmailAndPassword } from "@utils/firebase";
 import { Formik } from "formik";
 import Link from "next/link";
 import React from "react";
 import styled from "styled-components";
 import * as yup from "yup";
-import ErrorMessage from "./forms/ErrorMessage";
-import Input from "./forms/Input";
-import Label from "./forms/Label";
 
 interface Props {
 	email: string;

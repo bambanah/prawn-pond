@@ -7,7 +7,7 @@ import {
 	CharityTiles,
 	FuneralInfo,
 	FuneralMessage,
-} from "./styles";
+} from "./announcements.styles";
 
 interface CharityProps {
 	href: string;

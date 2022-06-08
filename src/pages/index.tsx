@@ -1,9 +1,9 @@
 import React from "react";
-import Hero from "@components/Hero";
-import Layout from "@components/Layout";
+import Hero from "@molecules/hero";
+import Layout from "@templates/layout";
 import { NextPage } from "next";
-import Announcements from "@components/Announcements";
-import MemoryList from "@components/MemoryList";
+import Announcements from "@molecules/announcements";
+import MemoryList from "@organisms/memory-list";
 import styled from "styled-components";
 import { MemoryContextProvider } from "@context/memory-context";
 

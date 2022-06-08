@@ -19,7 +19,7 @@ import {
 	AlbumIndexContainer,
 	LoadingContainer,
 	FullscreenContent,
-} from "../styles";
+} from "./memory-card/memory-card.styles";
 
 interface AlbumDisplayProps {
 	description: string;

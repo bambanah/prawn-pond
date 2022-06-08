@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import React from "react";
 import styled from "styled-components";
-import UploadForm from "@components/UploadForm";
-import Layout from "@components/Layout";
+import UploadForm from "@organisms/upload-form";
+import Layout from "@templates/layout";
 import { useAuth } from "@hooks/useAuth";
 
 const Content = styled.div`

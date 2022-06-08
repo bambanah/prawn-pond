@@ -1,11 +1,11 @@
-import Button from "@components/Button";
-import ButtonGroup from "@components/ButtonGroup";
-import Form from "@components/forms/Form";
-import Input from "@components/forms/Input";
-import Label from "@components/forms/Label";
-import Heading from "@components/text/Heading";
-import Subheading from "@components/text/Subheading";
-import PostValidationSchema from "@schema/PostValidationSchema";
+import Button from "@atoms/button";
+import ButtonGroup from "@molecules/button-group";
+import Form from "@atoms/form";
+import Input from "@atoms/input";
+import Label from "@atoms/label";
+import Heading from "@atoms/heading";
+import Subheading from "@atoms/subheading";
+import PostValidationSchema from "@schema/post-validation-schema";
 import { categoryOptions, CreatedMemory, MemoryCategory } from "@shared/types";
 import { createMemory, uploadFile } from "@utils/firebase";
 import { FieldArray, Formik } from "formik";
@@ -19,7 +19,7 @@ import {
 	DropZoneContainer,
 	ImageContainer,
 	ImagePreviewContainer,
-} from "./styles";
+} from "./upload-form.styles";
 
 // Do some hacky loader magic to get the next/image component to like the blob url
 function imageLoader({ src }: ImageLoaderProps) {
@@ -96,6 +96,7 @@ const UploadForm = () => {
 					</DropZoneContainer>
 
 					<ImagePreviewContainer>
+						{/* TODO: Support video preview */}
 						{images &&
 							images.map((image) => (
 								<ImageContainer key={image.lastModified}>

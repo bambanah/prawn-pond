@@ -4,8 +4,8 @@ import { Memory } from "@shared/types";
 import { getImageData } from "@utils/firebase";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import AlbumDisplay from "./molecules/AlbumDisplay";
-import { Card, ImageContainer, TextContainer } from "./styles";
+import AlbumDisplay from "../album-display";
+import { Card, ImageContainer, TextContainer } from "./memory-card.styles";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
