@@ -1,4 +1,4 @@
-import { faImages } from "@fortawesome/free-solid-svg-icons";
+import { faImages, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Memory } from "@shared/types";
 import { getImageData } from "@utils/firebase";
@@ -76,6 +76,11 @@ const MemoryCard = ({ memory, displayGrid }: Props) => {
 							<span>
 								{/* eslint-disable-next-line jsx-a11y/media-has-caption */}
 								<video src={imageUrl} />
+								<FontAwesomeIcon
+									icon={faPlay}
+									size="4x"
+									className="video-icon"
+								/>
 							</span>
 						)}
 

@@ -44,9 +44,15 @@ export const Card = styled.div`
 	transition: all 0.2s;
 	box-shadow: var(--shadow-low);
 
+	&:hover {
+		.video-icon {
+			transform: scale(1.05);
+		}
+	}
+
 	@media screen and (min-width: 750px) {
 		&:hover {
-			box-shadow: var(--shadow-medium);
+			box-shadow: var(--shadow-high);
 		}
 	}
 
@@ -95,6 +101,15 @@ export const ImageContainer = styled.div`
 		z-index: 10;
 		right: 10px;
 		bottom: 10px;
+
+		&.video-icon {
+			position: absolute;
+			margin: auto;
+			inset: 0;
+
+			filter: drop-shadow(5px 5px 6px rgb(0 0 0 / 0.5));
+			transition: all 0.1s;
+		}
 
 		path {
 			color: ${({ theme }) => theme.colors.bg};
