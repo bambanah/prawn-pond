@@ -30,7 +30,7 @@ const MemoryCard = ({ memory, displayGrid }: Props) => {
 		if (!imageUrl && memory.imageIds?.length) {
 			const firstImage = memory.imageIds[0];
 
-			getImageData(firstImage, true).then((image) => {
+			getImageData(firstImage, true, true).then((image) => {
 				setImageUrl(image?.src ?? "");
 				setMediaType(image?.metadata?.contentType ?? "");
 				setLoading(false);
@@ -49,12 +49,14 @@ const MemoryCard = ({ memory, displayGrid }: Props) => {
 
 	return (
 		<>
-			<AlbumDisplay
-				show={fullDisplay}
-				onClose={handleFullClose}
-				description={memory.description}
-				imageIds={memory.imageIds}
-			/>
+			{fullDisplay && (
+				<AlbumDisplay
+					show={fullDisplay}
+					onClose={handleFullClose}
+					description={memory.description}
+					imageIds={memory.imageIds}
+				/>
+			)}
 
 			<Card
 				key={memory.created?.valueOf()}

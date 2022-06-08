@@ -283,6 +283,7 @@ export const uploadFile = async (file: File): Promise<string> => {
  */
 export const getImageData = async (
 	imageId: string,
+	getPreview = false,
 	includeMetadata = false
 ): Promise<Image | null> => {
 	if (!validate(imageId)) return null;
@@ -293,14 +294,21 @@ export const getImageData = async (
 
 	promises.push(imageRef.getDownloadURL());
 	if (includeMetadata) promises.push(imageRef.getMetadata());
+	if (getPreview)
+		promises.push(storage.ref().child(`thumb@800_${imageId}`).getDownloadURL());
 
-	return Promise.all(promises)
+	return Promise.allSettled(promises)
 		.then((values) => {
+			if (values[0].status !== "fulfilled") return null;
+
 			const image: Image = {
-				src: values[0],
+				src: values[0].value,
 			};
 
-			if (includeMetadata) image.metadata = values[1];
+			if (includeMetadata && values[1].status === "fulfilled")
+				image.metadata = values[1].value;
+			if (getPreview && values[2]?.status === "fulfilled")
+				image.src = values[2].value;
 
 			return image;
 		})

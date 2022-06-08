@@ -50,7 +50,7 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 		const promises: Promise<Image | null>[] = [];
 
 		imageIds.map((id) => {
-			promises.push(getImageData(id, true));
+			promises.push(getImageData(id, false, true));
 		});
 
 		Promise.all(promises).then((fetchedImages) => {

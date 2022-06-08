@@ -40,7 +40,7 @@ const MemoryList = () => {
 	useEffect(() => {
 		const checkScroll = () => {
 			if (!loadedAllMemories) {
-				const gapToBottom = 400;
+				const gapToBottom = 600;
 
 				const atBottom =
 					Math.abs(document.body.getBoundingClientRect().y) + gapToBottom >
