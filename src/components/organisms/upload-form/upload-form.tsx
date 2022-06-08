@@ -1,12 +1,12 @@
-import Button from "@components/Button";
-import ButtonGroup from "@components/ButtonGroup";
-import Form from "@components/forms/Form";
-import Input from "@components/forms/Input";
-import Label from "@components/forms/Label";
-import Heading from "@components/text/Heading";
-import Subheading from "@components/text/Subheading";
-import PostValidationSchema from "@schema/PostValidationSchema";
-import { categoryOptions, Memory, MemoryCategory } from "@shared/types";
+import Button from "@atoms/button";
+import Form from "@atoms/form";
+import Heading from "@atoms/heading";
+import Label from "@atoms/label";
+import Subheading from "@atoms/subheading";
+import TextArea from "@atoms/text-area";
+import ButtonGroup from "@molecules/button-group";
+import PostValidationSchema from "@schema/post-validation-schema";
+import { categoryOptions, CreatedMemory, MemoryCategory } from "@shared/types";
 import { createMemory, uploadFile } from "@utils/firebase";
 import { FieldArray, Formik } from "formik";
 import Image, { ImageLoaderProps } from "next/image";
@@ -19,7 +19,7 @@ import {
 	DropZoneContainer,
 	ImageContainer,
 	ImagePreviewContainer,
-} from "./styles";
+} from "./upload-form.styles";
 
 // Do some hacky loader magic to get the next/image component to like the blob url
 function imageLoader({ src }: ImageLoaderProps) {
@@ -42,7 +42,7 @@ const UploadForm = () => {
 		onDrop,
 	});
 
-	const initialValues: Memory = {
+	const initialValues: CreatedMemory = {
 		description: "",
 		categories: [],
 	};
@@ -63,7 +63,7 @@ const UploadForm = () => {
 					);
 
 					// Attach filenames to Memory object
-					const newMemory: Memory = {
+					const newMemory: CreatedMemory = {
 						...values,
 						categories: values.categories as MemoryCategory[],
 						images: fileNames,
@@ -96,6 +96,7 @@ const UploadForm = () => {
 					</DropZoneContainer>
 
 					<ImagePreviewContainer>
+						{/* TODO: Support video preview */}
 						{images &&
 							images.map((image) => (
 								<ImageContainer key={image.lastModified}>
@@ -112,12 +113,12 @@ const UploadForm = () => {
 					</ImagePreviewContainer>
 
 					<Label htmlFor="description">
-						<Input
-							type="text"
-							name="description"
-							id="description"
-							error={errors.description}
+						<TextArea
+							onChange={(e) => {
+								values.description = e.target.value;
+							}}
 							placeholder="Say a little something (if you want)"
+							error={errors.description !== undefined}
 						/>
 						{errors.description && (
 							<Subheading>{errors.description}</Subheading>

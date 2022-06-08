@@ -1,4 +1,4 @@
-import { Memory, MemoryObject } from "@shared/types";
+import { CreatedMemory, Image, Memory } from "@shared/types";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
@@ -6,7 +6,7 @@ import "firebase/storage";
 import router from "next/router";
 import { toast } from "react-toastify";
 import { v4, validate } from "uuid";
-import { toDataUrl } from "./helpers";
+import { PAGE_SIZE } from "./constants";
 
 const firebaseConfig = {
 	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -26,7 +26,7 @@ if (firebase.apps.length === 0) {
 // Initialise services
 export const auth = firebase.auth();
 const firestore = firebase.firestore();
-const storage = firebase.storage();
+export const storage = firebase.storage();
 
 //
 // --- Auth ---
@@ -182,71 +182,49 @@ export const sendPasswordResetEmail = async (email: string) =>
 // --- Firestore ---
 //
 
-/**
- * Initialise a memory stream to auto-update the fetched memories when
- * a new one is created
- * @param observer A single object containing next and error callbacks.
- * @returns An unsubscribe function that can be called to cancel the snapshot listener.
- */
-export const streamMemories = (observer: any) =>
-	firestore
-		.collection("memories")
-		.orderBy("created", "desc")
-		.onSnapshot(observer);
-
-const pageSize = 5;
-
-/**
- *
- * @returns
- */
 export const getInitialMemories = async () => {
 	const query = firestore
 		.collection("memories")
 		.orderBy("created", "desc")
-		.limit(pageSize);
+		.limit(PAGE_SIZE);
 
-	const data = await query.get();
-
-	const memories: MemoryObject = {};
-	for (const doc of data.docs) {
-		const memory: any = doc.data();
-
-		memories[doc.id] = memory;
-	}
-
-	return memories;
+	return fetchQuery(query);
 };
 
-/**
- *
- * @param last
- * @returns
- */
 export const getNextMemories = async (last: firebase.firestore.Timestamp) => {
 	const query = firestore
 		.collection("memories")
 		.orderBy("created", "desc")
 		.startAfter(last)
-		.limit(pageSize);
+		.limit(PAGE_SIZE);
 
-	const data = await query.get();
-
-	const memories: MemoryObject = {};
-	for (const doc of data.docs) {
-		const memory: any = doc.data();
-
-		memories[doc.id] = memory;
-	}
-
-	return memories;
+	return fetchQuery(query);
 };
 
-/**
- * Creates a memory in firestore.
- * @param memory The memory to create
- */
-export const createMemory = async (memory: Memory) => {
+const fetchQuery = async (
+	query: firebase.firestore.Query<firebase.firestore.DocumentData>
+) => {
+	const data = await query.get();
+
+	const memoryPromises: Promise<Memory>[] = data.docs.map(async (doc) => {
+		const data = doc.data() as CreatedMemory;
+
+		const memory: Memory = {
+			id: doc.id,
+			description: data.description,
+			categories: data.categories,
+			created: data.created,
+			imageIds: data.images ?? [],
+		};
+
+		return memory;
+	});
+
+	const result = await Promise.all(memoryPromises);
+	return result;
+};
+
+export const createMemory = async (memory: CreatedMemory) => {
 	if (!auth.currentUser) return null;
 
 	memory.created = firebase.firestore.Timestamp.now();
@@ -255,7 +233,10 @@ export const createMemory = async (memory: Memory) => {
 	return firestore
 		.collection("memories")
 		.add(memory)
-		.then(() => true)
+		.then(() => {
+			toast.success("Memories uploaded");
+			return true;
+		})
 		.catch((error) => {
 			toast.error("Error saving memory");
 			console.error("Error writing document:", error);
@@ -300,50 +281,31 @@ export const uploadFile = async (file: File): Promise<string> => {
  * @param imageId UUID of image in storage
  * @returns Download URL
  */
-export const getImageUrl = async (
+export const getImageData = async (
 	imageId: string,
-	thumbnail = false,
-	thumbnailSize?: "32" | "800"
-): Promise<string | null> => {
-	if (!validate(imageId) && !thumbnail) return null;
+	includeMetadata = false
+): Promise<Image | null> => {
+	if (!validate(imageId)) return null;
 
-	function tryFetch(limit: number) {
-		let i = 1;
-		return new Promise<string | null>((resolve) => {
-			const interval = setInterval(async () => {
-				const imageRef = thumbnail
-					? storage.ref().child(`thumb@${thumbnailSize}_${imageId}`)
-					: storage.ref().child(imageId);
+	const imageRef = storage.ref().child(imageId);
 
-				try {
-					const url = await imageRef.getDownloadURL();
-					if (typeof url === "string") {
-						clearInterval(interval);
-						resolve(url);
-					}
-				} catch (error: any) {
-					if (error.code !== "storage/object-not-found" || i >= limit) {
-						clearInterval(interval);
-						resolve(null);
-					}
-				}
+	const promises = [];
 
-				i += 1;
-			}, 2000);
+	promises.push(imageRef.getDownloadURL());
+	if (includeMetadata) promises.push(imageRef.getMetadata());
+
+	return Promise.all(promises)
+		.then((values) => {
+			const image: Image = {
+				src: values[0],
+			};
+
+			if (includeMetadata) image.metadata = values[1];
+
+			return image;
+		})
+		.catch((error) => {
+			console.error(error);
+			return null;
 		});
-	}
-
-	return tryFetch(5);
-};
-
-export const getPlaceholderUrl = async (
-	imageId: string,
-	imageWidth: "32" | "800"
-): Promise<string | ArrayBuffer | null> => {
-	const imageUrl = await getImageUrl(imageId, true, imageWidth);
-	if (!imageUrl) return null;
-
-	const dataUrl = await toDataUrl(imageUrl);
-
-	return dataUrl;
 };

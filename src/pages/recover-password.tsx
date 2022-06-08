@@ -1,14 +1,13 @@
-import Button from "@components/Button";
-import Form from "@components/forms/Form";
-import Input from "@components/forms/Input";
-import Label from "@components/forms/Label";
+import Button from "@atoms/button";
+import Form from "@atoms/form";
+import Input from "@atoms/input";
+import Label from "@atoms/label";
 import { sendPasswordResetEmail } from "@utils/firebase";
 import { Formik } from "formik";
 import React, { useState } from "react";
 import styled from "styled-components";
-import Text from "@components/text/Text";
 import Link from "next/link";
-import Layout from "@components/Layout";
+import Layout from "@templates/layout";
 
 const Container = styled.div`
 	display: flex;
@@ -40,7 +39,7 @@ const RecoverPassword = ({ email }: { email?: string }) => {
 				<Content>
 					{emailSent ? (
 						<EmailSentContainer>
-							<Text>Email sent - check your inbox.</Text>
+							<p>Email sent - check your inbox.</p>
 							<Link href="/">Go back home</Link>
 						</EmailSentContainer>
 					) : (

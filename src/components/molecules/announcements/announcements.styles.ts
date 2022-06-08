@@ -15,7 +15,7 @@ interface AnnouncementProps {
 export const Announcement = styled.div<AnnouncementProps>`
 	display: flex;
 	justify-content: center;
-	padding: 10rem 1rem;
+	padding: 12rem 1rem;
 	align-items: center;
 	background-color: ${(props) =>
 		props.backgroundColor || props.theme.colors.bg};
@@ -23,8 +23,12 @@ export const Announcement = styled.div<AnnouncementProps>`
 	color: ${({ theme }) => theme.colors.fg};
 	width: 100%;
 
-	@media screen and (max-width: 750px) {
-		padding: 6rem 1em;
+	@media screen and (max-width: 1200px) {
+		padding: 7rem 1em;
+	}
+
+	@media screen and (max-width: 900px) {
+		padding: 3rem 1em;
 	}
 
 	> div {
@@ -77,7 +81,7 @@ export const CharityTiles = styled.div`
 
 	a > div {
 		border-radius: 10px;
-		box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
+		box-shadow: var(--shadow-low);
 		padding: 1rem;
 
 		transition: box-shadow 0.15s ease;
@@ -129,9 +133,12 @@ export const FuneralMessage = styled.div`
 	padding: 2rem 5rem;
 	border-radius: 5px;
 
+	@media screen and (max-width: 750px) {
+		padding: 1rem;
+	}
+
 	p.signature {
 		font-family: ${({ theme }) => theme.fonts.cursive};
-		/* font-weight: bold; */
 		font-size: 1.3rem;
 	}
 `;

@@ -17,7 +17,11 @@
 		"noFallthroughCasesInSwitch": true,
 		"noImplicitReturns": true,
 		"paths": {
-			"@components/*": ["src/components/*"],
+			"@atoms/*": ["src/components/atoms/*"],
+			"@molecules/*": ["src/components/molecules/*"],
+			"@organisms/*": ["src/components/organisms/*"],
+			"@templates/*": ["src/components/templates/*"],
+			"@context/*": ["src/context/*"],
 			"@hooks/*": ["src/hooks/*"],
 			"@pages/*": ["src/pages/*"],
 			"@schema/*": ["src/schema/*"],
@@ -33,6 +37,12 @@
 		"target": "es2018",
 		"tsBuildInfoFile": ".next/cache/.tsbuildinfo"
 	},
-	"include": ["**/*.ts", "**/*.tsx", "**/*.js", ".eslintrc.js"],
+	"include": [
+		"**/*.ts",
+		"**/*.tsx",
+		"**/*.js",
+		".eslintrc.js",
+		"jest.setup.ts"
+	],
 	"exclude": ["node_modules", "functions"]
 }

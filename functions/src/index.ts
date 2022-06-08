@@ -34,7 +34,7 @@ const optimiseImages = functions.storage.object().onFinalize(async (object) => {
 		destination: tmpFilePath,
 	});
 
-	const sizes = [32, 800];
+	const sizes = [800];
 
 	console.log(
 		`Creating optimised images at sizes ${sizes.toString()} for ${filePath}`

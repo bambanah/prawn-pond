@@ -5,11 +5,10 @@ import Head from "next/head";
 import Link from "next/link";
 import React from "react";
 import styled from "styled-components";
-import Button from "./Button";
-import Layout from "./Layout";
-import LoginForm from "./LoginForm";
-import RegisterForm from "./RegisterForm";
-import Text from "./text/Text";
+import Button from "@atoms/button";
+import Layout from "@templates/layout";
+import LoginForm from "@organisms/login-form";
+import RegisterForm from "@organisms/register-form";
 
 interface Props {
 	type: "login" | "register";
@@ -65,7 +64,7 @@ const AuthPage = ({ type }: Props) => (
 				{type === "login" ? <LoginForm /> : <RegisterForm />}
 			</EmailContainer>
 
-			<Text>Already have an account?</Text>
+			<p>Already have an account?</p>
 			<Link href={type === "login" ? "/register" : "/login"}>
 				{type === "login" ? "Create an account" : "Login"}
 			</Link>

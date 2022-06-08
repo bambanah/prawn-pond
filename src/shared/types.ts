@@ -19,7 +19,7 @@ type CategoryOption = { label: string; value: MemoryCategory };
 
 export const categoryOptions: CategoryOption[] = [
 	{
-		label: "Sean's Photography and Nature",
+		label: "Photography and Nature",
 		value: "photography_and_nature",
 	},
 	{
@@ -40,12 +40,46 @@ export const categoryOptions: CategoryOption[] = [
 	},
 ];
 
+export interface CreatedMemory {
+	description: string;
+	categories: MemoryCategory[];
+	images?: string[];
+	created?: firebase.firestore.Timestamp;
+	owner?: string;
+}
+
 export interface Memory {
 	description: string;
 	categories: MemoryCategory[];
+	imageIds: string[];
+	id?: string;
 	created?: firebase.firestore.Timestamp;
-	images?: string[];
 	owner?: string;
+}
+
+export interface Image {
+	src: string;
+	metadata?: ImageMetadata;
+	width?: number;
+	height?: number;
+}
+
+export interface ImageMetadata {
+	bucket: string;
+	contentDisposition: string;
+	contentEncoding: string;
+	contentType: string;
+	customMetadata: {
+		filename: string;
+	};
+	fullPath: string;
+	generation: string;
+	md5Hash: string;
+	name: string;
+	size: number;
+	type: string;
+	timeCreated: string;
+	updated: string;
 }
 
 export interface MemoryImages {

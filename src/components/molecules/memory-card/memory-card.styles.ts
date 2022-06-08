@@ -2,47 +2,97 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 
 export const Card = styled.div`
-	width: 100%;
-	min-width: fit-content;
+	position: relative;
+
 	display: flex;
 	flex-direction: column;
-	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-	margin-bottom: 2rem;
+	justify-content: center;
+	align-items: center;
+
+	&.grid {
+		height: 0;
+		padding-bottom: 100%;
+		overflow: hidden;
+
+		> div {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+		}
+	}
+
+	&.feed {
+		display: flex;
+		align-content: stretch;
+		align-items: stretch;
+		flex-direction: column;
+		justify-content: center;
+
+		.media-container {
+			position: relative;
+			overflow: hidden;
+			display: block;
+
+			height: 0;
+			padding-bottom: 120%;
+		}
+	}
+
 	cursor: pointer;
 	border-radius: 2px;
-	overflow: hidden;
 
-	transition: all 0.1s;
+	transition: all 0.2s;
+	box-shadow: var(--shadow-low);
 
-	&:hover {
-		box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+	@media screen and (min-width: 750px) {
+		&:hover {
+			box-shadow: var(--shadow-medium);
+		}
 	}
 
 	@media screen and (max-width: 750px) {
-		border-radius: 0;
-		margin-bottom: 4rem;
+		width: 100%;
 	}
 `;
 
 export const ImageContainer = styled.div`
-	flex: 0 0 auto;
-	width: 100%;
+	flex: 1 0 auto;
 
-	div {
-		position: relative !important;
-		top: 0px;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	span {
+		z-index: 1;
+		position: absolute;
+		width: 0;
+		height: 0;
+		min-width: 100%;
+		max-width: 100%;
+		min-height: 100%;
+		max-height: 100%;
+		display: block;
+		box-sizing: border-box;
+		object-fit: cover;
+		inset: 0;
 	}
 
 	img,
-	span {
-		position: relative !important;
-		height: auto !important;
-		width: 100% !important;
-		filter: none !important;
+	video {
+		z-index: 10;
+		object-fit: cover;
+		width: 0;
+		height: 0;
+		min-width: 100%;
+		max-width: 100%;
+		min-height: 100%;
+		max-height: 100%;
 	}
 
 	svg {
 		position: absolute;
+		z-index: 10;
 		right: 10px;
 		bottom: 10px;
 
@@ -55,7 +105,22 @@ export const ImageContainer = styled.div`
 export const TextContainer = styled.div`
 	display: flex;
 	flex: 1;
+
+	justify-content: center;
+	align-items: center;
+
 	padding: 2rem 1.2rem;
+	width: 100%;
+	z-index: 10;
+	background-color: ${(props) => props.theme.colors.bg};
+
+	white-space: pre-line;
+	line-height: 1.3rem;
+
+	&.text-only {
+		min-height: 200px;
+		max-height: 100%;
+	}
 `;
 
 export const FullscreenContainer = styled.div`
@@ -65,7 +130,7 @@ export const FullscreenContainer = styled.div`
 	width: 100%;
 	height: 100vh;
 	max-height: 100vh;
-	z-index: 10;
+	z-index: 100;
 
 	background: rgba(0, 0, 0, 0.7);
 	display: flex;
@@ -77,6 +142,8 @@ export const FullscreenContainer = styled.div`
 export const FullscreenContent = styled.div`
 	position: relative;
 	max-width: 800px;
+	max-height: 95vh;
+	overflow-y: auto;
 `;
 
 export const FullscreenImage = styled.div`
@@ -86,6 +153,7 @@ export const FullscreenImage = styled.div`
 	justify-content: center;
 	position: relative;
 	max-height: 80vh;
+	min-width: 30rem;
 	background: #111;
 
 	img {
@@ -100,12 +168,15 @@ export const FullscreenImage = styled.div`
 export const FullscreenCaption = styled.div`
 	display: flex;
 	align-items: center;
-	background-color: white;
+	background-color: ${({ theme }) => theme.colors.bg};
 	padding: 2rem;
 
+	white-space: pre-line;
+	line-height: 1.4rem;
+
 	&.story {
-		font-size: 1.2rem;
-		padding: 8rem;
+		font-size: 1.1rem;
+		padding: 4rem;
 	}
 `;
 

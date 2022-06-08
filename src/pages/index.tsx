@@ -1,18 +1,11 @@
 import React from "react";
-import Hero from "@components/Hero";
-import Layout from "@components/Layout";
+import Hero from "@molecules/hero";
+import Layout from "@templates/layout";
 import { NextPage } from "next";
-import { getInitialMemories } from "@utils/firebase";
-import { MemoryObject } from "@shared/types";
-import firebase from "firebase";
-import Announcements from "@components/Announcements";
-import MemoryList from "@components/MemoryList";
+import Announcements from "@molecules/announcements";
+import MemoryList from "@organisms/memory-list";
 import styled from "styled-components";
-
-interface Props {
-	initialMemories?: MemoryObject;
-	lastCreated?: firebase.firestore.Timestamp;
-}
+import { MemoryContextProvider } from "@context/memory-context";
 
 const ContentContainer = styled.div`
 	display: flex;
@@ -22,41 +15,22 @@ const ContentContainer = styled.div`
 	box-sizing: border-box;
 	padding-bottom: 3rem;
 	width: 100%;
-	background-color: white;
+	background-color: ${({ theme }) => theme.colors.bg};
 	box-shadow: 0px 0px 19px rgba(0, 0, 0, 0.5);
 
 	margin-top: 96vh;
-
-	@media screen and (max-width: 750px) {
-		padding: inherit 0;
-
-		margin-top: 90vh;
-	}
 `;
 
-const Home: NextPage<Props> = ({ initialMemories, lastCreated }) => (
+const Home: NextPage = () => (
 	<Layout>
 		<Hero />
-		<ContentContainer>
-			<Announcements />
-			{initialMemories && (
-				<MemoryList initialMemories={initialMemories} startFrom={lastCreated} />
-			)}
-		</ContentContainer>
+		<MemoryContextProvider>
+			<ContentContainer>
+				<Announcements />
+				<MemoryList />
+			</ContentContainer>
+		</MemoryContextProvider>
 	</Layout>
 );
-
-Home.getInitialProps = async () => {
-	const initialMemories = await getInitialMemories();
-
-	let lastCreated: firebase.firestore.Timestamp | undefined;
-	if (Object.keys(initialMemories).length > 0) {
-		lastCreated =
-			Object.values(initialMemories)[Object.values(initialMemories).length - 1]
-				.created;
-	}
-
-	return { initialMemories, lastCreated };
-};
 
 export default Home;
