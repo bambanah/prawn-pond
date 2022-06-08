@@ -158,7 +158,7 @@ export const FullscreenContainer = styled.div`
 export const FullscreenContent = styled.div`
 	position: relative;
 	max-width: 800px;
-	max-height: 90vh;
+	max-height: 100vh;
 	overflow-y: auto;
 `;
 
@@ -169,7 +169,7 @@ export const FullscreenImage = styled.div`
 	justify-content: center;
 	position: relative;
 	min-width: 10rem;
-	max-height: 80vh;
+	max-height: 85vh;
 	background: #111;
 
 	img {
