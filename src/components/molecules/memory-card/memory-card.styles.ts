@@ -186,6 +186,7 @@ export const FullscreenCaption = styled.div`
 	align-items: center;
 	background-color: ${({ theme }) => theme.colors.bg};
 	padding: 2rem;
+	padding-bottom: 5rem;
 
 	white-space: pre-line;
 	line-height: 1.4rem;
