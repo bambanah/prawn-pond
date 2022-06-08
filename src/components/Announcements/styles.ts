@@ -15,7 +15,7 @@ interface AnnouncementProps {
 export const Announcement = styled.div<AnnouncementProps>`
 	display: flex;
 	justify-content: center;
-	padding: 10rem 1rem;
+	padding: 12rem 1rem;
 	align-items: center;
 	background-color: ${(props) =>
 		props.backgroundColor || props.theme.colors.bg};
@@ -23,8 +23,12 @@ export const Announcement = styled.div<AnnouncementProps>`
 	color: ${({ theme }) => theme.colors.fg};
 	width: 100%;
 
-	@media screen and (max-width: 750px) {
-		padding: 6rem 1em;
+	@media screen and (max-width: 1200px) {
+		padding: 7rem 1em;
+	}
+
+	@media screen and (max-width: 900px) {
+		padding: 3rem 1em;
 	}
 
 	> div {

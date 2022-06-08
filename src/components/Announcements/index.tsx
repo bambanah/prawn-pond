@@ -63,6 +63,7 @@ const Announcements = () => (
 							</p>
 							<p>Looking forward to seeing you then.</p>
 							<p className="signature">Ollie, Nicky, Anthony and Georgia</p>
+							<br />
 							<p>
 								You can also view a{" "}
 								<a href="https://www.youtube.com/watch?v=JMccs9zm93g">

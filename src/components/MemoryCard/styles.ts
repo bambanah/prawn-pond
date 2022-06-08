@@ -91,10 +91,10 @@ export const ImageContainer = styled.div`
 	}
 
 	svg {
-		position: relative;
-		right: 30px;
+		position: absolute;
+		z-index: 10;
+		right: 10px;
 		bottom: 10px;
-		align-self: flex-end;
 
 		path {
 			color: ${({ theme }) => theme.colors.bg};

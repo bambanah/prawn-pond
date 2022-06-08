@@ -19,12 +19,6 @@ const ContentContainer = styled.div`
 	box-shadow: 0px 0px 19px rgba(0, 0, 0, 0.5);
 
 	margin-top: 96vh;
-
-	@media screen and (max-width: 750px) {
-		padding: inherit 0;
-
-		margin-top: 90vh;
-	}
 `;
 
 const Home: NextPage = () => (
