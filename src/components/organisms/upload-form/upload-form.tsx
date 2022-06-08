@@ -1,10 +1,10 @@
 import Button from "@atoms/button";
-import ButtonGroup from "@molecules/button-group";
 import Form from "@atoms/form";
-import Input from "@atoms/input";
-import Label from "@atoms/label";
 import Heading from "@atoms/heading";
+import Label from "@atoms/label";
 import Subheading from "@atoms/subheading";
+import TextArea from "@atoms/text-area";
+import ButtonGroup from "@molecules/button-group";
 import PostValidationSchema from "@schema/post-validation-schema";
 import { categoryOptions, CreatedMemory, MemoryCategory } from "@shared/types";
 import { createMemory, uploadFile } from "@utils/firebase";
@@ -113,12 +113,12 @@ const UploadForm = () => {
 					</ImagePreviewContainer>
 
 					<Label htmlFor="description">
-						<Input
-							type="text"
-							name="description"
-							id="description"
-							error={errors.description}
+						<TextArea
+							onChange={(e) => {
+								values.description = e.target.value;
+							}}
 							placeholder="Say a little something (if you want)"
+							error={errors.description !== undefined}
 						/>
 						{errors.description && (
 							<Subheading>{errors.description}</Subheading>

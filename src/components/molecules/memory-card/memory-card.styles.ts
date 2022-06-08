@@ -114,8 +114,12 @@ export const TextContainer = styled.div`
 	z-index: 10;
 	background-color: ${(props) => props.theme.colors.bg};
 
+	white-space: pre-line;
+	line-height: 1.3rem;
+
 	&.text-only {
 		min-height: 200px;
+		max-height: 100%;
 	}
 `;
 
@@ -138,6 +142,8 @@ export const FullscreenContainer = styled.div`
 export const FullscreenContent = styled.div`
 	position: relative;
 	max-width: 800px;
+	max-height: 95vh;
+	overflow-y: auto;
 `;
 
 export const FullscreenImage = styled.div`
@@ -165,9 +171,12 @@ export const FullscreenCaption = styled.div`
 	background-color: ${({ theme }) => theme.colors.bg};
 	padding: 2rem;
 
+	white-space: pre-line;
+	line-height: 1.4rem;
+
 	&.story {
-		font-size: 1.2rem;
-		padding: 8rem;
+		font-size: 1.1rem;
+		padding: 4rem;
 	}
 `;
 

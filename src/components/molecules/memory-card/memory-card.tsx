@@ -14,8 +14,6 @@ interface Props {
 	displayGrid: boolean;
 }
 
-const maxMessageLength = 150;
-
 const MemoryCard = ({ memory, displayGrid }: Props) => {
 	const [loading, setLoading] = useState(
 		memory.imageIds !== undefined && memory.imageIds.length > 0
@@ -46,6 +44,8 @@ const MemoryCard = ({ memory, displayGrid }: Props) => {
 	const displayImage = memory.imageIds.length > 0;
 	const displayText =
 		memory.description && (!memory.imageIds?.length || !displayGrid);
+
+	const maxMessageLength = displayImage ? 150 : displayGrid ? 280 : 1200;
 
 	return (
 		<>
