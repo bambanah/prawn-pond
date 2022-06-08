@@ -28,15 +28,10 @@ const MemoryList = () => {
 	const [memories, fetchNextMemories, memoriesLoading] = useMemoryContext();
 
 	useEffect(() => {
-		const localCategory = localStorage.getItem("category");
 		const localDisplayGrid = localStorage.getItem("displayGrid") as
 			| string
 			| null;
 
-		if (localCategory !== null && localCategory.length > 0) {
-			// TODO: Display category on first load
-			setCategory(localCategory as MemoryCategoryExtended);
-		}
 		if (localDisplayGrid !== null && localDisplayGrid.length > 0) {
 			enableGrid(localDisplayGrid === "true");
 		}
@@ -86,7 +81,6 @@ const MemoryList = () => {
 			<ListHeader id="memories">
 				<CategorySelection
 					handleChange={(category) => {
-						localStorage.setItem("category", category);
 						setCategory(category);
 					}}
 				/>
