@@ -23,7 +23,7 @@ const MemoryList = () => {
 	const [loading, setLoading] = useState(false);
 	const [loadedAllMemories, setLoadedAllMemories] = useState(false);
 	const [category, setCategory] = useState<MemoryCategoryExtended>("all");
-	const [displayGrid, enableGrid] = useState(true);
+	const [displayGrid, enableGrid] = useState(false);
 
 	const [memories, fetchNextMemories, memoriesLoading] = useMemoryContext();
 
