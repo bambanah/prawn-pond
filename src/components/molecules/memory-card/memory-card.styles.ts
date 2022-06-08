@@ -145,6 +145,7 @@ export const FullscreenContainer = styled.div`
 	width: 100%;
 	height: 100vh;
 	max-height: 100vh;
+	max-width: 100vw;
 	z-index: 100;
 
 	background: rgba(0, 0, 0, 0.7);
@@ -157,7 +158,7 @@ export const FullscreenContainer = styled.div`
 export const FullscreenContent = styled.div`
 	position: relative;
 	max-width: 800px;
-	max-height: 95vh;
+	max-height: 90vh;
 	overflow-y: auto;
 `;
 
@@ -167,8 +168,8 @@ export const FullscreenImage = styled.div`
 	display: flex;
 	justify-content: center;
 	position: relative;
+	min-width: 10rem;
 	max-height: 80vh;
-	min-width: 30rem;
 	background: #111;
 
 	img {
@@ -210,6 +211,7 @@ export const IconButton = styled.div`
 
 export const CloseFullscreenButton = styled(IconButton)`
 	position: fixed;
+	z-index: 1000;
 	top: 0.5rem;
 	right: 1rem;
 `;
