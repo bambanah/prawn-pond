@@ -6,12 +6,12 @@ import Subheading from "@atoms/subheading";
 import TextArea from "@atoms/text-area";
 import ButtonGroup from "@molecules/button-group";
 import PostValidationSchema from "@schema/post-validation-schema";
-import { categoryOptions, CreatedMemory, MemoryCategory } from "@shared/types";
+import { categoryOptions, CreatedMemory } from "@shared/types";
 import { createMemory, uploadFile } from "@utils/firebase";
 import { FieldArray, Formik } from "formik";
 import Image, { ImageLoaderProps } from "next/image";
 import Router from "next/router";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
 import {
@@ -20,6 +20,7 @@ import {
 	ImageContainer,
 	ImagePreviewContainer,
 } from "./upload-form.styles";
+import React from "react";
 
 // Do some hacky loader magic to get the next/image component to like the blob url
 function imageLoader({ src }: ImageLoaderProps) {
@@ -65,7 +66,7 @@ const UploadForm = () => {
 					// Attach filenames to Memory object
 					const newMemory: CreatedMemory = {
 						...values,
-						categories: values.categories as MemoryCategory[],
+						categories: values.categories,
 						images: fileNames,
 					};
 
@@ -97,19 +98,18 @@ const UploadForm = () => {
 
 					<ImagePreviewContainer>
 						{/* TODO: Support video preview */}
-						{images &&
-							images.map((image) => (
-								<ImageContainer key={image.lastModified}>
-									<Image
-										loader={imageLoader}
-										key={image.name}
-										src={URL.createObjectURL(image)}
-										alt="preview"
-										layout="fill"
-										objectFit="contain"
-									/>
-								</ImageContainer>
-							))}
+						{images?.map((image) => (
+							<ImageContainer key={image.lastModified}>
+								<Image
+									loader={imageLoader}
+									key={image.name}
+									src={URL.createObjectURL(image)}
+									alt="preview"
+									layout="fill"
+									objectFit="contain"
+								/>
+							</ImageContainer>
+						))}
 					</ImagePreviewContainer>
 
 					<Label htmlFor="description">
@@ -125,6 +125,7 @@ const UploadForm = () => {
 						)}
 					</Label>
 
+					{/* @ts-expect-error types package mismatch */}
 					<FieldArray
 						name="categories"
 						render={(arrayHelpers) => (

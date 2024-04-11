@@ -13,16 +13,16 @@ interface CharityProps {
 	href: string;
 	imgSrc: string;
 	alt: string;
-	imgWidth?: string;
-	imgHeight?: string;
+	imgWidth?: number;
+	imgHeight?: number;
 }
 
 const CharityLink = ({
 	href,
 	imgSrc,
 	alt,
-	imgWidth = "100px",
-	imgHeight = "100px",
+	imgWidth = 100,
+	imgHeight = 100,
 }: CharityProps) => (
 	<a href={href}>
 		<div>
@@ -42,7 +42,7 @@ const Announcements = () => (
 		{(theme) => (
 			<AnnouncementContainer>
 				<Announcement
-					backgroundColor={theme.colors.pastelBlue}
+					backgroundColor={theme?.colors.pastelBlue}
 					flexDir="column"
 				>
 					<FuneralInfo>
@@ -102,7 +102,7 @@ const Announcements = () => (
 						</CharityTiles>
 					</div>
 				</Announcement>
-				<Announcement backgroundColor={theme.colors.pastelPink}>
+				<Announcement backgroundColor={theme?.colors.pastelPink}>
 					<div>
 						<h1>If you or a loved one are struggling, please reach out</h1>
 						<CharityTiles>
@@ -110,15 +110,15 @@ const Announcements = () => (
 								href="https://www.lifeline.org.au/"
 								imgSrc="/logos/lifeline-logo.png"
 								alt="Lifeline"
-								imgWidth="171px"
-								imgHeight="100px"
+								imgWidth={171}
+								imgHeight={100}
 							/>
 							<CharityLink
 								href="https://www.ruok.org.au/"
 								imgSrc="/logos/ruok-logo.webp"
 								alt="R U Ok"
-								imgWidth="187px"
-								imgHeight="100px"
+								imgWidth={187}
+								imgHeight={100}
 							/>
 						</CharityTiles>
 					</div>

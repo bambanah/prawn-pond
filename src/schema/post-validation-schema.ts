@@ -11,10 +11,7 @@ const memoryCategories: MemoryCategory[] = [
 
 const PostValidationSchema = yup.object().shape({
 	description: yup.string(),
-	categories: yup
-		.array<MemoryCategory[]>()
-		.of(yup.string().oneOf(memoryCategories))
-		.required(),
+	categories: yup.array().of(yup.string().oneOf(memoryCategories)).required(),
 });
 
 export default PostValidationSchema;

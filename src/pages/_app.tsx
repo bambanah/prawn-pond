@@ -4,6 +4,8 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import React from "react";
 import { ThemeProvider } from "styled-components";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -25,7 +27,10 @@ function App({ Component, pageProps }: AppProps) {
 					<Head>
 						<title>Sean Wilson</title>
 					</Head>
+					<SpeedInsights />
+					<Analytics />
 					<GlobalStyle />
+
 					<Component {...pageProps} />
 					<ToastContainer />
 				</ThemeProvider>

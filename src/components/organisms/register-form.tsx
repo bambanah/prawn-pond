@@ -24,7 +24,7 @@ const RegisterFormSchema = yup.object().shape({
 		.required("Password is required"),
 	confirmPassword: yup
 		.string()
-		.oneOf([yup.ref("password"), null], "Passwords don't match")
+		.oneOf([yup.ref("password"), undefined], "Passwords don't match")
 		.required("Field is required"),
 });
 
@@ -54,7 +54,7 @@ const RegisterForm = () => {
 							name="email"
 							placeholder="Email"
 							type="email"
-							error={touched.email && errors.email}
+							error={touched.email && !!errors.email}
 						/>
 						<ErrorMessage error={errors.email} touched={touched.email} />
 					</Label>
@@ -65,7 +65,7 @@ const RegisterForm = () => {
 							name="name"
 							placeholder="Name"
 							type="name"
-							error={touched.name && errors.name}
+							error={touched.name && !!errors.name}
 						/>
 						<ErrorMessage error={errors.name} touched={touched.name} />
 					</Label>
@@ -76,7 +76,7 @@ const RegisterForm = () => {
 							name="password"
 							placeholder="Password"
 							type="password"
-							error={touched.password && errors.password}
+							error={touched.password && !!errors.password}
 						/>
 						<ErrorMessage error={errors.password} touched={touched.password} />
 					</Label>
@@ -87,7 +87,7 @@ const RegisterForm = () => {
 							name="confirmPassword"
 							placeholder="Confirm Password"
 							type="password"
-							error={touched.confirmPassword && errors.confirmPassword}
+							error={touched.confirmPassword && !!errors.confirmPassword}
 						/>
 						<ErrorMessage
 							error={errors.confirmPassword}

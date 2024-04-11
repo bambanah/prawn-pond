@@ -69,7 +69,12 @@ const MemoryCard = ({ memory, displayGrid }: Props) => {
 					<ImageContainer className="media-container">
 						<Skeleton />
 						{!loading && mediaType.includes("image") && (
-							<Image src={imageUrl} layout="fill" objectFit={"cover"} />
+							<Image
+								src={imageUrl}
+								layout="fill"
+								objectFit={"cover"}
+								alt="Shared memory"
+							/>
 						)}
 
 						{!loading && mediaType.includes("video") && (
@@ -99,7 +104,7 @@ const MemoryCard = ({ memory, displayGrid }: Props) => {
 							? `${memory.description.slice(
 									0,
 									Math.max(0, maxMessageLength - 1)
-							  )}...`
+								)}...`
 							: memory.description}
 					</TextContainer>
 				)}

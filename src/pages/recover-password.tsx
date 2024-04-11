@@ -2,12 +2,12 @@ import Button from "@atoms/button";
 import Form from "@atoms/form";
 import Input from "@atoms/input";
 import Label from "@atoms/label";
+import Layout from "@templates/layout";
 import { sendPasswordResetEmail } from "@utils/firebase";
 import { Formik } from "formik";
-import React, { useState } from "react";
-import styled from "styled-components";
 import Link from "next/link";
-import Layout from "@templates/layout";
+import { useState } from "react";
+import styled from "styled-components";
 
 const Container = styled.div`
 	display: flex;
@@ -44,7 +44,7 @@ const RecoverPassword = ({ email }: { email?: string }) => {
 						</EmailSentContainer>
 					) : (
 						<Formik
-							initialValues={{ email: email || "" }}
+							initialValues={{ email: email ?? "" }}
 							onSubmit={handleSubmit}
 						>
 							<Form>

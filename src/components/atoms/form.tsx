@@ -1,7 +1,6 @@
-import { Form as FormikForm } from "formik";
 import styled from "styled-components";
 
-const Form = styled(FormikForm)`
+const Form = styled.form`
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: column;

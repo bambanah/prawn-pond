@@ -49,7 +49,7 @@ const EmailAuthForm = () => {
 							name="email"
 							placeholder="Email"
 							type="email"
-							error={touched.email && errors.email}
+							error={touched.email && !!errors.email}
 						/>
 						<ErrorMessage error={errors.email} touched={touched.email} />
 					</Label>
@@ -60,7 +60,7 @@ const EmailAuthForm = () => {
 							name="password"
 							placeholder="Password"
 							type="password"
-							error={touched.password && errors.password}
+							error={touched.password && !!errors.password}
 						/>
 						<ErrorMessage error={errors.password} touched={touched.password} />
 					</Label>
