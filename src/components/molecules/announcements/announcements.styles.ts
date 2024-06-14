@@ -45,6 +45,7 @@ export const Announcement = styled.div<AnnouncementProps>`
 			flex: 1 0 50%;
 			font-size: 2.2rem;
 			font-family: ${({ theme }) => theme.fonts.display};
+			font-weight: bold;
 			margin: 0;
 
 			@media screen and (min-width: 961px) {
