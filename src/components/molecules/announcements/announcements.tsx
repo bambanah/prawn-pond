@@ -56,7 +56,10 @@ const Announcements = () => (
 									<strong>Time</strong>. 8am (I&#39;ll be there from 7:30)
 								</p>
 								<p>
-									<strong>Place</strong>. Sunday 23 June
+									<strong>Place</strong>.{" "}
+									<a href="https://maps.app.goo.gl/Wk6JXXkY7yEdLjiQ9">
+										Daisy Hill Conservation Park
+									</a>
 								</p>
 							</div>
 							<p>
