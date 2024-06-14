@@ -46,61 +46,44 @@ const Announcements = () => (
 					flexDir="column"
 				>
 					<FuneralInfo>
-						<h1>A Celebration of Sean&#39;s Life</h1>
-						{/* <YoutubeEmbed embedId="JMccs9zm93g" /> */}
-						<FuneralMessage>
+						<h1>Take a Sean Wilson Hike 2024</h1>
+						<FuneralMessage className="text-center">
+							<div className="flex flex-col items-start max-w-[20rem] m-auto">
+								<p><strong>Day</strong>. Sunday 23 June</p>
+								<p><strong>Time</strong>. 8am (I'll be there from 7:30)</p>
+								<p><strong>Place</strong>. Sunday 23 June</p>
+							</div>
 							<p>
-								In memory of a loving son, brother and friend, the Wilson/Hughes
-								families will be hosting a memorial at the{" "}
-								<b>West End Croquet Club</b> on the <b>18th of June</b> from
-								1:30pm.
+								In memory of our beloved Sean and friends we have lost along the way...
 							</p>
+							<p>❤️💙💜</p>
 							<p>
-								We come together to reminisce on all the good times we got to
-								spend with such a loveable young man. There will likely be some
-								speeches so if you feel like you want to say anything on the day
-								feel free.
+								We will be doing a combination of walks along creeks, out to a disused quarry filled with water, and return for nibbles and chats.
 							</p>
-							<p>Looking forward to seeing you then.</p>
-							<p className="signature">Ollie, Nicky, Anthony and Georgia</p>
-							<br />
-							<p>
-								You can also view a{" "}
-								<a href="https://www.youtube.com/watch?v=JMccs9zm93g">
-									video snapshot of his life
-								</a>
-								, or rewatch the{" "}
-								<a href="https://livestream.com/stp/funeralofseanwilson">
-									livestream of his funeral
-								</a>
-								.
-							</p>
+							<p>Total walking time 1.5 to 2 hours.</p>
+							<p>This can be done on foot... with or without your dog/s or mountain bike or horse if you happen to own one!</p>
+							<p>There is a shorter version of the walk if you are short on time, and there is a free Koala Sanctuary to visit if you're waiting.</p>
+							<div className="flex flex-col items-center">
+								<h3 className="font-semibold mb-2">Bring</h3>
+								<ul className="m-auto list-disc pl-4 text-left">
+									<li>Legs for hiking... walking sticks are not necessary</li>
+									<li>Dog for companionship</li>
+									<li>Conversation</li>
+									<li>Mountain bike and helmet, please</li>
+									<li>Horse if you're lucky!</li>
+									<li>Nibbles and stories or poems or haiky... to share</li>
+								</ul>
+							</div>
+							<p>I'll put a pin drop on the picnic table we can meet at when I get there.</p>
+							<p>Please bring lots of your friends 🧡</p>
+							<p>The aim of this walk is to share time and stories and make connections. Share this information and invite others who may not have known Sean but know you, who knew Sean. We are shaped by all the things around us.</p>
+							<p>Please come and share a wonderful morning.</p>
+							<div className="flex flex-col">
+								<span className="m-0 text-center">Lots of love, luck, and laughter,</span>
+								<p className="signature">Nicky</p>
+							</div>
 						</FuneralMessage>
 					</FuneralInfo>
-				</Announcement>
-				<Announcement flexDir="row-reverse">
-					<div>
-						<h1 id="charities">
-							Consider donating to these charities in lieu of flowers
-						</h1>
-						<CharityTiles>
-							<CharityLink
-								href="https://npaq.org.au/donate/"
-								imgSrc="/logos/npaq-logo.jpg"
-								alt="National Parks Association of Queensland"
-							/>
-							<CharityLink
-								href="https://www.beyondblue.org.au/get-involved/make-a-donation"
-								imgSrc="/logos/beyond-blue-logo.jpg"
-								alt="Beyond Blue"
-							/>
-							<CharityLink
-								href="https://www.blackdoginstitute.org.au/sponsor"
-								imgSrc="/logos/black-dog-logo.jpg"
-								alt="Black Dog Institute"
-							/>
-						</CharityTiles>
-					</div>
 				</Announcement>
 				<Announcement backgroundColor={theme.colors.pastelPink}>
 					<div>

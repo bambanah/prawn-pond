@@ -15,20 +15,17 @@ interface AnnouncementProps {
 export const Announcement = styled.div<AnnouncementProps>`
 	display: flex;
 	justify-content: center;
-	padding: 12rem 1rem;
+	padding: 7rem 1rem;
 	align-items: center;
 	background-color: ${(props) =>
-		props.backgroundColor || props.theme.colors.bg};
+		props.backgroundColor ?? props.theme.colors.bg};
 
 	color: ${({ theme }) => theme.colors.fg};
 	width: 100%;
 
-	@media screen and (max-width: 1200px) {
-		padding: 7rem 1em;
-	}
-
 	@media screen and (max-width: 900px) {
-		padding: 3rem 1em;
+		padding: 0em;
+		padding-top: 3em;
 	}
 
 	> div {
@@ -101,22 +98,11 @@ export const FuneralInfo = styled.div`
 		margin-top: 0;
 		margin-bottom: 0.5rem;
 
-		text-align: center;
-
 		&.old-date,
 		&.old-date path {
 			text-decoration: line-through;
 			color: #777;
 		}
-	}
-
-	a {
-		text-align: center;
-	}
-
-	h3 {
-		margin-top: 1.5em;
-		margin-bottom: 0.5rem;
 	}
 `;
 
