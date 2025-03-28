@@ -21,8 +21,8 @@ importers:
         specifier: ^0.1.16
         version: 0.1.18(@fortawesome/fontawesome-svg-core@6.1.1)(react@18.1.0)
       axios:
-        specifier: ^0.28.0
-        version: 0.28.0
+        specifier: ^0.30.0
+        version: 0.30.0
       firebase:
         specifier: ^8.6.8
         version: 8.10.1
@@ -134,7 +134,7 @@ importers:
         version: 8.5.0(eslint@8.17.0)
       eslint-plugin-styled-components-a11y:
         specifier: ^0.0.34
-        version: 0.0.34(eslint-plugin-import@2.26.0(@typescript-eslint/parser@5.27.1(eslint@8.17.0)(typescript@4.7.3))(eslint@8.17.0))(eslint-plugin-react@7.34.2(eslint@8.17.0))(eslint@8.17.0)
+        version: 0.0.34(eslint-plugin-import@2.26.0)(eslint-plugin-react@7.34.2(eslint@8.17.0))(eslint@8.17.0)
       eslint-plugin-testing-library:
         specifier: ^5.0.1
         version: 5.5.1(eslint@8.17.0)(typescript@4.7.3)
@@ -1282,8 +1282,8 @@ packages:
     resolution: {integrity: sha512-LVAaGp/wkkgYJcjmHsoKx4juT1aQvJyPcW09MLCjVTh3V2cc6PnyempiLMNH5iMdfIX/zdbjUx2KDjMLCTdPeA==}
     engines: {node: '>=12'}
 
-  axios@0.28.0:
-    resolution: {integrity: sha512-Tu7NYoGY4Yoc7I+Npf9HhUMtEEpV7ZiLH9yndTCoNhcpBH0kwcvFbzYN9/u5QKI5A6uefjsNNWaz5olJVYS62Q==}
+  axios@0.30.0:
+    resolution: {integrity: sha512-Z4F3LjCgfjZz8BMYalWdMgAQUnEtKDmpwNHjh/C8pQZWde32TF64cqnSeyL3xD/aTIASRU30RHTNzRiV/NpGMg==}
 
   axobject-query@2.2.0:
     resolution: {integrity: sha512-Td525n+iPOOyUQIeBfcASuG6uJsDOITl7Mds5gFyerkWiX7qhUTdYUBlSgNMyVqtSJqwpt1kXGLdUt6SykLMRA==}
@@ -1939,6 +1939,7 @@ packages:
   eslint@8.17.0:
     resolution: {integrity: sha512-gq0m0BTJfci60Fz4nczYxNAlED+sMcihltndR8t9t1evnU/azx53x3t2UHXC/uRjcbvRw/XctpaNygSTcQD+Iw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
 
   espree@9.3.2:
@@ -5472,7 +5473,7 @@ snapshots:
 
   axe-core@4.4.2: {}
 
-  axios@0.28.0:
+  axios@0.30.0:
     dependencies:
       follow-redirects: 1.15.6
       form-data: 4.0.0
@@ -6096,7 +6097,7 @@ snapshots:
     optionalDependencies:
       source-map: 0.6.1
 
-  eslint-config-airbnb-base@13.2.0(eslint-plugin-import@2.26.0(@typescript-eslint/parser@5.27.1(eslint@8.17.0)(typescript@4.7.3))(eslint@8.17.0))(eslint@8.17.0):
+  eslint-config-airbnb-base@13.2.0(eslint-plugin-import@2.26.0)(eslint@8.17.0):
     dependencies:
       confusing-browser-globals: 1.0.11
       eslint: 8.17.0
@@ -6104,10 +6105,10 @@ snapshots:
       object.assign: 4.1.2
       object.entries: 1.1.5
 
-  eslint-config-airbnb@17.1.1(eslint-plugin-import@2.26.0(@typescript-eslint/parser@5.27.1(eslint@8.17.0)(typescript@4.7.3))(eslint@8.17.0))(eslint-plugin-jsx-a11y@6.5.1(eslint@8.17.0))(eslint-plugin-react@7.34.2(eslint@8.17.0))(eslint@8.17.0):
+  eslint-config-airbnb@17.1.1(eslint-plugin-import@2.26.0)(eslint-plugin-jsx-a11y@6.5.1(eslint@8.17.0))(eslint-plugin-react@7.34.2(eslint@8.17.0))(eslint@8.17.0):
     dependencies:
       eslint: 8.17.0
-      eslint-config-airbnb-base: 13.2.0(eslint-plugin-import@2.26.0(@typescript-eslint/parser@5.27.1(eslint@8.17.0)(typescript@4.7.3))(eslint@8.17.0))(eslint@8.17.0)
+      eslint-config-airbnb-base: 13.2.0(eslint-plugin-import@2.26.0)(eslint@8.17.0)
       eslint-plugin-import: 2.26.0(@typescript-eslint/parser@5.27.1(eslint@8.17.0)(typescript@4.7.3))(eslint-import-resolver-typescript@2.7.1)(eslint@8.17.0)
       eslint-plugin-jsx-a11y: 6.5.1(eslint@8.17.0)
       eslint-plugin-react: 7.34.2(eslint@8.17.0)
@@ -6156,7 +6157,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.7.3(@typescript-eslint/parser@5.27.1(eslint@8.17.0)(typescript@4.7.3))(eslint-import-resolver-node@0.3.6)(eslint-import-resolver-typescript@2.7.1(eslint-plugin-import@2.26.0)(eslint@8.17.0)):
+  eslint-module-utils@2.7.3(@typescript-eslint/parser@5.27.1(eslint@8.17.0)(typescript@4.7.3))(eslint-import-resolver-node@0.3.6)(eslint-import-resolver-typescript@2.7.1):
     dependencies:
       debug: 3.2.7
       find-up: 2.1.0
@@ -6175,7 +6176,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 8.17.0
       eslint-import-resolver-node: 0.3.6
-      eslint-module-utils: 2.7.3(@typescript-eslint/parser@5.27.1(eslint@8.17.0)(typescript@4.7.3))(eslint-import-resolver-node@0.3.6)(eslint-import-resolver-typescript@2.7.1(eslint-plugin-import@2.26.0)(eslint@8.17.0))
+      eslint-module-utils: 2.7.3(@typescript-eslint/parser@5.27.1(eslint@8.17.0)(typescript@4.7.3))(eslint-import-resolver-node@0.3.6)(eslint-import-resolver-typescript@2.7.1)
       has: 1.0.4
       is-core-module: 2.13.1
       is-glob: 4.0.3
@@ -6250,10 +6251,10 @@ snapshots:
       semver: 6.3.1
       string.prototype.matchall: 4.0.11
 
-  eslint-plugin-styled-components-a11y@0.0.34(eslint-plugin-import@2.26.0(@typescript-eslint/parser@5.27.1(eslint@8.17.0)(typescript@4.7.3))(eslint@8.17.0))(eslint-plugin-react@7.34.2(eslint@8.17.0))(eslint@8.17.0):
+  eslint-plugin-styled-components-a11y@0.0.34(eslint-plugin-import@2.26.0)(eslint-plugin-react@7.34.2(eslint@8.17.0))(eslint@8.17.0):
     dependencies:
       '@babel/parser': 7.24.1
-      eslint-config-airbnb: 17.1.1(eslint-plugin-import@2.26.0(@typescript-eslint/parser@5.27.1(eslint@8.17.0)(typescript@4.7.3))(eslint@8.17.0))(eslint-plugin-jsx-a11y@6.5.1(eslint@8.17.0))(eslint-plugin-react@7.34.2(eslint@8.17.0))(eslint@8.17.0)
+      eslint-config-airbnb: 17.1.1(eslint-plugin-import@2.26.0)(eslint-plugin-jsx-a11y@6.5.1(eslint@8.17.0))(eslint-plugin-react@7.34.2(eslint@8.17.0))(eslint@8.17.0)
       eslint-plugin-jsx-a11y: 6.5.1(eslint@8.17.0)
     transitivePeerDependencies:
       - eslint
