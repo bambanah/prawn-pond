@@ -7,7 +7,6 @@ import { signInWithEmailAndPassword } from "@utils/firebase";
 import { Formik } from "formik";
 import Link from "next/link";
 import React from "react";
-import styled from "styled-components";
 import * as yup from "yup";
 
 interface Props {
@@ -22,10 +21,6 @@ const LoginFormSchema = yup.object().shape({
 		.min(8, "Minimum 8 characters")
 		.required("Password is required"),
 });
-
-const ForgotPasswordText = styled.a`
-	text-align: center;
-`;
 
 const EmailAuthForm = () => {
 	const handleSubmit = async (values: Props) => {
@@ -65,8 +60,8 @@ const EmailAuthForm = () => {
 						<ErrorMessage error={errors.password} touched={touched.password} />
 					</Label>
 
-					<Link href="/recover-password">
-						<ForgotPasswordText>Forgot your password?</ForgotPasswordText>
+					<Link href="/recover-password" className="text-center">
+						Forgot your password?
 					</Link>
 
 					<Button type="submit" primary>

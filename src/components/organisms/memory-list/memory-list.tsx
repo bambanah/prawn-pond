@@ -85,7 +85,7 @@ const MemoryList = () => {
 					}}
 				/>
 
-				<Link href="/upload">
+				<Link href="/upload" legacyBehavior>
 					<MemoryLink>Share Memory</MemoryLink>
 				</Link>
 
@@ -108,7 +108,6 @@ const MemoryList = () => {
 					/>
 				</TableViewSelectContainer>
 			</ListHeader>
-
 			<ListContent className={displayGrid ? "grid" : "feed"}>
 				{filteredMemories.map((memory) => (
 					<MemoryCard
@@ -118,17 +117,13 @@ const MemoryList = () => {
 					/>
 				))}
 			</ListContent>
-
 			{loading && !loadedAllMemories && (
 				<FontAwesomeIcon icon={faSpinner} size="2x" className="spinner" />
 			)}
-
 			{loadedAllMemories && (
 				<FooterContainer>
 					<p>You&rsquo;ve reached the bottom</p>
-					<Link href="#memories">
-						<a>Back to the top</a>
-					</Link>
+					<Link href="#memories">Back to the top</Link>
 				</FooterContainer>
 			)}
 		</MemoryListContainer>

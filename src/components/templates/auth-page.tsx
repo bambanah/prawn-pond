@@ -65,7 +65,7 @@ const AuthPage = ({ type }: Props) => (
 			</EmailContainer>
 
 			<p>Already have an account?</p>
-			<Link href={type === "login" ? "/register" : "/login"}>
+			<Link href={type === "login" ? "/register" : "/login"} legacyBehavior>
 				{type === "login" ? "Create an account" : "Login"}
 			</Link>
 		</Container>

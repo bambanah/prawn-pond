@@ -57,7 +57,6 @@ const MemoryCard = ({ memory, displayGrid }: Props) => {
 					imageIds={memory.imageIds}
 				/>
 			)}
-
 			<Card
 				key={memory.created?.valueOf()}
 				onClick={() => {
@@ -69,7 +68,13 @@ const MemoryCard = ({ memory, displayGrid }: Props) => {
 					<ImageContainer className="media-container">
 						<Skeleton />
 						{!loading && mediaType.includes("image") && (
-							<Image src={imageUrl} layout="fill" objectFit={"cover"} alt="" />
+							<Image
+								src={imageUrl}
+								objectFit={"cover"}
+								alt=""
+								fill
+								sizes="100vw"
+							/>
 						)}
 
 						{!loading && mediaType.includes("video") && (

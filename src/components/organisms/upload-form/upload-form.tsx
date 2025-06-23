@@ -105,8 +105,11 @@ const UploadForm = () => {
 										key={image.name}
 										src={URL.createObjectURL(image)}
 										alt="preview"
-										layout="fill"
-										objectFit="contain"
+										fill
+										sizes="100vw"
+										style={{
+											objectFit: "contain",
+										}}
 									/>
 								</ImageContainer>
 							))}

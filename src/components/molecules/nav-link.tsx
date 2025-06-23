@@ -31,7 +31,7 @@ const Link = ({ href, children }: Props) => {
 	const router = useRouter();
 
 	return (
-		<NextLink href={href}>
+		<NextLink href={href} legacyBehavior>
 			<StyledLink active={router.pathname === href}>{children}</StyledLink>
 		</NextLink>
 	);
