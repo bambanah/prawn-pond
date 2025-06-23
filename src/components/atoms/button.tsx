@@ -1,4 +1,3 @@
-/* eslint-disable react/button-has-type */
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
 
