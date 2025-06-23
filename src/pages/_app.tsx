@@ -13,7 +13,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 
 import { theme } from "@styles/theme";
-import "@styles/imports.css";
+import "@styles/globals.css";
 
 function App({ Component, pageProps }: AppProps) {
 	const { loadingAuthState } = useAuth();
