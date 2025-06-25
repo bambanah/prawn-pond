@@ -79,11 +79,7 @@ const MemoryList = () => {
 	return (
 		<MemoryListContainer className={displayGrid ? "grid" : "feed"}>
 			<ListHeader id="memories">
-				<CategorySelection
-					handleChange={(category) => {
-						setCategory(category);
-					}}
-				/>
+				<CategorySelection handleChange={setCategory} />
 
 				<Link href="/upload">
 					<Button>Share Memory</Button>

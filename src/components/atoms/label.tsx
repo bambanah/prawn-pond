@@ -1,19 +1,14 @@
-import styled from "styled-components";
+import { ComponentProps } from "react";
 
-interface LabelProps {
+interface LabelProps extends ComponentProps<"label"> {
 	required?: boolean;
 }
 
-const Label = styled.label<LabelProps>`
-	display: flex;
-	flex-direction: column;
-	flex: 1 0 auto;
-	gap: 0.4rem;
-
-	span::after {
-		color: red;
-		content: ${(props) => `"${props.required ? " *" : " "}"`};
-	}
-`;
+const Label = ({ required, children, ...rest }: LabelProps) => (
+	<label className="flex flex-col shrink-0 gap-2" {...rest}>
+		{children}
+		{required && <span className="text-red-500">*</span>}
+	</label>
+);
 
 export default Label;

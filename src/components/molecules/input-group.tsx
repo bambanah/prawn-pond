@@ -1,10 +1,8 @@
-import styled from "styled-components";
+import { cn } from "@/lib/utils";
+import { ComponentProps } from "react";
 
-const InputGroup = styled.div`
-	display: flex;
-	gap: 1rem;
-	flex-wrap: wrap;
-	flex: 1 0 100%;
-`;
+const InputGroup = ({ className, ...rest }: ComponentProps<"div">) => (
+	<div {...rest} className={cn("flex gap-4 flex-wrap flex-1", className)} />
+);
 
 export default InputGroup;
