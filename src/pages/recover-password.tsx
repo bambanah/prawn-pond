@@ -1,30 +1,12 @@
-import { Button } from "src/components/ui/button";
 import Form from "@/components/atoms/form";
 import Input from "@/components/atoms/input";
 import Label from "@/components/atoms/label";
+import Layout from "@/components/templates/layout";
 import { sendPasswordResetEmail } from "@/lib/firebase";
 import { Formik } from "formik";
-import React, { useState } from "react";
-import styled from "styled-components";
 import Link from "next/link";
-import Layout from "@/components/templates/layout";
-
-const Container = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-`;
-
-const Content = styled.div`
-	display: flex;
-	flex-direction: column;
-`;
-
-const EmailSentContainer = styled.div`
-	text-align: center;
-`;
+import { useState } from "react";
+import { Button } from "src/components/ui/button";
 
 const RecoverPassword = ({ email }: { email?: string }) => {
 	const [emailSent, setEmailSent] = useState(false);
@@ -35,13 +17,13 @@ const RecoverPassword = ({ email }: { email?: string }) => {
 
 	return (
 		<Layout>
-			<Container>
-				<Content>
+			<div className="flex flex-col justify-center items-center h-screen">
+				<div className="flex flex-col">
 					{emailSent ? (
-						<EmailSentContainer>
+						<div className="text-center">
 							<p>Email sent - check your inbox.</p>
 							<Link href="/">Go back home</Link>
-						</EmailSentContainer>
+						</div>
 					) : (
 						<Formik
 							initialValues={{ email: email || "" }}
@@ -62,8 +44,8 @@ const RecoverPassword = ({ email }: { email?: string }) => {
 							</Form>
 						</Formik>
 					)}
-				</Content>
-			</Container>
+				</div>
+			</div>
 		</Layout>
 	);
 };

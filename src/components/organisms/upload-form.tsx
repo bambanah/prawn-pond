@@ -1,24 +1,16 @@
-import PostValidationSchema from "@/schema/post-validation-schema";
 import Form from "@/components/atoms/form";
-import Heading from "@/components/atoms/heading";
 import Label from "@/components/atoms/label";
-import Subheading from "@/components/atoms/subheading";
-import TextArea from "@/components/atoms/text-area";
-import { categoryOptions, CreatedMemory, MemoryCategory } from "@/shared/types";
+import { Textarea } from "@/components/ui/textarea";
 import { createMemory, uploadFile } from "@/lib/firebase";
+import PostValidationSchema from "@/schema/post-validation-schema";
+import { categoryOptions, CreatedMemory, MemoryCategory } from "@/shared/types";
 import { FieldArray, Formik } from "formik";
 import Image, { ImageLoaderProps } from "next/image";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
 import { Button } from "src/components/ui/button";
-import {
-	Categories,
-	DropZoneContainer,
-	ImageContainer,
-	ImagePreviewContainer,
-} from "./upload-form.styles";
 
 // Do some hacky loader magic to get the next/image component to like the blob url
 function imageLoader({ src }: ImageLoaderProps) {
@@ -26,6 +18,7 @@ function imageLoader({ src }: ImageLoaderProps) {
 }
 
 const UploadForm = () => {
+	const router = useRouter();
 	const [images, setImages] = useState<File[]>([]);
 
 	const addImages = (acceptedFiles: File[]) => {
@@ -72,7 +65,7 @@ const UploadForm = () => {
 					await createMemory(newMemory);
 
 					// Navigate to home
-					Router.push("/");
+					router.push("/");
 				} catch (e) {
 					console.error(e);
 					toast.error("Failed to upload images, please try again.");
@@ -85,58 +78,68 @@ const UploadForm = () => {
 		>
 			{({ errors, values, handleSubmit, isValid, isSubmitting }) => (
 				<Form>
-					<DropZoneContainer {...getRootProps()}>
+					<div
+						className="flex flex-col items-center justify-center p-8 cursor-pointer border-2 border-blue-500 text-blue-500 rounded-md border-dashed"
+						{...getRootProps()}
+					>
 						<input {...getInputProps()} />
 						{isDragActive ? (
 							<p>Drop the files here ...</p>
 						) : (
 							<p>Drag and drop some files here, or click to select files</p>
 						)}
-					</DropZoneContainer>
+					</div>
 
-					<ImagePreviewContainer>
-						{/* TODO: Support video preview */}
+					<div className="flex flex-wrap w-full">
 						{images &&
 							images.map((image) => (
-								<ImageContainer key={image.lastModified}>
+								<div
+									className="w-[200px] h-[100px] m-2 relative flex-1/12"
+									key={image.lastModified}
+								>
 									<Image
 										loader={imageLoader}
 										key={image.name}
 										src={URL.createObjectURL(image)}
 										alt="preview"
 										fill
-										sizes="100vw"
+										className="w-[200px] h-[100px]"
+										sizes="200px"
 										style={{
 											objectFit: "contain",
 										}}
 									/>
-								</ImageContainer>
+								</div>
 							))}
-					</ImagePreviewContainer>
+					</div>
 
 					<Label htmlFor="description">
-						<TextArea
+						<Textarea
 							onChange={(e) => {
 								values.description = e.target.value;
 							}}
 							placeholder="Say a little something (if you want)"
-							error={errors.description !== undefined}
 						/>
 						{errors.description && (
-							<Subheading>{errors.description}</Subheading>
+							<p className="text-muted-foreground">{errors.description}</p>
 						)}
 					</Label>
 
 					<FieldArray
 						name="categories"
 						render={(arrayHelpers) => (
-							<Categories>
-								<Heading>Categories</Heading>
-								<Subheading>Select any that apply</Subheading>
+							<div className="flex flex-col gap-1">
+								<h2 className="text-lg font-bold my-2">Categories</h2>
+								<p className="text-muted-foreground">Select any that apply</p>
+
 								{categoryOptions.map(
 									(category) =>
 										category.value !== "other" && (
-											<label key={category.value} htmlFor={category.value}>
+											<label
+												key={category.value}
+												htmlFor={category.value}
+												className="flex gap-1"
+											>
 												<input
 													name="categories"
 													type="checkbox"
@@ -158,7 +161,7 @@ const UploadForm = () => {
 											</label>
 										)
 								)}
-							</Categories>
+							</div>
 						)}
 					/>
 
@@ -170,7 +173,8 @@ const UploadForm = () => {
 						>
 							{isSubmitting ? "Uploading" : "Upload"}
 						</Button>
-						<Button type="button" onClick={() => Router.push("/")}>
+
+						<Button type="button" onClick={() => router.push("/")}>
 							Cancel
 						</Button>
 					</div>

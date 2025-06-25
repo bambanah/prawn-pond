@@ -20,7 +20,7 @@ const extendedCategoryOptions = [
 ];
 
 const CategorySelection = ({ handleChange }: CategorySelectionProps) => (
-	<Select onValueChange={handleChange}>
+	<Select onValueChange={handleChange} defaultValue="all">
 		<SelectTrigger>
 			<SelectValue placeholder="Category" />
 		</SelectTrigger>

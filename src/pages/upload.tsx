@@ -1,18 +1,7 @@
-import { useAuth } from "@/hooks/useAuth";
 import UploadForm from "@/components/organisms/upload-form";
 import Layout from "@/components/templates/layout";
+import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/router";
-import styled from "styled-components";
-
-const Content = styled.div`
-	margin-top: 7rem;
-	padding: 1em;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	max-width: 50%;
-	width: 50%;
-`;
 
 const Upload = () => {
 	const router = useRouter();
@@ -28,9 +17,9 @@ const Upload = () => {
 	}
 	return (
 		<Layout>
-			<Content>
+			<div className="mt-24 p-4 flex flex-col items-center max-w-1/2 w-1/2">
 				<UploadForm />
-			</Content>
+			</div>
 		</Layout>
 	);
 };

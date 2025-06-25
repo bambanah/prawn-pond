@@ -11,13 +11,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import {
-	FooterContainer,
-	ListContent,
-	ListHeader,
-	MemoryListContainer,
-	TableViewSelectContainer,
-} from "./memory-list.styles";
 
 const MemoryList = () => {
 	const [loading, setLoading] = useState(false);
@@ -77,15 +70,15 @@ const MemoryList = () => {
 	if (!memories) return <div>Loading memories...</div>;
 
 	return (
-		<MemoryListContainer className={displayGrid ? "grid" : "feed"}>
-			<ListHeader id="memories">
+		<div className="w-full max-w-3xl ">
+			<div className="my-8 flex gap-2 w-full justify-between">
 				<CategorySelection handleChange={setCategory} />
 
-				<Link href="/upload">
-					<Button>Share Memory</Button>
-				</Link>
+				<div className="flex gap-8">
+					<Link href="/upload">
+						<Button>Share Memory</Button>
+					</Link>
 
-				<TableViewSelectContainer>
 					<FontAwesomeIcon
 						icon={faStream}
 						size="2x"
@@ -102,9 +95,10 @@ const MemoryList = () => {
 							localStorage.setItem("displayGrid", "true");
 						}}
 					/>
-				</TableViewSelectContainer>
-			</ListHeader>
-			<ListContent className={displayGrid ? "grid" : "feed"}>
+				</div>
+			</div>
+
+			<div className="w-full flex flex-col gap-4">
 				{filteredMemories.map((memory) => (
 					<MemoryCard
 						memory={memory}
@@ -112,17 +106,21 @@ const MemoryList = () => {
 						displayGrid={displayGrid}
 					/>
 				))}
-			</ListContent>
+			</div>
+
 			{loading && !loadedAllMemories && (
 				<FontAwesomeIcon icon={faSpinner} size="2x" className="spinner" />
 			)}
+
 			{loadedAllMemories && (
-				<FooterContainer>
-					<p>You&rsquo;ve reached the bottom</p>
-					<Link href="#memories">Back to the top</Link>
-				</FooterContainer>
+				<div className="flex flex-col justify-center items-center text-sm">
+					<p>You&#39;ve reached the bottom</p>
+					<Link href="#memories" className="font-bold">
+						Back to the top
+					</Link>
+				</div>
 			)}
-		</MemoryListContainer>
+		</div>
 	);
 };
 

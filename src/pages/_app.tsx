@@ -12,6 +12,8 @@ config.autoAddCss = false;
 
 import "@/styles/globals.css";
 
+import "react-loading-skeleton/dist/skeleton.css";
+
 function App({ Component, pageProps }: AppProps) {
 	const { loadingAuthState } = useAuth();
 
