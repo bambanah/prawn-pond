@@ -2,8 +2,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { getImageData } from "@/lib/firebase";
 import { cn } from "@/lib/utils";
 import { Memory } from "@/shared/types";
-import { faImages, faPlay } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Images, Play } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
@@ -60,20 +59,12 @@ const MemoryCard = ({ memory, displayGrid }: Props) => {
 							{!loading && mediaType.includes("video") && (
 								<span>
 									<video src={imageUrl} />
-									<FontAwesomeIcon
-										icon={faPlay}
-										size="4x"
-										className="video-icon"
-									/>
+									<Play />
 								</span>
 							)}
 
 							{memory.imageIds && memory.imageIds.length > 1 && (
-								<FontAwesomeIcon
-									icon={faImages}
-									size="lg"
-									style={{ width: "auto" }}
-								/>
+								<Images className="w-auto" />
 							)}
 						</div>
 					)}

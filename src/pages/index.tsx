@@ -8,7 +8,7 @@ const Home = () => (
 		<Hero />
 
 		<MemoryContextProvider>
-			<div className="flex flex-col justify-start items-center pb-12 w-full mt-[90vh] bg-background">
+			<div className="flex flex-col justify-start items-center pb-12 w-full mt-[50vh] min-h-screen bg-background">
 				<MemoryList />
 			</div>
 		</MemoryContextProvider>

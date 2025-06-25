@@ -3,12 +3,7 @@ import MemoryCard from "@/components/molecules/memory-card";
 import { Button } from "@/components/ui/button";
 import { useMemoryContext } from "@/context/memory-context";
 import { MemoryCategoryExtended } from "@/shared/types";
-import {
-	faSpinner,
-	faStream,
-	faThLarge,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Grid2X2, Loader, Rows2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
@@ -74,31 +69,35 @@ const MemoryList = () => {
 			<div className="my-8 flex gap-2 w-full justify-between">
 				<CategorySelection handleChange={setCategory} />
 
-				<div className="flex gap-8">
+				<div className="flex gap-4">
 					<Link href="/upload">
 						<Button>Share Memory</Button>
 					</Link>
 
-					<FontAwesomeIcon
-						icon={faStream}
-						size="2x"
+					<Button
+						variant="ghost"
+						size="icon"
 						onClick={() => {
 							enableGrid(false);
 							localStorage.setItem("displayGrid", "false");
 						}}
-					/>
-					<FontAwesomeIcon
-						icon={faThLarge}
-						size="2x"
+					>
+						<Rows2 />
+					</Button>
+					<Button
+						variant="ghost"
+						size="icon"
 						onClick={() => {
 							enableGrid(true);
 							localStorage.setItem("displayGrid", "true");
 						}}
-					/>
+					>
+						<Grid2X2 />
+					</Button>
 				</div>
 			</div>
 
-			<div className="w-full flex flex-col gap-4">
+			<div className="w-full flex flex-col gap-4" id="memories">
 				{filteredMemories.map((memory) => (
 					<MemoryCard
 						memory={memory}
@@ -109,11 +108,11 @@ const MemoryList = () => {
 			</div>
 
 			{loading && !loadedAllMemories && (
-				<FontAwesomeIcon icon={faSpinner} size="2x" className="spinner" />
+				<Loader className="animate-spin duration-1000 mx-auto my-8" />
 			)}
 
 			{loadedAllMemories && (
-				<div className="flex flex-col justify-center items-center text-sm">
+				<div className="flex flex-col justify-center items-center text-sm mt-16">
 					<p>You&#39;ve reached the bottom</p>
 					<Link href="#memories" className="font-bold">
 						Back to the top
