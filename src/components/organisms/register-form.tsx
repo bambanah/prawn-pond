@@ -1,103 +1,109 @@
-import ErrorMessage from "@/components/atoms/error-message";
-import Form from "@/components/atoms/form";
-import Input from "@/components/atoms/input";
-import Label from "@/components/atoms/label";
+import { Button } from "@/components/ui/button";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { registerWithEmailAndPassword } from "@/lib/firebase";
-import { Formik } from "formik";
-import { Button } from "src/components/ui/button";
-import * as yup from "yup";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-interface Props {
-	email: string;
-	name: string;
-	password: string;
-	confirmPassword: string;
-}
+const registerFormSchema = z
+	.object({
+		email: z.string().email(),
+		name: z.string(),
+		password: z.string().min(8),
+		confirmPassword: z.string(),
+	})
+	.refine((values) => values.password === values.confirmPassword, {
+		message: "Passwords don't match",
+		path: ["confirmPassword"],
+	});
 
-const RegisterFormSchema = yup.object().shape({
-	email: yup.string().required("Email is required"),
-	name: yup.string(),
-	password: yup
-		.string()
-		.min(8, "Minimum 8 characters")
-		.required("Password is required"),
-	confirmPassword: yup
-		.string()
-		.oneOf([yup.ref("password"), undefined], "Passwords don't match")
-		.required("Field is required"),
-});
+type RegisterFormSchema = z.infer<typeof registerFormSchema>;
 
 const RegisterForm = () => {
-	const handleSubmit = async (values: Props) => {
-		if (values.password === values.confirmPassword) {
-			registerWithEmailAndPassword(values.email, values.password, values.name);
-		}
+	const form = useForm<RegisterFormSchema>({
+		resolver: zodResolver(registerFormSchema),
+		defaultValues: {
+			email: "",
+			name: "",
+			password: "",
+			confirmPassword: "",
+		},
+	});
+
+	const onSubmit = async (values: RegisterFormSchema) => {
+		registerWithEmailAndPassword(values.email, values.password, values.name);
 	};
 
 	return (
-		<Formik
-			initialValues={{
-				email: "",
-				name: "",
-				password: "",
-				confirmPassword: "",
-			}}
-			onSubmit={handleSubmit}
-			validationSchema={RegisterFormSchema}
-		>
-			{({ errors, touched }) => (
-				<Form>
-					<Label htmlFor="email">
-						<Input
-							id="email"
-							name="email"
-							placeholder="Email"
-							type="email"
-							error={touched.email && errors.email}
-						/>
-						<ErrorMessage error={errors.email} touched={touched.email} />
-					</Label>
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit(onSubmit)}>
+				<FormField
+					control={form.control}
+					name="email"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Email</FormLabel>
+							<FormControl>
+								<Input {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 
-					<Label htmlFor="name">
-						<Input
-							id="name"
-							name="name"
-							placeholder="Name"
-							type="name"
-							error={touched.name && errors.name}
-						/>
-						<ErrorMessage error={errors.name} touched={touched.name} />
-					</Label>
+				<FormField
+					control={form.control}
+					name="name"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Name</FormLabel>
+							<FormControl>
+								<Input {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 
-					<Label htmlFor="password">
-						<Input
-							id="password"
-							name="password"
-							placeholder="Password"
-							type="password"
-							error={touched.password && errors.password}
-						/>
-						<ErrorMessage error={errors.password} touched={touched.password} />
-					</Label>
+				<FormField
+					control={form.control}
+					name="password"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Email</FormLabel>
+							<FormControl>
+								<Input type="password" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 
-					<Label htmlFor="confirmPassword">
-						<Input
-							id="confirmPassword"
-							name="confirmPassword"
-							placeholder="Confirm Password"
-							type="password"
-							error={touched.confirmPassword && errors.confirmPassword}
-						/>
-						<ErrorMessage
-							error={errors.confirmPassword}
-							touched={touched.confirmPassword}
-						/>
-					</Label>
+				<FormField
+					control={form.control}
+					name="confirmPassword"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Email</FormLabel>
+							<FormControl>
+								<Input {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 
-					<Button type="submit">Register</Button>
-				</Form>
-			)}
-		</Formik>
+				<Button type="submit">Register</Button>
+			</form>
+		</Form>
 	);
 };
 

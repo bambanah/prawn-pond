@@ -1,18 +1,39 @@
-import Form from "@/components/atoms/form";
-import Input from "@/components/atoms/input";
-import Label from "@/components/atoms/label";
 import Layout from "@/components/templates/layout";
+import {
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	Form,
+	FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { sendPasswordResetEmail } from "@/lib/firebase";
-import { Formik } from "formik";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Button } from "src/components/ui/button";
+import { z } from "zod";
+
+const formSchema = z.object({
+	email: z.string().email(),
+});
+type FormSchema = z.infer<typeof formSchema>;
 
 const RecoverPassword = ({ email }: { email?: string }) => {
 	const [emailSent, setEmailSent] = useState(false);
 
-	const handleSubmit = async (values: { email: string }) => {
-		sendPasswordResetEmail(values.email).then(() => setEmailSent(true));
+	const form = useForm<FormSchema>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			email: email || "",
+		},
+	});
+
+	const onSubmit = async (values: FormSchema) => {
+		await sendPasswordResetEmail(values.email);
+		setEmailSent(true);
 	};
 
 	return (
@@ -25,24 +46,25 @@ const RecoverPassword = ({ email }: { email?: string }) => {
 							<Link href="/">Go back home</Link>
 						</div>
 					) : (
-						<Formik
-							initialValues={{ email: email || "" }}
-							onSubmit={handleSubmit}
-						>
-							<Form>
-								<Label htmlFor="email">
-									Email
-									<Input
-										id="email"
-										name="email"
-										placeholder="john@smith.com"
-										type="email"
-									/>
-								</Label>
+						<Form {...form}>
+							<form onSubmit={form.handleSubmit(onSubmit)}>
+								<FormField
+									control={form.control}
+									name="email"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Email</FormLabel>
+											<FormControl>
+												<Input {...field} />
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
 
 								<Button type="submit">Recover Password</Button>
-							</Form>
-						</Formik>
+							</form>
+						</Form>
 					)}
 				</div>
 			</div>
