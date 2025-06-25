@@ -110,10 +110,6 @@ export const ImageContainer = styled.div`
 			filter: drop-shadow(5px 5px 6px rgb(0 0 0 / 0.5));
 			transition: all 0.1s;
 		}
-
-		path {
-			color: ${({ theme }) => theme.colors.bg};
-		}
 	}
 `;
 
@@ -127,7 +123,6 @@ export const TextContainer = styled.div`
 	padding: 2rem 1.2rem;
 	width: 100%;
 	z-index: 10;
-	background-color: ${(props) => props.theme.colors.bg};
 
 	white-space: pre-line;
 	line-height: 1.3rem;
@@ -184,7 +179,6 @@ export const FullscreenImage = styled.div`
 export const FullscreenCaption = styled.div`
 	display: flex;
 	align-items: center;
-	background-color: ${({ theme }) => theme.colors.bg};
 	padding: 2rem;
 	padding-bottom: 5rem;
 
@@ -199,9 +193,6 @@ export const FullscreenCaption = styled.div`
 
 export const IconButton = styled.div`
 	cursor: pointer;
-	path {
-		color: ${({ theme }) => theme.colors.bg};
-	}
 
 	&:hover {
 		path {
@@ -248,13 +239,8 @@ export const LoadingContainer = styled.div`
 	justify-content: center;
 	width: 100%;
 	height: 100%;
-
-	path {
-		color: ${({ theme }) => theme.colors.bg};
-	}
 `;
 
 export const AlbumIcon = styled(FontAwesomeIcon)`
 	width: auto;
-	color: ${({ theme }) => theme.colors.bg};
 `;

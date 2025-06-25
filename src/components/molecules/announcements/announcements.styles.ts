@@ -17,10 +17,7 @@ export const Announcement = styled.div<AnnouncementProps>`
 	justify-content: center;
 	padding: 7rem 1rem;
 	align-items: center;
-	background-color: ${(props) =>
-		props.backgroundColor ?? props.theme.colors.bg};
 
-	color: ${({ theme }) => theme.colors.fg};
 	width: 100%;
 
 	@media screen and (max-width: 900px) {
@@ -44,7 +41,6 @@ export const Announcement = styled.div<AnnouncementProps>`
 		h1 {
 			flex: 1 0 50%;
 			font-size: 2.2rem;
-			font-family: ${({ theme }) => theme.fonts.display};
 			font-weight: bold;
 			margin: 0;
 
@@ -115,7 +111,6 @@ export const FuneralMessage = styled.div`
 
 	margin-top: 2rem;
 	max-width: 800px;
-	background-color: ${({ theme }) => theme.colors.bg};
 
 	padding: 2rem 5rem;
 	border-radius: 5px;
@@ -125,7 +120,6 @@ export const FuneralMessage = styled.div`
 	}
 
 	p.signature {
-		font-family: ${({ theme }) => theme.fonts.cursive};
 		font-size: 1.3rem;
 	}
 `;

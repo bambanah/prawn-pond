@@ -16,7 +16,6 @@ export const MemoryListContainer = styled.div`
 	}
 
 	h1 {
-		font-family: ${({ theme }) => theme.fonts.display};
 		font-size: 3rem;
 		text-align: center;
 		margin-top: 5rem;
@@ -75,17 +74,11 @@ export const MemoryLink = styled.a`
 	border: 1px solid;
 	border-radius: 2px;
 
-	color: ${({ theme }) => theme.colors.fg};
 	font-size: 1.1rem;
 
 	transition-duration: 0.1s;
 
 	box-shadow: 2px 2px 6px 2px rgba(0, 0, 0, 0.2);
-
-	&:hover {
-		color: ${({ theme }) => theme.colors.link};
-		border-color: ${({ theme }) => theme.colors.link};
-	}
 
 	&:active {
 		box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2);

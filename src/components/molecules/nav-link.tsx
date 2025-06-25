@@ -15,16 +15,9 @@ interface StyleProps {
 const StyledLink = styled.a<StyleProps>`
 	font-family: "Inter";
 	text-decoration: none;
-	color: ${({ theme }) => theme.colors.fg};
 	margin: 0 0.7rem;
 	font-weight: ${({ active }) => (active ? "bold" : "500")};
 	padding: 0 0.2rem;
-	border-bottom: 1px solid
-		${({ active, theme }) => (active ? theme.colors.fg : "transparent")};
-
-	&:hover {
-		border-bottom-color: ${(props) => props.theme.colors.brand};
-	}
 `;
 
 const Link = ({ href, children }: Props) => {
