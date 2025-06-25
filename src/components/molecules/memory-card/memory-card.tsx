@@ -1,7 +1,7 @@
 import { faImages, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Memory } from "@shared/types";
-import { getImageData } from "@utils/firebase";
+import { Memory } from "@/shared/types";
+import { getImageData } from "@/lib/firebase";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import AlbumDisplay from "../album-display";

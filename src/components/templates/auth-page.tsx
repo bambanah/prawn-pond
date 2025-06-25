@@ -1,14 +1,13 @@
+import LoginForm from "@/components/organisms/login-form";
+import RegisterForm from "@/components/organisms/register-form";
+import Layout from "@/components/templates/layout";
+import { signInWithProvider } from "@/lib/firebase";
 import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { signInWithProvider } from "@utils/firebase";
 import Head from "next/head";
 import Link from "next/link";
-import React from "react";
+import { Button } from "src/components/ui/button";
 import styled from "styled-components";
-import Button from "@atoms/button";
-import Layout from "@templates/layout";
-import LoginForm from "@organisms/login-form";
-import RegisterForm from "@organisms/register-form";
 
 interface Props {
 	type: "login" | "register";
@@ -45,7 +44,9 @@ const AuthPage = ({ type }: Props) => (
 	<Layout>
 		<Container>
 			<Head>
-				<title>{type === "login" ? "Login" : "Register"} - Sean Wilson</title>
+				<title>
+					{(type === "login" ? "Login" : "Register") + " - Sean Wilson"}
+				</title>
 			</Head>
 			<h1>{type === "login" ? "Login" : "Create Account"}</h1>
 
@@ -65,7 +66,7 @@ const AuthPage = ({ type }: Props) => (
 			</EmailContainer>
 
 			<p>Already have an account?</p>
-			<Link href={type === "login" ? "/register" : "/login"} legacyBehavior>
+			<Link href={type === "login" ? "/register" : "/login"}>
 				{type === "login" ? "Create an account" : "Login"}
 			</Link>
 		</Container>

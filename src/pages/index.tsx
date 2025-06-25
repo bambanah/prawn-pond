@@ -1,11 +1,10 @@
-import React from "react";
-import Hero from "@molecules/hero";
-import Layout from "@templates/layout";
+import { MemoryContextProvider } from "@/context/memory-context";
+import Announcements from "@/components/molecules/announcements";
+import Hero from "@/components/molecules/hero";
+import MemoryList from "@/components/organisms/memory-list";
+import Layout from "@/components/templates/layout";
 import { NextPage } from "next";
-import Announcements from "@molecules/announcements";
-import MemoryList from "@organisms/memory-list";
 import styled from "styled-components";
-import { MemoryContextProvider } from "@context/memory-context";
 
 const ContentContainer = styled.div`
 	display: flex;

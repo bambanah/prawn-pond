@@ -17,17 +17,7 @@
 		"noFallthroughCasesInSwitch": true,
 		"noImplicitReturns": true,
 		"paths": {
-			"@atoms/*": ["src/components/atoms/*"],
-			"@molecules/*": ["src/components/molecules/*"],
-			"@organisms/*": ["src/components/organisms/*"],
-			"@templates/*": ["src/components/templates/*"],
-			"@context/*": ["src/context/*"],
-			"@hooks/*": ["src/hooks/*"],
-			"@pages/*": ["src/pages/*"],
-			"@schema/*": ["src/schema/*"],
-			"@shared/*": ["src/shared/*"],
-			"@styles/*": ["src/styles/*"],
-			"@utils/*": ["src/utils/*"]
+			"@/*": ["src/*"]
 		},
 		"pretty": true,
 		"resolveJsonModule": true,

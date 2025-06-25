@@ -1,5 +1,5 @@
-import AuthPage from "@templates/auth-page";
-import Layout from "@templates/layout";
+import AuthPage from "@/components/templates/auth-page";
+import Layout from "@/components/templates/layout";
 import React from "react";
 
 export default function Register() {

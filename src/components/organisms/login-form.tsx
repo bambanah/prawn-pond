@@ -1,12 +1,11 @@
-import Button from "@atoms/button";
-import ErrorMessage from "@atoms/error-message";
-import Form from "@atoms/form";
-import Input from "@atoms/input";
-import Label from "@atoms/label";
-import { signInWithEmailAndPassword } from "@utils/firebase";
+import ErrorMessage from "@/components/atoms/error-message";
+import Form from "@/components/atoms/form";
+import Input from "@/components/atoms/input";
+import Label from "@/components/atoms/label";
+import { signInWithEmailAndPassword } from "@/lib/firebase";
 import { Formik } from "formik";
 import Link from "next/link";
-import React from "react";
+import { Button } from "src/components/ui/button";
 import * as yup from "yup";
 
 interface Props {
@@ -64,9 +63,7 @@ const EmailAuthForm = () => {
 						Forgot your password?
 					</Link>
 
-					<Button type="submit" primary>
-						Login
-					</Button>
+					<Button type="submit">Login</Button>
 				</Form>
 			)}
 		</Formik>

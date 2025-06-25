@@ -1,13 +1,13 @@
-import Button from "@atoms/button";
-import Form from "@atoms/form";
-import Input from "@atoms/input";
-import Label from "@atoms/label";
-import { sendPasswordResetEmail } from "@utils/firebase";
+import { Button } from "src/components/ui/button";
+import Form from "@/components/atoms/form";
+import Input from "@/components/atoms/input";
+import Label from "@/components/atoms/label";
+import { sendPasswordResetEmail } from "@/lib/firebase";
 import { Formik } from "formik";
 import React, { useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import Layout from "@templates/layout";
+import Layout from "@/components/templates/layout";
 
 const Container = styled.div`
 	display: flex;

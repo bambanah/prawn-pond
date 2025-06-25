@@ -1,20 +1,20 @@
+import CategorySelection from "@/components/molecules/category-selection";
+import MemoryCard from "@/components/molecules/memory-card";
+import { Button } from "@/components/ui/button";
+import { useMemoryContext } from "@/context/memory-context";
+import { MemoryCategoryExtended } from "@/shared/types";
 import {
 	faSpinner,
 	faStream,
 	faThLarge,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { MemoryCategoryExtended } from "@shared/types";
 import Link from "next/link";
-import React, { useEffect, useMemo, useState } from "react";
-import { useMemoryContext } from "@context/memory-context";
-import MemoryCard from "@molecules/memory-card";
-import CategorySelection from "@molecules/category-selection";
+import { useEffect, useMemo, useState } from "react";
 import {
 	FooterContainer,
 	ListContent,
 	ListHeader,
-	MemoryLink,
 	MemoryListContainer,
 	TableViewSelectContainer,
 } from "./memory-list.styles";
@@ -85,8 +85,8 @@ const MemoryList = () => {
 					}}
 				/>
 
-				<Link href="/upload" legacyBehavior>
-					<MemoryLink>Share Memory</MemoryLink>
+				<Link href="/upload">
+					<Button>Share Memory</Button>
 				</Link>
 
 				<TableViewSelectContainer>

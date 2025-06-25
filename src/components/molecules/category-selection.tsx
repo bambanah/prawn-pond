@@ -1,5 +1,5 @@
-import Select from "@atoms/select";
-import { categoryOptions, MemoryCategoryExtended } from "@shared/types";
+import Select from "@/components/atoms/select";
+import { categoryOptions, MemoryCategoryExtended } from "@/shared/types";
 import React from "react";
 
 interface CategorySelectionProps {

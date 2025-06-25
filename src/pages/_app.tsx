@@ -1,5 +1,5 @@
-import { AuthProvider, useAuth } from "@hooks/useAuth";
-import GlobalStyle from "@shared/GlobalStyle";
+import { AuthProvider, useAuth } from "@/hooks/useAuth";
+import GlobalStyle from "@/shared/GlobalStyle";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import React from "react";
@@ -12,8 +12,8 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 
-import { theme } from "@styles/theme";
-import "@styles/globals.css";
+import { theme } from "@/styles/theme";
+import "@/styles/globals.css";
 
 function App({ Component, pageProps }: AppProps) {
 	const { loadingAuthState } = useAuth();

@@ -1,12 +1,11 @@
-import Button from "@atoms/button";
-import Form from "@atoms/form";
-import { registerWithEmailAndPassword } from "@utils/firebase";
+import ErrorMessage from "@/components/atoms/error-message";
+import Form from "@/components/atoms/form";
+import Input from "@/components/atoms/input";
+import Label from "@/components/atoms/label";
+import { registerWithEmailAndPassword } from "@/lib/firebase";
 import { Formik } from "formik";
-import React from "react";
+import { Button } from "src/components/ui/button";
 import * as yup from "yup";
-import ErrorMessage from "@atoms/error-message";
-import Input from "@atoms/input";
-import Label from "@atoms/label";
 
 interface Props {
 	email: string;
@@ -95,9 +94,7 @@ const RegisterForm = () => {
 						/>
 					</Label>
 
-					<Button type="submit" primary>
-						Register
-					</Button>
+					<Button type="submit">Register</Button>
 				</Form>
 			)}
 		</Formik>

@@ -1,19 +1,18 @@
-import Button from "@atoms/button";
-import Form from "@atoms/form";
-import Heading from "@atoms/heading";
-import Label from "@atoms/label";
-import Subheading from "@atoms/subheading";
-import TextArea from "@atoms/text-area";
-import ButtonGroup from "@molecules/button-group";
-import PostValidationSchema from "@schema/post-validation-schema";
-import { categoryOptions, CreatedMemory, MemoryCategory } from "@shared/types";
-import { createMemory, uploadFile } from "@utils/firebase";
+import PostValidationSchema from "@/schema/post-validation-schema";
+import Form from "@/components/atoms/form";
+import Heading from "@/components/atoms/heading";
+import Label from "@/components/atoms/label";
+import Subheading from "@/components/atoms/subheading";
+import TextArea from "@/components/atoms/text-area";
+import { categoryOptions, CreatedMemory, MemoryCategory } from "@/shared/types";
+import { createMemory, uploadFile } from "@/lib/firebase";
 import { FieldArray, Formik } from "formik";
 import Image, { ImageLoaderProps } from "next/image";
 import Router from "next/router";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
+import { Button } from "src/components/ui/button";
 import {
 	Categories,
 	DropZoneContainer,
@@ -163,10 +162,9 @@ const UploadForm = () => {
 						)}
 					/>
 
-					<ButtonGroup>
+					<div className="flex items-center justify-center gap-1.5">
 						<Button
 							type="button"
-							primary
 							onClick={() => isValid && handleSubmit()}
 							disabled={isSubmitting}
 						>
@@ -175,7 +173,7 @@ const UploadForm = () => {
 						<Button type="button" onClick={() => Router.push("/")}>
 							Cancel
 						</Button>
-					</ButtonGroup>
+					</div>
 				</Form>
 			)}
 		</Formik>

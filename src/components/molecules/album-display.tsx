@@ -5,8 +5,8 @@ import {
 	faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Image } from "@shared/types";
-import { getImageData } from "@utils/firebase";
+import { Image } from "@/shared/types";
+import { getImageData } from "@/lib/firebase";
 import React, { useEffect, useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import {
