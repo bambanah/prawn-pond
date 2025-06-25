@@ -1,19 +1,14 @@
-import { AuthProvider, useAuth } from "@hooks/useAuth";
-import GlobalStyle from "@shared/GlobalStyle";
+import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import React from "react";
-import { ThemeProvider } from "styled-components";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { config } from "@fortawesome/fontawesome-svg-core";
-import "@fortawesome/fontawesome-svg-core/styles.css";
-config.autoAddCss = false;
+import "@/styles/globals.css";
 
-import { theme } from "@styles/theme";
-import "@styles/imports.css";
+import "react-loading-skeleton/dist/skeleton.css";
 
 function App({ Component, pageProps }: AppProps) {
 	const { loadingAuthState } = useAuth();
@@ -21,14 +16,11 @@ function App({ Component, pageProps }: AppProps) {
 	if (!loadingAuthState) {
 		return (
 			<AuthProvider>
-				<ThemeProvider theme={theme}>
-					<Head>
-						<title>Sean Wilson</title>
-					</Head>
-					<GlobalStyle />
-					<Component {...pageProps} />
-					<ToastContainer />
-				</ThemeProvider>
+				<Head>
+					<title>Sean Wilson</title>
+				</Head>
+				<Component {...pageProps} />
+				<ToastContainer />
 			</AuthProvider>
 		);
 	}

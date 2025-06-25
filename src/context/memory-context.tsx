@@ -1,5 +1,5 @@
-import { Memory } from "@shared/types";
-import { getInitialMemories, getNextMemories } from "@utils/firebase";
+import { Memory } from "@/shared/types";
+import { getInitialMemories, getNextMemories } from "@/lib/firebase";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface AppContextState {

@@ -1,69 +1,73 @@
-import Button from "@atoms/button";
-import Form from "@atoms/form";
-import Input from "@atoms/input";
-import Label from "@atoms/label";
-import { sendPasswordResetEmail } from "@utils/firebase";
-import { Formik } from "formik";
-import React, { useState } from "react";
-import styled from "styled-components";
+import Layout from "@/components/templates/layout";
+import {
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	Form,
+	FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { sendPasswordResetEmail } from "@/lib/firebase";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import Layout from "@templates/layout";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Button } from "src/components/ui/button";
+import { z } from "zod";
 
-const Container = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-`;
-
-const Content = styled.div`
-	display: flex;
-	flex-direction: column;
-`;
-
-const EmailSentContainer = styled.div`
-	text-align: center;
-`;
+const formSchema = z.object({
+	email: z.string().email(),
+});
+type FormSchema = z.infer<typeof formSchema>;
 
 const RecoverPassword = ({ email }: { email?: string }) => {
 	const [emailSent, setEmailSent] = useState(false);
 
-	const handleSubmit = async (values: { email: string }) => {
-		sendPasswordResetEmail(values.email).then(() => setEmailSent(true));
+	const form = useForm<FormSchema>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			email: email || "",
+		},
+	});
+
+	const onSubmit = async (values: FormSchema) => {
+		await sendPasswordResetEmail(values.email);
+		setEmailSent(true);
 	};
 
 	return (
 		<Layout>
-			<Container>
-				<Content>
+			<div className="flex flex-col justify-center items-center h-screen">
+				<div className="flex flex-col">
 					{emailSent ? (
-						<EmailSentContainer>
+						<div className="text-center">
 							<p>Email sent - check your inbox.</p>
 							<Link href="/">Go back home</Link>
-						</EmailSentContainer>
+						</div>
 					) : (
-						<Formik
-							initialValues={{ email: email || "" }}
-							onSubmit={handleSubmit}
-						>
-							<Form>
-								<Label htmlFor="email">
-									Email
-									<Input
-										id="email"
-										name="email"
-										placeholder="john@smith.com"
-										type="email"
-									/>
-								</Label>
+						<Form {...form}>
+							<form onSubmit={form.handleSubmit(onSubmit)}>
+								<FormField
+									control={form.control}
+									name="email"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Email</FormLabel>
+											<FormControl>
+												<Input {...field} />
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
 
 								<Button type="submit">Recover Password</Button>
-							</Form>
-						</Formik>
+							</form>
+						</Form>
 					)}
-				</Content>
-			</Container>
+				</div>
+			</div>
 		</Layout>
 	);
 };

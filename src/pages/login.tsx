@@ -1,4 +1,4 @@
-import AuthPage from "@templates/auth-page";
+import AuthPage from "@/components/templates/auth-page";
 import React from "react";
 
 export default function Login() {

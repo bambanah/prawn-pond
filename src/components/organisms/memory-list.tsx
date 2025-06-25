@@ -1,23 +1,11 @@
-import {
-	faSpinner,
-	faStream,
-	faThLarge,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { MemoryCategoryExtended } from "@shared/types";
+import CategorySelection from "@/components/molecules/category-selection";
+import MemoryCard from "@/components/molecules/memory-card";
+import { Button } from "@/components/ui/button";
+import { useMemoryContext } from "@/context/memory-context";
+import { MemoryCategoryExtended } from "@/shared/types";
+import { Grid2X2, Loader, Rows2 } from "lucide-react";
 import Link from "next/link";
-import React, { useEffect, useMemo, useState } from "react";
-import { useMemoryContext } from "@context/memory-context";
-import MemoryCard from "@molecules/memory-card";
-import CategorySelection from "@molecules/category-selection";
-import {
-	FooterContainer,
-	ListContent,
-	ListHeader,
-	MemoryLink,
-	MemoryListContainer,
-	TableViewSelectContainer,
-} from "./memory-list.styles";
+import { useEffect, useMemo, useState } from "react";
 
 const MemoryList = () => {
 	const [loading, setLoading] = useState(false);
@@ -77,39 +65,39 @@ const MemoryList = () => {
 	if (!memories) return <div>Loading memories...</div>;
 
 	return (
-		<MemoryListContainer className={displayGrid ? "grid" : "feed"}>
-			<ListHeader id="memories">
-				<CategorySelection
-					handleChange={(category) => {
-						setCategory(category);
-					}}
-				/>
+		<div className="w-full max-w-3xl ">
+			<div className="my-8 flex gap-2 w-full justify-between">
+				<CategorySelection handleChange={setCategory} />
 
-				<Link href="/upload">
-					<MemoryLink>Share Memory</MemoryLink>
-				</Link>
+				<div className="flex gap-4">
+					<Link href="/upload">
+						<Button>Share Memory</Button>
+					</Link>
 
-				<TableViewSelectContainer>
-					<FontAwesomeIcon
-						icon={faStream}
-						size="2x"
+					<Button
+						variant="ghost"
+						size="icon"
 						onClick={() => {
 							enableGrid(false);
 							localStorage.setItem("displayGrid", "false");
 						}}
-					/>
-					<FontAwesomeIcon
-						icon={faThLarge}
-						size="2x"
+					>
+						<Rows2 />
+					</Button>
+					<Button
+						variant="ghost"
+						size="icon"
 						onClick={() => {
 							enableGrid(true);
 							localStorage.setItem("displayGrid", "true");
 						}}
-					/>
-				</TableViewSelectContainer>
-			</ListHeader>
+					>
+						<Grid2X2 />
+					</Button>
+				</div>
+			</div>
 
-			<ListContent className={displayGrid ? "grid" : "feed"}>
+			<div className="w-full flex flex-col gap-4" id="memories">
 				{filteredMemories.map((memory) => (
 					<MemoryCard
 						memory={memory}
@@ -117,21 +105,21 @@ const MemoryList = () => {
 						displayGrid={displayGrid}
 					/>
 				))}
-			</ListContent>
+			</div>
 
 			{loading && !loadedAllMemories && (
-				<FontAwesomeIcon icon={faSpinner} size="2x" className="spinner" />
+				<Loader className="animate-spin duration-1000 mx-auto my-8" />
 			)}
 
 			{loadedAllMemories && (
-				<FooterContainer>
-					<p>You&rsquo;ve reached the bottom</p>
-					<Link href="#memories">
-						<a>Back to the top</a>
+				<div className="flex flex-col justify-center items-center text-sm mt-16">
+					<p>You&#39;ve reached the bottom</p>
+					<Link href="#memories" className="font-bold">
+						Back to the top
 					</Link>
-				</FooterContainer>
+				</div>
 			)}
-		</MemoryListContainer>
+		</div>
 	);
 };
 

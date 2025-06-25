@@ -1,6 +1,11 @@
-import Select from "@atoms/select";
-import { categoryOptions, MemoryCategoryExtended } from "@shared/types";
-import React from "react";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { categoryOptions, MemoryCategoryExtended } from "@/shared/types";
 
 interface CategorySelectionProps {
 	handleChange: (category: MemoryCategoryExtended) => void;
@@ -14,15 +19,18 @@ const extendedCategoryOptions = [
 	...categoryOptions,
 ];
 
-const CategorySelection: React.FC<CategorySelectionProps> = ({
-	handleChange,
-}) => (
-	<Select handleChange={handleChange}>
-		{extendedCategoryOptions.map((category) => (
-			<option key={category.value} value={category.value}>
-				{category.label}
-			</option>
-		))}
+const CategorySelection = ({ handleChange }: CategorySelectionProps) => (
+	<Select onValueChange={handleChange} defaultValue="all">
+		<SelectTrigger>
+			<SelectValue placeholder="Category" />
+		</SelectTrigger>
+		<SelectContent>
+			{extendedCategoryOptions.map((category) => (
+				<SelectItem key={category.value} value={category.value}>
+					{category.label}
+				</SelectItem>
+			))}
+		</SelectContent>
 	</Select>
 );
 

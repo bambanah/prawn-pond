@@ -1,80 +1,75 @@
-import Button from "@atoms/button";
-import ErrorMessage from "@atoms/error-message";
-import Form from "@atoms/form";
-import Input from "@atoms/input";
-import Label from "@atoms/label";
-import { signInWithEmailAndPassword } from "@utils/firebase";
-import { Formik } from "formik";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { signInWithEmailAndPassword } from "@/lib/firebase";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import React from "react";
-import styled from "styled-components";
-import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { Button } from "src/components/ui/button";
+import { z } from "zod";
 
-interface Props {
-	email: string;
-	password: string;
-}
-
-const LoginFormSchema = yup.object().shape({
-	email: yup.string().required("Email is required"),
-	password: yup
-		.string()
-		.min(8, "Minimum 8 characters")
-		.required("Password is required"),
+const loginFormSchema = z.object({
+	email: z.string().email(),
+	password: z.string().min(1),
 });
 
-const ForgotPasswordText = styled.a`
-	text-align: center;
-`;
-
 const EmailAuthForm = () => {
-	const handleSubmit = async (values: Props) => {
+	const form = useForm<z.infer<typeof loginFormSchema>>({
+		resolver: zodResolver(loginFormSchema),
+		defaultValues: {
+			email: "",
+			password: "",
+		},
+	});
+
+	const onSubmit = async (values: z.infer<typeof loginFormSchema>) => {
 		signInWithEmailAndPassword(values.email, values.password);
 	};
 
 	return (
-		<Formik
-			initialValues={{
-				email: "",
-				password: "",
-			}}
-			onSubmit={handleSubmit}
-			validationSchema={LoginFormSchema}
-		>
-			{({ errors, touched }) => (
-				<Form>
-					<Label>
-						<Input
-							id="email"
-							name="email"
-							placeholder="Email"
-							type="email"
-							error={touched.email && errors.email}
-						/>
-						<ErrorMessage error={errors.email} touched={touched.email} />
-					</Label>
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit(onSubmit)}>
+				<FormField
+					control={form.control}
+					name="email"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Email</FormLabel>
+							<FormControl>
+								<Input {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 
-					<Label>
-						<Input
-							id="password"
-							name="password"
-							placeholder="Password"
-							type="password"
-							error={touched.password && errors.password}
-						/>
-						<ErrorMessage error={errors.password} touched={touched.password} />
-					</Label>
+				<FormField
+					control={form.control}
+					name="password"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Password</FormLabel>
+							<FormControl>
+								<Input type="password" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 
-					<Link href="/recover-password">
-						<ForgotPasswordText>Forgot your password?</ForgotPasswordText>
-					</Link>
+				<Link href="/recover-password" className="text-center">
+					Forgot your password?
+				</Link>
 
-					<Button type="submit" primary>
-						Login
-					</Button>
-				</Form>
-			)}
-		</Formik>
+				<Button type="submit">Login</Button>
+			</form>
+		</Form>
 	);
 };
 
