@@ -10,7 +10,7 @@ import sharp from "sharp";
 
 initializeApp();
 
-const region = defineString("FUNCTION_REGION");
+const region = defineString("BUCKET_REGION");
 
 export const optimiseImages = onObjectFinalized({ region }, async (event) => {
 	const object = event.data;
