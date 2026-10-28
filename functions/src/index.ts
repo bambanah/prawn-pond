@@ -1,68 +1,56 @@
-import * as functions from "firebase-functions";
+import { initializeApp } from "firebase-admin/app";
+import { getStorage } from "firebase-admin/storage";
+import { defineString } from "firebase-functions/params";
+import { onObjectFinalized } from "firebase-functions/v2/storage";
 
-import { tmpdir } from "os";
-import { join, dirname } from "path";
-import * as sharp from "sharp";
-import * as fs from "fs-extra";
+import { mkdtemp, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { basename, dirname, join } from "node:path";
+import sharp from "sharp";
 
-import { Storage } from "@google-cloud/storage";
-import path = require("path");
+initializeApp();
 
-const gcs = new Storage();
+const region = defineString("FUNCTION_REGION");
 
-const optimiseImages = functions.storage.object().onFinalize(async (object) => {
-	const bucket = gcs.bucket(object.bucket);
+export const optimiseImages = onObjectFinalized({ region }, async (event) => {
+	const object = event.data;
 	const filePath = object.name;
-	if (!filePath) return false;
+	const fileName = basename(filePath);
 
-	const fileName = path.basename(filePath);
-	const bucketDir = dirname(filePath);
-
-	const workingDir = join(tmpdir(), "thumbs");
-
-	const tmpFilePath = join(workingDir, fileName);
-
-	if (fileName?.includes("thumb@") || !object.contentType?.includes("image")) {
-		return false;
+	if (fileName.includes("thumb@") || !object.contentType?.includes("image")) {
+		return;
 	}
 
-	// Ensure thumbnail dir exists
-	await fs.ensureDir(workingDir);
+	const bucket = getStorage().bucket(object.bucket);
+	const bucketDir = dirname(filePath);
+	const workingDir = await mkdtemp(join(tmpdir(), "thumbs-"));
+	const tmpFilePath = join(workingDir, fileName);
 
-	// Download source file
-	await bucket.file(filePath).download({
-		destination: tmpFilePath,
-	});
+	try {
+		await bucket.file(filePath).download({ destination: tmpFilePath });
 
-	const sizes = [800];
+		const sizes = [800];
 
-	console.log(
-		`Creating optimised images at sizes ${sizes.toString()} for ${filePath}`
-	);
+		console.log(
+			`Creating optimised images at sizes ${sizes.toString()} for ${filePath}`
+		);
 
-	const uploadPromises = sizes.map(async (size) => {
-		const thumbName = `thumb@${size}_${fileName}`;
+		await Promise.all(
+			sizes.map(async (size) => {
+				const thumbName = `thumb@${size}_${fileName}`;
+				const thumbPath = join(workingDir, thumbName);
 
-		const thumbPath = join(workingDir, thumbName);
+				await sharp(tmpFilePath).resize(size).toFile(thumbPath);
 
-		// This is where the magic happens
-		await sharp(tmpFilePath).resize(size).toFile(thumbPath);
+				console.log(`Saving ${thumbPath} to ${bucketDir}`);
 
-		console.log(`Saving ${thumbPath} to ${bucketDir}`);
-
-		const metadata = {
-			contentType: object.contentType,
-		};
-
-		return bucket.upload(thumbPath, {
-			destination: join(bucketDir, thumbName),
-			metadata,
-		});
-	});
-
-	await Promise.all(uploadPromises);
-
-	return fs.remove(workingDir);
+				await bucket.upload(thumbPath, {
+					destination: join(bucketDir, thumbName),
+					metadata: { contentType: object.contentType },
+				});
+			})
+		);
+	} finally {
+		await rm(workingDir, { recursive: true, force: true });
+	}
 });
-
-export default optimiseImages;
