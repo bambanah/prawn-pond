@@ -1,0 +1,110 @@
+---
+created: 2026-10-29
+---
+
+# Phase 1 modernisation: get prawn-pond deployable again
+
+## Goal
+
+Bring the site to a state where both the frontend and the Cloud Function can be built and deployed on supported versions. The site is live, in active use, and gets a content update every year for an annual event (the hike blurb in `src/components/molecules/announcements/announcements.tsx`), so a working deploy pipeline is the priority. Phase 1 is "make it deployable" only - no restyling, no feature work, no hosting move.
+
+## Context
+
+- **What it is:** a memorial site ("For Sean") where people sign in and share photos, videos and stories. About 2.9k lines of TypeScript, last touched for features in June 2024. Since then only Renovate security bumps have landed (`renovate.json` disables everything except vulnerability alerts).
+- **Frontend:** Next.js 12.1.6 Pages Router (`src/pages/`: `index`, `login`, `register`, `recover-password`, `upload`, `404`, `_app`), React 18, TypeScript 4.7, styled-components 5 (27 files) plus some Tailwind 3 classes, Formik + yup forms, react-toastify. No `getServerSideProps`/`getStaticProps` and no API routes - it is a client-side Firebase app. Path aliases (`@atoms/*`, `@utils/*`, etc.) live in `tsconfig.json`.
+- **Firebase client:** v8 namespaced SDK (`firebase@^8.6.8`). Usage is concentrated in `src/utils/firebase.ts` (auth with Google/Facebook/email, Firestore `memories` collection with pagination, Storage upload/download) and `src/hooks/useAuth.tsx`. `src/shared/types.ts` imports `firebase` for `firebase.firestore.Timestamp`. Other files under `src/` import only from `@utils/firebase`. Config comes from `NEXT_PUBLIC_FIREBASE_*` env vars (in Vercel, and a gitignored local `.env*`).
+- **Cloud Function:** `functions/` is a separate package (yarn, `functions/yarn.lock`). `functions/src/index.ts` (68 lines) is a v1 Storage `onFinalize` trigger that resizes each uploaded image to 800px wide with sharp and uploads it beside the original as `thumb@800_<filename>`. It skips files already containing `thumb@` and non-images. The frontend depends on that exact name: `getImageData` in `src/utils/firebase.ts` reads `thumb@800_${imageId}`. It is exported as `export default optimiseImages`, so the deployed function is probably named `default` (to be confirmed, see Steps). Pinned to Node 14 (no longer deployable), `firebase-functions` ^3, `firebase-admin` ^9, `@google-cloud/storage` ^5, TypeScript ^3.8. `firebase.json` runs the functions lint and build as predeploy.
+- **Hosting/projects (checked 2026-10-29):**
+  - Vercel project `bambanahs-projects/sean` is linked through `.vercel/repo.json`. The six `NEXT_PUBLIC_FIREBASE_*` vars (`API_KEY`, `AUTH_DOMAIN`, `PROJECT_ID`, `STORAGE_BUCKET`, `MESSAGING_SENDER_ID`, `APP_ID`) hold the prod config for Production and, since 2026-10-29, the **staging (`sean-dev-426404`) config for Preview**, so preview deployments talk to staging. (Previews used to share prod's entries.) Development has none. `DATABASE_URL` is unset and Realtime Database is unused.
+  - **Prod** is Firebase project `sean-68394` (display name "Sean", billing enabled, so it is on Blaze). Its bucket is `sean-68394.appspot.com` in **australia-southeast1**. Its only function is named **`default`**: gen 1, `nodejs14`, region **us-central1**, triggered by `google.storage.object.finalize` on that bucket, last deployed 2021-06-21.
+  - **Staging** is Firebase project **`sean-dev-426404`** (display name "sean-dev", billing enabled). It has web app `1:959558445478:web:1c2edcb85954df87804767`, a Firestore Native `(default)` database, Auth (identitytoolkit) and Storage. Its bucket is `sean-dev-426404.firebasestorage.app` in **us-central1**. The Cloud Functions API is **not yet enabled** and no function is deployed. `.firebaserc`'s `staging` alias wrongly points at `sean-dev-37a71`, which doesn't exist or isn't accessible.
+  - Storage rules are versioned in `storage.rules` (copied from prod: public read, authenticated write) and wired up in `firebase.json`. Staging's console-created test-mode rules expired on 2025-07-25 and caused 403s, so these rules were deployed to staging on 2026-10-29 (`firebase deploy --only storage --project staging`). Prod's live rules already match the file. Firestore rules are not in the repo; they're identical in both projects (`memories`: public read, authenticated write).
+  - `.env.local` (gitignored) holds `VERCEL_OIDC_TOKEN` from `vercel env pull` plus the **sean-dev** web config, so local `pnpm dev`/`pnpm build`/`pnpm start` hit staging, not prod.
+- **Tooling state:** pnpm 9.15 (`packageManager` field), Node 22.14 locally. `.husky/commit-msg` still calls `yarn commitlint` (stale since the pnpm migration). `.lintstagedrc.js` uses `next lint`. Jest is set up with a single placeholder test, `__tests__/firebase.spec.ts` (`expect("").toEqual("")`).
+- **CLIs:** `gcloud` (as `lachlanu@gmail.com`), `firebase` and `vercel` are all authenticated. `vercel` is installed at `~/Library/pnpm/bin/vercel` and is only on `PATH` in a login shell. From a non-interactive shell, call it as `zsh -lic 'vercel ...'` or by its full path.
+- **Long-term direction:** the user plans to move the frontend off Vercel to a self-hosted Coolify server later. That is a later phase, but phase 1 choices must not make it harder.
+
+## Decisions
+
+- **Keep Next.js + Firebase; no stack rewrite.** The app is a thin client over Firebase Auth/Firestore/Storage plus one Storage trigger, and that stack still fits. A rewrite (e.g. Vite, Supabase) would cost more than this whole plan and fix nothing this plan doesn't.
+- **Stay on the Pages Router.** Seven pages and no server data fetching, so the App Router adds nothing.
+- **Avoid Vercel-only features** (Vercel KV/Blob, edge-only middleware, Vercel image optimisation config) so the later Coolify move stays a plain `next build`/`next start` (or `output: "standalone"`) deploy. Do not add `output: "standalone"` now - that belongs to the Coolify phase.
+- **Remove unused dependencies first.** `axios`, `moment`, `web-vitals`, `react-spinners`, `sass` and root `sharp` are never imported in `src/` (axios was even getting security bump PRs). `sassOptions` in `next.config.js` is dead because there are no `.scss` files. Recent Next versions install sharp themselves for image optimisation, so root `sharp` is not needed.
+- **Migrate the function to v2 (`onObjectFinalized`) on the newest Node runtime Cloud Functions supports** (Node 22 at the time of writing; use a newer one if the Firebase docs list it as GA). A v1 function cannot be upgraded in place to v2 under the same name, so deploy the new one under an explicit name, `optimiseImages`, and delete the old v1 function. Keep the thumbnail naming (`thumb@800_<name>`, same directory) unchanged. Replace `@google-cloud/storage` with `firebase-admin/storage` and `fs-extra` with `node:fs/promises`. Move `functions/` from yarn to pnpm to match the root.
+- **Function region comes from a param, set per project.** A gen 2 Storage trigger must be in the same region as its single-region bucket, and the two buckets differ: prod is australia-southeast1, staging is us-central1. Set `region` from `defineString("FUNCTION_REGION")` (`firebase-functions/params`), with `functions/.env.prod` = `FUNCTION_REGION=australia-southeast1` and `functions/.env.staging` = `FUNCTION_REGION=us-central1`. The Firebase CLI loads `.env.<alias>` for the active alias. Commit these files - they contain no secrets.
+- **Test write paths against staging only.** This is a memorial site, so test uploads, registrations and sign-ins must never touch prod. Run them locally or on a Vercel preview, both of which use `sean-dev-426404`. On prod, only read-only checks are allowed (pages load, memories and thumbnails render, pagination).
+- **Firebase JS SDK v8 → current modular SDK.** Rewrite `src/utils/firebase.ts`, `src/hooks/useAuth.tsx` and `src/shared/types.ts` to the modular API. Behaviour must stay identical: same collections, field names, storage paths and auth providers. Do not use the `firebase/compat` layer - it is a deprecated stopgap. While in `useAuth`, fix the `useEffect`: it has no dependency array and never unsubscribes `onAuthStateChanged`. Add `[]` and return the unsubscribe function.
+- **Next 12 → latest stable, React 18 → 19.** Upgrade one major at a time only if the jump breaks too much in one go. Otherwise go straight to latest with the official codemods. Replace `images.domains` with `images.remotePatterns` for `firebasestorage.googleapis.com` (plus localhost only if it is still needed).
+- **Remove Jest and the placeholder test.** The only test asserts nothing, and upgrading Jest/Testing Library just to keep a no-op passing is waste. Real tests can be added deliberately later.
+- **Minimum tooling updates only:** whatever the upgrades above force (TypeScript 5, ESLint 9 flat config because Next removed `next lint`, husky 9, lint-staged calling ESLint directly, commitlint via pnpm). No new lint rules and no reformatting sweep.
+- **Out of scope for phase 1** (agreed as later work, in this order): consolidating styling on Tailwind 4 and removing styled-components; replacing Formik with react-hook-form; bumping `@fortawesome/react-fontawesome`; enabling grouped Renovate updates; moving the frontend to Coolify.
+
+## Steps
+
+Steps marked **[USER]** need the user. They involve credentials, consoles, or production actions. An agent should stop and ask at each one.
+
+### 0. Access and discovery
+
+- [x] **[USER]** Re-authenticate gcloud.
+- [x] **[USER]** Install and authenticate the Firebase and Vercel CLIs.
+- [x] **[USER]** Link the repo to the Vercel project (`.vercel/repo.json`, gitignored).
+- [x] Record the deployed state of both projects in Context.
+- [x] Confirm both projects have billing enabled (Blaze), which v2 functions require.
+- [x] Get local env vars: Vercel has none for Development, so the sean-dev web config was appended to the gitignored `.env.local` from `firebase apps:sdkconfig web --project sean-dev-426404`.
+- [x] **[USER]** In the Firebase console for `sean-dev-426404` → Authentication → Sign-in method, check that Google, Facebook and Email/Password are enabled (to match prod). Add `localhost` to Authorized domains if it is missing. If Facebook isn't set up in dev and that's too much effort, skip Facebook in the staging checks and verify it read-only on prod after release.
+- [x] **[USER]** Seed staging with test memories: it holds two (one image, one text-only). The PR #44 Vercel preview renders both from staging, confirming the Preview env vars and Storage rules work.
+
+### 1. Remove unused dependencies
+
+- [x] Create branch `chore/phase-1-modernisation` from `main`.
+- [x] Fix `.firebaserc`: `staging` → `sean-dev-426404`.
+- [x] `pnpm remove axios moment web-vitals react-spinners sass sharp`. Delete `sassOptions` and the `path` require from `next.config.js`.
+- [x] Re-grep `src/` to confirm none of these are imported, then check that `pnpm build` still passes on Next 12 before moving on. This gives a known-good baseline.
+
+### 2. Cloud Function
+
+- [ ] Switch `functions/` to pnpm: delete `functions/yarn.lock`, add a `packageManager` field matching the root, `pnpm install`. Change the predeploy commands in `firebase.json` from `npm --prefix` to `pnpm --dir "$RESOURCE_DIR"`.
+- [ ] Set `engines.node` to the chosen runtime (`"22"` unless a newer GA runtime is listed). Upgrade `firebase-functions`, `firebase-admin`, `sharp`, `typescript` and `@types/node` to latest. Add `firebase-functions-test` only if a test is written (none planned). Remove `@google-cloud/storage`, `fs-extra`, `@types/fs-extra`, `@types/sharp` (sharp ships its own types) and `babel-plugin-module-resolver` (unused).
+- [ ] Rewrite `functions/src/index.ts` using `onObjectFinalized` from `firebase-functions/v2/storage` (with `region` from the `FUNCTION_REGION` param - see Decisions - and add `functions/.env.prod` and `functions/.env.staging`) and `getStorage()` from `firebase-admin/storage` (after `initializeApp()`), and export it as `export const optimiseImages = ...`. Keep the logic: skip non-images and names containing `thumb@`, resize to width 800, upload as `thumb@800_<name>` in the same directory with the original content type, then clean up the temp dir.
+- [ ] Replace the functions ESLint setup (ESLint 7 + `airbnb-typescript`, which is unmaintained) with a minimal ESLint 9 flat config using `typescript-eslint` recommended + `eslint-config-prettier`, carrying over `no-console` (warn, allow warn/error) and `quotes: double`. Update `tsconfig.json` target to `es2022`. Make sure `pnpm --dir functions run lint` and `run build` pass.
+- [ ] Test locally against the emulator if practical (`firebase emulators:start --only functions,storage`), uploading an image and checking a `thumb@800_` file appears.
+- [ ] **[USER]** Deploy to staging: `! firebase deploy --only functions --project staging`. The first v2 deploy may ask to enable Cloud Run, Eventarc, Artifact Registry, Cloud Build and Pub/Sub APIs and to grant the Storage service agent the Pub/Sub Publisher role - accept these.
+- [ ] Verify in staging (there is no old function to delete there): `gcloud storage cp <some.jpg> gs://sean-dev-426404.firebasestorage.app/phase1-test.jpg`. Within a minute, `gs://sean-dev-426404.firebasestorage.app/thumb@800_phase1-test.jpg` should exist (`gcloud storage ls`) and `firebase functions:log --project staging` should show no errors. Delete both test objects afterwards.
+- [ ] **[USER]** Deploy to prod: `! firebase deploy --only functions:optimiseImages --project prod`, accepting the same API prompts. Then immediately delete the old gen 1 function: `! firebase functions:delete default --region us-central1 --project prod`. Until it is deleted, both functions write the same thumbnail for each upload. That's harmless, but delete it promptly anyway. Don't test-upload to the prod bucket; verify with `gcloud functions list --project sean-68394` and wait for the next real upload, or do one deliberate upload after release if the user is happy to.
+
+### 3. Firebase JS SDK
+
+- [ ] `pnpm add firebase@latest`.
+- [ ] Rewrite `src/utils/firebase.ts` to the modular API: `initializeApp`/`getApps`, `getAuth`, `setPersistence(auth, browserLocalPersistence)`, `signInWithPopup`, `GoogleAuthProvider`, `FacebookAuthProvider`, `createUserWithEmailAndPassword`, `updateProfile`, `sendPasswordResetEmail` (if used), `getFirestore` with `collection`/`query`/`orderBy`/`limit`/`startAfter`/`getDocs`/`addDoc`/`Timestamp`, and `getStorage` with `ref`/`uploadBytes`/`getDownloadURL`/`getMetadata`. Keep every exported function's signature and behaviour so callers are unchanged. Fix the `firebase.auth()` re-calls in `registerWithEmailAndPassword` to use the shared `auth`.
+- [ ] Update `src/hooks/useAuth.tsx` (`User` type from `firebase/auth`, `onAuthStateChanged(auth, ...)`, `[]` deps, return unsubscribe) and `src/shared/types.ts` (`Timestamp` from `firebase/firestore`). Update any remaining `firebase/app` type imports found by `grep -rn "from \"firebase" src`.
+
+### 4. Next.js, React, TypeScript and tooling
+
+- [ ] Run the official upgrade codemod, `npx @next/codemod@latest upgrade latest`, and follow its prompts. Apply the Link codemod if it is offered: at least one `<Link>` wraps an `<a>`, which Next 13+ no longer wants.
+- [ ] Ensure `react`, `react-dom`, `@types/react`, `@types/react-dom` are on 19 and `typescript` is on 5. Upgrade `styled-components` to the latest 6.x, `@types/node` to match the Node version in use, and drop `@types/styled-components` and `@types/uuid` (both packages ship their own types). Fix any type errors, notably styled-components v6 transient props (`$prop`) if it warns about unknown DOM props.
+- [ ] Upgrade the remaining runtime deps to latest within reason: `react-toastify`, `react-dropzone`, `react-loading-skeleton`, `react-swipeable`, `formik`, `yup` (note that `@types/yup` is obsolete - remove it), `uuid`, `@fortawesome/*`. If any major bump needs nontrivial code changes, pin to the last compatible version and add it to Open questions instead of expanding scope.
+- [ ] In `next.config.js`, replace `images.domains` with `images.remotePatterns` (`https://firebasestorage.googleapis.com/**`). Keep `compiler.styledComponents: true`.
+- [ ] Tailwind: keep v3 for phase 1 (`tailwindcss@^3`, existing `tailwind.config.js`/`postcss.config.js`). The v4 move happens with the styling consolidation phase.
+- [ ] Remove Jest: delete `__tests__/`, `jest.config.js`, `jest.setup.ts`, the `test` script, and the `jest`, `jest-environment-jsdom`, `@types/jest`, `@testing-library/*`, `eslint-plugin-testing-library` and `dotenv` dev deps. Drop the testing-library override from the ESLint config and `jest.setup.ts` from the `tsconfig.json` `include`.
+- [ ] Linting: migrate `.eslintrc.json` + `.eslintignore` to `eslint.config.mjs` (ESLint 9 flat config) using `eslint-config-next` (current), `typescript-eslint`, `eslint-config-prettier`, carrying over the existing custom rules. Drop `eslint-plugin-styled-components-a11y` if it has no flat-config/ESLint 9 support. Change the `lint` script to `eslint .` and update `.lintstagedrc.js` to run `eslint --fix` on staged files instead of `next lint`.
+- [ ] Husky 9 + commitlint latest: update the `prepare` script to `husky`, rewrite `.husky/pre-commit` as `pnpm exec lint-staged` and `.husky/commit-msg` as `pnpm exec commitlint --edit "$1"` (no `husky.sh` sourcing line). Make both hooks executable (`chmod +x .husky/*` and commit the mode change): they are currently `644`, so git silently skips them.
+- [ ] Run `pnpm lint`, `pnpm lint:ts`, `pnpm build` and fix until clean. Then `pnpm start` with `.env.local` and click through the checks under Verification.
+
+### 5. Ship
+
+- [ ] **[USER]** In Vercel project settings, set the Node.js version to 22.x (or the newest offered), if it is older.
+- [ ] Run the full Verification checks locally against staging (`pnpm build && pnpm start` with `.env.local`).
+- [ ] Push the branch and open a PR (ask the user before pushing). The Vercel preview uses staging Firebase, so the full checks can run there too. Google sign-in on a preview only works once that preview host is added to `sean-dev-426404` → Authentication → Settings → Authorized domains (**[USER]**; wildcards aren't supported).
+- [ ] **[USER]** Merge to `main` and confirm the production deployment succeeds on Vercel.
+
+## Verification
+
+- `pnpm lint`, `pnpm lint:ts` and `pnpm build` pass at the repo root. `pnpm --dir functions run lint` and `pnpm --dir functions run build` pass.
+- `pnpm outdated` at the root and in `functions/` shows no remaining major-version lag, except anything deliberately pinned and listed under Open questions, and except `tailwindcss` (held at v3 by decision).
+- `gcloud functions list --project sean-68394` (and `sean-dev-426404`) shows a single function, `optimiseImages`, gen 2, on the Node 22+ runtime, in the bucket's region (australia-southeast1 / us-central1), state ACTIVE. The old `default` function is gone from prod.
+- Locally or on the preview, both against staging (full set), and on prod only for the read-only parts: the home page loads, the existing memories list renders with thumbnails, and "load more" pagination works. Sign-in works with Google, Facebook and email/password, registration sets the display name, and password recovery sends an email. Uploading an image via `/upload` creates the memory, a `thumb@800_<uuid>` object appears in the bucket within a minute, and the new memory shows using the thumbnail.
+- The browser console shows no Firebase deprecation warnings and no React key/prop warnings that weren't there before.
+
+## Open questions
+
+None. (Answered: `sean-dev-426404` has Google and Email/Password sign-in but not Facebook, so Facebook sign-in is checked on prod after release, by the user signing in with their own account.)
