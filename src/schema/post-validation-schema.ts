@@ -1,17 +1,17 @@
 import { MemoryCategory } from "@shared/types";
-import * as yup from "yup";
+import { z } from "zod";
 
-const memoryCategories: MemoryCategory[] = [
-	"photography_and_nature",
-	"playful_sean",
-	"stories",
-	"young_sean",
-	"other",
-];
-
-const PostValidationSchema = yup.object().shape({
-	description: yup.string(),
-	categories: yup.array().of(yup.string().oneOf(memoryCategories)).required(),
+const PostValidationSchema = z.object({
+	description: z.string(),
+	categories: z.array(
+		z.enum([
+			"photography_and_nature",
+			"playful_sean",
+			"stories",
+			"young_sean",
+			"other",
+		] satisfies MemoryCategory[])
+	),
 });
 
 export default PostValidationSchema;

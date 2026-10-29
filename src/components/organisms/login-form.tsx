@@ -1,75 +1,70 @@
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import ErrorMessage from "@atoms/error-message";
 import Form from "@atoms/form";
-import Input from "@atoms/input";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { signInWithEmailAndPassword } from "@utils/firebase";
-import { Formik } from "formik";
 import Link from "next/link";
 import React from "react";
-import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-interface Props {
-	email: string;
-	password: string;
-}
-
-const LoginFormSchema = yup.object().shape({
-	email: yup.string().required("Email is required"),
-	password: yup
+const LoginFormSchema = z.object({
+	email: z.string().min(1, "Email is required"),
+	password: z
 		.string()
-		.min(8, "Minimum 8 characters")
-		.required("Password is required"),
+		.min(1, "Password is required")
+		.min(8, "Minimum 8 characters"),
 });
 
 const EmailAuthForm = () => {
-	const handleSubmit = async (values: Props) => {
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
+		defaultValues: { email: "", password: "" },
+		mode: "onTouched",
+		resolver: zodResolver(LoginFormSchema),
+	});
+
+	const onSubmit = handleSubmit(async (values) => {
 		signInWithEmailAndPassword(values.email, values.password);
-	};
+	});
 
 	return (
-		<Formik
-			initialValues={{
-				email: "",
-				password: "",
-			}}
-			onSubmit={handleSubmit}
-			validationSchema={LoginFormSchema}
-		>
-			{({ errors, touched }) => (
-				<Form>
-					<Label>
-						<Input
-							id="email"
-							name="email"
-							placeholder="Email"
-							type="email"
-							aria-invalid={!!(touched.email && errors.email)}
-						/>
-						<ErrorMessage error={errors.email} touched={touched.email} />
-					</Label>
+		<Form onSubmit={onSubmit}>
+			<Label>
+				<Input
+					id="email"
+					placeholder="Email"
+					type="email"
+					aria-invalid={!!errors.email}
+					{...register("email")}
+				/>
+				<ErrorMessage error={errors.email?.message} />
+			</Label>
 
-					<Label>
-						<Input
-							id="password"
-							name="password"
-							placeholder="Password"
-							type="password"
-							aria-invalid={!!(touched.password && errors.password)}
-						/>
-						<ErrorMessage error={errors.password} touched={touched.password} />
-					</Label>
+			<Label>
+				<Input
+					id="password"
+					placeholder="Password"
+					type="password"
+					aria-invalid={!!errors.password}
+					{...register("password")}
+				/>
+				<ErrorMessage error={errors.password?.message} />
+			</Label>
 
-					<Link href="/recover-password" className="text-center">
-						Forgot your password?
-					</Link>
+			<Link href="/recover-password" className="text-center">
+				Forgot your password?
+			</Link>
 
-					<Button type="submit" variant="primary">
-						Login
-					</Button>
-				</Form>
-			)}
-		</Formik>
+			<Button type="submit" variant="primary">
+				Login
+			</Button>
+		</Form>
 	);
 };
 
