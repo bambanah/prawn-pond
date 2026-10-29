@@ -3,7 +3,7 @@ import { InputHTMLAttributes } from "react";
 import styled from "styled-components";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-	error?: boolean;
+	$error?: boolean;
 }
 
 const Input = styled(Field)<InputProps>`
@@ -14,13 +14,13 @@ const Input = styled(Field)<InputProps>`
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
 
 	border-color: ${(props) =>
-		props.error ? props.theme.colors.error : "transparent"};
+		props.$error ? props.theme.colors.error : "transparent"};
 
 	&:focus {
 		border: 1px solid #6e6e6e;
 
 		border-color: ${(props) =>
-			props.error ? props.theme.colors.error : "transparent"};
+			props.$error ? props.theme.colors.error : "transparent"};
 	}
 `;
 

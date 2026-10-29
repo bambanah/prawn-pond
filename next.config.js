@@ -1,6 +1,12 @@
 module.exports = {
 	images: {
-		domains: ["localhost", "", "firebasestorage.googleapis.com"],
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "firebasestorage.googleapis.com",
+				pathname: "/**",
+			},
+		],
 	},
 	compiler: {
 		styledComponents: true,

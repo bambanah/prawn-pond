@@ -105,8 +105,11 @@ const UploadForm = () => {
 										key={image.name}
 										src={URL.createObjectURL(image)}
 										alt="preview"
-										layout="fill"
-										objectFit="contain"
+										fill
+										sizes="100vw"
+										style={{
+											objectFit: "contain",
+										}}
 									/>
 								</ImageContainer>
 							))}
@@ -118,7 +121,7 @@ const UploadForm = () => {
 								values.description = e.target.value;
 							}}
 							placeholder="Say a little something (if you want)"
-							error={errors.description !== undefined}
+							$error={errors.description !== undefined}
 						/>
 						{errors.description && (
 							<Subheading>{errors.description}</Subheading>

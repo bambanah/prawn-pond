@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styled from "styled-components";
 
 export const MemoryListContainer = styled.div`
@@ -66,7 +67,7 @@ export const FooterContainer = styled.div`
 	}
 `;
 
-export const MemoryLink = styled.a`
+export const MemoryLink = styled(Link)`
 	flex: 0 0 11rem;
 	padding: 0.5rem 1.5rem;
 	margin-left: auto;
