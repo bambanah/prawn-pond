@@ -1,12 +1,11 @@
-import {
-	faArrowCircleLeft,
-	faArrowCircleRight,
-	faSpinner,
-	faTimes,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Image } from "@shared/types";
 import { getImageData } from "@utils/firebase";
+import {
+	CircleArrowLeft,
+	CircleArrowRight,
+	LoaderCircle,
+	X,
+} from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import {
@@ -97,12 +96,12 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 		<FullscreenContainer>
 			<FullscreenContent>
 				<CloseFullscreenButton onClick={onClose}>
-					<FontAwesomeIcon icon={faTimes} size="3x" />
+					<X className="size-[3em]" />
 				</CloseFullscreenButton>
 
 				{loading && (
 					<LoadingContainer>
-						<FontAwesomeIcon icon={faSpinner} size="3x" className="spinner" />
+						<LoaderCircle className="spinner size-[3em]" />
 					</LoadingContainer>
 				)}
 
@@ -117,7 +116,7 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 						)}
 						{index > 0 && (
 							<LeftArrowContainer onClick={handleLeftClick}>
-								<FontAwesomeIcon icon={faArrowCircleLeft} size="lg" />
+								<CircleArrowLeft className="size-[1.25em]" />
 							</LeftArrowContainer>
 						)}
 						{images[index].metadata?.contentType?.includes("image") && (
@@ -134,7 +133,7 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 						)}
 						{index < images.length - 1 && (
 							<RightArrowContainer onClick={handleRightClick}>
-								<FontAwesomeIcon icon={faArrowCircleRight} size="lg" />
+								<CircleArrowRight className="size-[1.25em]" />
 							</RightArrowContainer>
 						)}
 					</FullscreenImage>

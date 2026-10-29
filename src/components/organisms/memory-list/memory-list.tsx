@@ -1,10 +1,5 @@
-import {
-	faSpinner,
-	faStream,
-	faThLarge,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { MemoryCategoryExtended } from "@shared/types";
+import { LayoutGrid, LoaderCircle, Rows3 } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
 import { useMemoryContext } from "@context/memory-context";
@@ -87,17 +82,15 @@ const MemoryList = () => {
 				<MemoryLink href="/upload">Share Memory</MemoryLink>
 
 				<TableViewSelectContainer>
-					<FontAwesomeIcon
-						icon={faStream}
-						size="2x"
+					<Rows3
+						className="size-[2em]"
 						onClick={() => {
 							enableGrid(false);
 							localStorage.setItem("displayGrid", "false");
 						}}
 					/>
-					<FontAwesomeIcon
-						icon={faThLarge}
-						size="2x"
+					<LayoutGrid
+						className="size-[2em]"
 						onClick={() => {
 							enableGrid(true);
 							localStorage.setItem("displayGrid", "true");
@@ -117,7 +110,7 @@ const MemoryList = () => {
 			</ListContent>
 
 			{loading && !loadedAllMemories && (
-				<FontAwesomeIcon icon={faSpinner} size="2x" className="spinner" />
+				<LoaderCircle className="spinner size-[2em]" />
 			)}
 
 			{loadedAllMemories && (
