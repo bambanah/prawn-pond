@@ -10,15 +10,6 @@ export default defineConfig([
 	prettier,
 	{
 		rules: {
-			"quote-props": ["error", "consistent-as-needed"],
-			"@typescript-eslint/no-require-imports": "off",
-			"@typescript-eslint/no-empty-object-type": "warn",
-			"@typescript-eslint/no-unsafe-function-type": "warn",
-			"@typescript-eslint/no-wrapper-object-types": "warn",
-			"import/no-anonymous-default-export": "off",
-			"prefer-template": "error",
-			"arrow-parens": ["error", "always"],
-			"@next/next/no-img-element": "off",
 			"no-console": ["error", { allow: ["warn", "error"] }],
 		},
 	},
