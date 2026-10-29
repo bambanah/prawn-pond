@@ -1,108 +1,96 @@
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Form from "@atoms/form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { registerWithEmailAndPassword } from "@utils/firebase";
-import { Formik } from "formik";
 import React from "react";
-import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import ErrorMessage from "@atoms/error-message";
-import Input from "@atoms/input";
 
-interface Props {
-	email: string;
-	name: string;
-	password: string;
-	confirmPassword: string;
-}
-
-const RegisterFormSchema = yup.object().shape({
-	email: yup.string().required("Email is required"),
-	name: yup.string(),
-	password: yup
-		.string()
-		.min(8, "Minimum 8 characters")
-		.required("Password is required"),
-	confirmPassword: yup
-		.string()
-		.oneOf([yup.ref("password")], "Passwords don't match")
-		.required("Field is required"),
-});
+const RegisterFormSchema = z
+	.object({
+		email: z.string().min(1, "Email is required"),
+		name: z.string(),
+		password: z
+			.string()
+			.min(1, "Password is required")
+			.min(8, "Minimum 8 characters"),
+		confirmPassword: z.string().min(1, "Field is required"),
+	})
+	.refine((values) => values.confirmPassword === values.password, {
+		message: "Passwords don't match",
+		path: ["confirmPassword"],
+		// Check even while other fields are invalid
+		when: () => true,
+	});
 
 const RegisterForm = () => {
-	const handleSubmit = async (values: Props) => {
-		if (values.password === values.confirmPassword) {
-			registerWithEmailAndPassword(values.email, values.password, values.name);
-		}
-	};
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
+		defaultValues: { email: "", name: "", password: "", confirmPassword: "" },
+		mode: "onTouched",
+		resolver: zodResolver(RegisterFormSchema),
+	});
+
+	const onSubmit = handleSubmit(async (values) => {
+		registerWithEmailAndPassword(values.email, values.password, values.name);
+	});
 
 	return (
-		<Formik
-			initialValues={{
-				email: "",
-				name: "",
-				password: "",
-				confirmPassword: "",
-			}}
-			onSubmit={handleSubmit}
-			validationSchema={RegisterFormSchema}
-		>
-			{({ errors, touched }) => (
-				<Form>
-					<Label htmlFor="email">
-						<Input
-							id="email"
-							name="email"
-							placeholder="Email"
-							type="email"
-							aria-invalid={!!(touched.email && errors.email)}
-						/>
-						<ErrorMessage error={errors.email} touched={touched.email} />
-					</Label>
+		<Form onSubmit={onSubmit}>
+			<Label htmlFor="email">
+				<Input
+					id="email"
+					placeholder="Email"
+					type="email"
+					aria-invalid={!!errors.email}
+					{...register("email")}
+				/>
+				<ErrorMessage error={errors.email?.message} />
+			</Label>
 
-					<Label htmlFor="name">
-						<Input
-							id="name"
-							name="name"
-							placeholder="Name"
-							type="name"
-							aria-invalid={!!(touched.name && errors.name)}
-						/>
-						<ErrorMessage error={errors.name} touched={touched.name} />
-					</Label>
+			<Label htmlFor="name">
+				<Input
+					id="name"
+					placeholder="Name"
+					type="name"
+					aria-invalid={!!errors.name}
+					{...register("name")}
+				/>
+				<ErrorMessage error={errors.name?.message} />
+			</Label>
 
-					<Label htmlFor="password">
-						<Input
-							id="password"
-							name="password"
-							placeholder="Password"
-							type="password"
-							aria-invalid={!!(touched.password && errors.password)}
-						/>
-						<ErrorMessage error={errors.password} touched={touched.password} />
-					</Label>
+			<Label htmlFor="password">
+				<Input
+					id="password"
+					placeholder="Password"
+					type="password"
+					aria-invalid={!!errors.password}
+					{...register("password")}
+				/>
+				<ErrorMessage error={errors.password?.message} />
+			</Label>
 
-					<Label htmlFor="confirmPassword">
-						<Input
-							id="confirmPassword"
-							name="confirmPassword"
-							placeholder="Confirm Password"
-							type="password"
-							aria-invalid={
-								!!(touched.confirmPassword && errors.confirmPassword)
-							}
-						/>
-						<ErrorMessage
-							error={errors.confirmPassword}
-							touched={touched.confirmPassword}
-						/>
-					</Label>
+			<Label htmlFor="confirmPassword">
+				<Input
+					id="confirmPassword"
+					placeholder="Confirm Password"
+					type="password"
+					aria-invalid={!!errors.confirmPassword}
+					{...register("confirmPassword")}
+				/>
+				<ErrorMessage error={errors.confirmPassword?.message} />
+			</Label>
 
-					<Button type="submit" variant="primary">
-						Register
-					</Button>
-				</Form>
-			)}
-		</Formik>
+			<Button type="submit" variant="primary">
+				Register
+			</Button>
+		</Form>
 	);
 };
 

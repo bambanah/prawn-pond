@@ -1,19 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import Form from "@atoms/form";
-import Input from "@atoms/input";
 import { sendPasswordResetEmail } from "@utils/firebase";
-import { Formik } from "formik";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import Link from "next/link";
 import Layout from "@templates/layout";
 
 const RecoverPassword = ({ email }: { email?: string }) => {
 	const [emailSent, setEmailSent] = useState(false);
+	const { register, handleSubmit } = useForm({
+		defaultValues: { email: email || "" },
+	});
 
-	const handleSubmit = async (values: { email: string }) => {
+	const onSubmit = handleSubmit(async (values) => {
 		sendPasswordResetEmail(values.email).then(() => setEmailSent(true));
-	};
+	});
 
 	return (
 		<Layout>
@@ -25,24 +28,19 @@ const RecoverPassword = ({ email }: { email?: string }) => {
 							<Link href="/">Go back home</Link>
 						</div>
 					) : (
-						<Formik
-							initialValues={{ email: email || "" }}
-							onSubmit={handleSubmit}
-						>
-							<Form>
-								<Label htmlFor="email">
-									Email
-									<Input
-										id="email"
-										name="email"
-										placeholder="john@smith.com"
-										type="email"
-									/>
-								</Label>
+						<Form onSubmit={onSubmit}>
+							<Label htmlFor="email">
+								Email
+								<Input
+									id="email"
+									placeholder="john@smith.com"
+									type="email"
+									{...register("email")}
+								/>
+							</Label>
 
-								<Button type="submit">Recover Password</Button>
-							</Form>
-						</Formik>
+							<Button type="submit">Recover Password</Button>
+						</Form>
 					)}
 				</div>
 			</div>
