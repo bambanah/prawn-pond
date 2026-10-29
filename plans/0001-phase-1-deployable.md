@@ -20,7 +20,7 @@ Bring the site to a state where both the frontend and the Cloud Function can be 
   - **Staging** is Firebase project **`sean-dev-426404`** (display name "sean-dev", billing enabled). It has web app `1:959558445478:web:1c2edcb85954df87804767`, a Firestore Native `(default)` database, Auth (identitytoolkit) and Storage. Its bucket is `sean-dev-426404.firebasestorage.app` in **us-central1**. The Cloud Functions API is **not yet enabled** and no function is deployed. `.firebaserc`'s `staging` alias wrongly points at `sean-dev-37a71`, which doesn't exist or isn't accessible.
   - Storage rules are versioned in `storage.rules` (copied from prod: public read, authenticated write) and wired up in `firebase.json`. Staging's console-created test-mode rules expired on 2025-07-25 and caused 403s, so these rules were deployed to staging on 2026-10-29 (`firebase deploy --only storage --project staging`). Prod's live rules already match the file. Firestore rules are not in the repo; they're identical in both projects (`memories`: public read, authenticated write).
   - `.env.local` (gitignored) holds `VERCEL_OIDC_TOKEN` from `vercel env pull` plus the **sean-dev** web config, so local `pnpm dev`/`pnpm build`/`pnpm start` hit staging, not prod.
-- **Tooling state:** pnpm 9.15 (`packageManager` field), Node 22.14 locally. `.husky/commit-msg` still calls `yarn commitlint` (stale since the pnpm migration). `.lintstagedrc.js` uses `next lint`. Jest is set up with a single placeholder test, `__tests__/firebase.spec.ts` (`expect("").toEqual("")`).
+- **Tooling state:** pnpm 9.15 (`packageManager` field), Node 24.22 locally. `.husky/commit-msg` still calls `yarn commitlint` (stale since the pnpm migration). `.lintstagedrc.js` uses `next lint`. Jest is set up with a single placeholder test, `__tests__/firebase.spec.ts` (`expect("").toEqual("")`).
 - **CLIs:** `gcloud` (as `lachlanu@gmail.com`), `firebase` and `vercel` are all authenticated. `vercel` is installed at `~/Library/pnpm/bin/vercel` and is only on `PATH` in a login shell. From a non-interactive shell, call it as `zsh -lic 'vercel ...'` or by its full path.
 - **Long-term direction:** the user plans to move the frontend off Vercel to a self-hosted Coolify server later. That is a later phase, but phase 1 choices must not make it harder.
 
@@ -92,10 +92,10 @@ Steps marked **[USER]** need the user. They involve credentials, consoles, or pr
 
 ### 5. Ship
 
-- [ ] **[USER]** In Vercel project settings, set the Node.js version to 22.x (or the newest offered), if it is older.
+- [x] **[USER]** In Vercel project settings, set the Node.js version to 22.x (or the newest offered), if it is older. Done 2026-10-29: set to 24.x, matching local Node and the function runtime.
 - [ ] Run the full Verification checks locally against staging (`pnpm build && pnpm start` with `.env.local`).
-- [ ] Push the branch and open a PR (ask the user before pushing). The Vercel preview uses staging Firebase, so the full checks can run there too. Google sign-in on a preview only works once that preview host is added to `sean-dev-426404` → Authentication → Settings → Authorized domains (**[USER]**; wildcards aren't supported).
-- [ ] **[USER]** Merge to `main` and confirm the production deployment succeeds on Vercel.
+- [x] Push the branch and open a PR (ask the user before pushing). The Vercel preview uses staging Firebase, so the full checks can run there too. Google sign-in on a preview only works once that preview host is added to `sean-dev-426404` → Authentication → Settings → Authorized domains (**[USER]**; wildcards aren't supported). Done 2026-10-29 as PR #48, from branch `chore/phase-1-next-upgrade`. The checks were not run on the preview.
+- [x] **[USER]** Merge to `main` and confirm the production deployment succeeds on Vercel. Done 2026-10-29: PR #48 merged as `cec1b67`. Its production deployment is Ready and aliased to `seanwilson.love`, where `/`, `/login`, `/register`, `/recover-password` and `/upload` return 200.
 
 ## Verification
 
