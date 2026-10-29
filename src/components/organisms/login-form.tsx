@@ -1,13 +1,12 @@
-import Button from "@atoms/button";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import ErrorMessage from "@atoms/error-message";
 import Form from "@atoms/form";
 import Input from "@atoms/input";
-import Label from "@atoms/label";
 import { signInWithEmailAndPassword } from "@utils/firebase";
 import { Formik } from "formik";
 import Link from "next/link";
 import React from "react";
-import styled from "styled-components";
 import * as yup from "yup";
 
 interface Props {
@@ -22,10 +21,6 @@ const LoginFormSchema = yup.object().shape({
 		.min(8, "Minimum 8 characters")
 		.required("Password is required"),
 });
-
-const ForgotPasswordText = styled(Link)`
-	text-align: center;
-`;
 
 const EmailAuthForm = () => {
 	const handleSubmit = async (values: Props) => {
@@ -49,7 +44,7 @@ const EmailAuthForm = () => {
 							name="email"
 							placeholder="Email"
 							type="email"
-							$error={!!(touched.email && errors.email)}
+							aria-invalid={!!(touched.email && errors.email)}
 						/>
 						<ErrorMessage error={errors.email} touched={touched.email} />
 					</Label>
@@ -60,16 +55,16 @@ const EmailAuthForm = () => {
 							name="password"
 							placeholder="Password"
 							type="password"
-							$error={!!(touched.password && errors.password)}
+							aria-invalid={!!(touched.password && errors.password)}
 						/>
 						<ErrorMessage error={errors.password} touched={touched.password} />
 					</Label>
 
-					<ForgotPasswordText href="/recover-password">
+					<Link href="/recover-password" className="text-center">
 						Forgot your password?
-					</ForgotPasswordText>
+					</Link>
 
-					<Button type="submit" primary>
+					<Button type="submit" variant="primary">
 						Login
 					</Button>
 				</Form>

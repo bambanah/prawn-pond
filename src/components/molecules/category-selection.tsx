@@ -1,4 +1,7 @@
-import Select from "@atoms/select";
+import {
+	NativeSelect,
+	NativeSelectOption,
+} from "@/components/ui/native-select";
 import { categoryOptions, MemoryCategoryExtended } from "@shared/types";
 import React from "react";
 
@@ -17,13 +20,15 @@ const extendedCategoryOptions = [
 const CategorySelection: React.FC<CategorySelectionProps> = ({
 	handleChange,
 }) => (
-	<Select handleChange={handleChange}>
+	<NativeSelect
+		onChange={(e) => handleChange(e.target.value as MemoryCategoryExtended)}
+	>
 		{extendedCategoryOptions.map((category) => (
-			<option key={category.value} value={category.value}>
+			<NativeSelectOption key={category.value} value={category.value}>
 				{category.label}
-			</option>
+			</NativeSelectOption>
 		))}
-	</Select>
+	</NativeSelect>
 );
 
 export default CategorySelection;

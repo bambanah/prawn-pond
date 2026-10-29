@@ -2,8 +2,7 @@ import { signInWithProvider } from "@utils/firebase";
 import Head from "next/head";
 import Link from "next/link";
 import React from "react";
-import styled from "styled-components";
-import Button from "@atoms/button";
+import { Button } from "@/components/ui/button";
 import Layout from "@templates/layout";
 import LoginForm from "@organisms/login-form";
 import RegisterForm from "@organisms/register-form";
@@ -11,33 +10,6 @@ import RegisterForm from "@organisms/register-form";
 interface Props {
 	type: "login" | "register";
 }
-
-const Container = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-`;
-
-const EmailContainer = styled.div`
-	margin-bottom: 1rem;
-`;
-
-const Separator = styled.span`
-	padding: 2rem 0;
-`;
-
-const ProviderButtons = styled.div`
-	display: flex;
-	gap: 1rem;
-
-	button {
-		border-radius: 100%;
-		width: 3rem;
-		height: 3rem;
-	}
-`;
 
 // Lucide has no brand icons; paths from Simple Icons
 const GoogleIcon = () => (
@@ -54,32 +26,32 @@ const FacebookIcon = () => (
 
 const AuthPage = ({ type }: Props) => (
 	<Layout>
-		<Container>
+		<div className="flex h-screen flex-col items-center justify-center">
 			<Head>
 				<title>{type === "login" ? "Login" : "Register"} - Sean Wilson</title>
 			</Head>
 			<h1>{type === "login" ? "Login" : "Create Account"}</h1>
 
-			<ProviderButtons>
-				<Button onClick={() => signInWithProvider("google")}>
+			<div className="flex gap-4">
+				<Button size="icon" onClick={() => signInWithProvider("google")}>
 					<GoogleIcon />
 				</Button>
-				<Button onClick={() => signInWithProvider("facebook")}>
+				<Button size="icon" onClick={() => signInWithProvider("facebook")}>
 					<FacebookIcon />
 				</Button>
-			</ProviderButtons>
+			</div>
 
-			<Separator>or use your email</Separator>
+			<span className="py-8">or use your email</span>
 
-			<EmailContainer>
+			<div className="mb-4">
 				{type === "login" ? <LoginForm /> : <RegisterForm />}
-			</EmailContainer>
+			</div>
 
 			<p>Already have an account?</p>
 			<Link href={type === "login" ? "/register" : "/login"}>
 				{type === "login" ? "Create an account" : "Login"}
 			</Link>
-		</Container>
+		</div>
 	</Layout>
 );
 

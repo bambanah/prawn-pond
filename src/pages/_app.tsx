@@ -1,15 +1,12 @@
 import { AuthProvider, useAuth } from "@hooks/useAuth";
-import GlobalStyle from "@shared/GlobalStyle";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import React from "react";
-import { ThemeProvider } from "styled-components";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { theme } from "@styles/theme";
-import "@styles/imports.css";
+import "@styles/globals.css";
 
 function App({ Component, pageProps }: AppProps) {
 	const { loadingAuthState } = useAuth();
@@ -17,14 +14,11 @@ function App({ Component, pageProps }: AppProps) {
 	if (!loadingAuthState) {
 		return (
 			<AuthProvider>
-				<ThemeProvider theme={theme}>
-					<Head>
-						<title>Sean Wilson</title>
-					</Head>
-					<GlobalStyle />
-					<Component {...pageProps} />
-					<ToastContainer />
-				</ThemeProvider>
+				<Head>
+					<title>Sean Wilson</title>
+				</Head>
+				<Component {...pageProps} />
+				<ToastContainer />
 			</AuthProvider>
 		);
 	}

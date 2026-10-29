@@ -1,27 +1,9 @@
+import { Input as UiInput } from "@/components/ui/input";
 import { Field } from "formik";
-import { InputHTMLAttributes } from "react";
-import styled from "styled-components";
+import { ComponentProps } from "react";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-	$error?: boolean;
-}
-
-const Input = styled(Field)<InputProps>`
-	padding: 0.5rem 0.8rem;
-	border-radius: 3px;
-	border: 1px solid transparent;
-	outline: none;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-
-	border-color: ${(props) =>
-		props.$error ? props.theme.colors.error : "transparent"};
-
-	&:focus {
-		border: 1px solid #6e6e6e;
-
-		border-color: ${(props) =>
-			props.$error ? props.theme.colors.error : "transparent"};
-	}
-`;
+const Input = (props: ComponentProps<typeof UiInput> & { name: string }) => (
+	<Field as={UiInput} {...props} />
+);
 
 export default Input;

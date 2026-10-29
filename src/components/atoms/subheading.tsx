@@ -1,9 +1,7 @@
-import styled from "styled-components";
+import { ComponentProps } from "react";
 
-const Subheading = styled.p`
-	font-size: 0.9rem;
-	color: #646262;
-	margin: 0;
-`;
+const Subheading = (props: ComponentProps<"p">) => (
+	<p className="m-0 text-[0.9rem] text-[#646262]" {...props} />
+);
 
 export default Subheading;
