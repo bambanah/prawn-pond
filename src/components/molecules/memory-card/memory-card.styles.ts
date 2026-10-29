@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 
 export const Card = styled.div`
@@ -252,9 +251,4 @@ export const LoadingContainer = styled.div`
 	path {
 		color: ${({ theme }) => theme.colors.bg};
 	}
-`;
-
-export const AlbumIcon = styled(FontAwesomeIcon)`
-	width: auto;
-	color: ${({ theme }) => theme.colors.bg};
 `;

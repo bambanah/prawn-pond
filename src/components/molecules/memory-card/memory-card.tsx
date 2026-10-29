@@ -1,7 +1,6 @@
-import { faImages, faPlay } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Memory } from "@shared/types";
 import { getImageData } from "@utils/firebase";
+import { Images, Play } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import AlbumDisplay from "../album-display";
@@ -81,20 +80,12 @@ const MemoryCard = ({ memory, displayGrid }: Props) => {
 						{!loading && mediaType.includes("video") && (
 							<span>
 								<video src={imageUrl} />
-								<FontAwesomeIcon
-									icon={faPlay}
-									size="4x"
-									className="video-icon"
-								/>
+								<Play className="video-icon size-[4em] fill-current" />
 							</span>
 						)}
 
 						{memory.imageIds && memory.imageIds.length > 1 && (
-							<FontAwesomeIcon
-								icon={faImages}
-								size="lg"
-								style={{ width: "auto" }}
-							/>
+							<Images className="size-[1.25em]" />
 						)}
 					</ImageContainer>
 				)}
