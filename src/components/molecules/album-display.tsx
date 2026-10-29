@@ -117,6 +117,7 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 							</div>
 						)}
 						{images[index].metadata?.contentType?.includes("image") && (
+							// eslint-disable-next-line @next/next/no-img-element -- unknown dimensions, sized by max-h/max-w
 							<img
 								className="block max-h-full max-w-full object-contain"
 								src={images[index].src}
