@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import Form from "@atoms/form";
@@ -137,15 +138,17 @@ const UploadForm = () => {
 								{categoryOptions.map(
 									(category) =>
 										category.value !== "other" && (
-											<label key={category.value} htmlFor={category.value}>
-												<input
+											<div
+												key={category.value}
+												className="flex items-center gap-2"
+											>
+												<Checkbox
 													name="categories"
-													type="checkbox"
 													id={category.value}
 													value={category.value}
 													checked={values.categories.includes(category.value)}
-													onChange={(e) => {
-														if (e.target.checked) {
+													onCheckedChange={(checked) => {
+														if (checked) {
 															arrayHelpers.push(category.value);
 														} else {
 															const idx = values.categories.indexOf(
@@ -155,8 +158,8 @@ const UploadForm = () => {
 														}
 													}}
 												/>
-												<span>{category.label}</span>
-											</label>
+												<Label htmlFor={category.value}>{category.label}</Label>
+											</div>
 										)
 								)}
 							</div>
