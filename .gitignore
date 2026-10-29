@@ -7,3 +7,4 @@ node_modules
 .env*
 !functions/.env.prod
 !functions/.env.staging
+next-env.d.ts
