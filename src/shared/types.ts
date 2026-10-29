@@ -1,4 +1,5 @@
-import firebase from "firebase";
+import { Timestamp } from "firebase/firestore";
+import { FullMetadata } from "firebase/storage";
 
 export type MemoryCategory =
 	| "photography_and_nature"
@@ -44,7 +45,7 @@ export interface CreatedMemory {
 	description: string;
 	categories: MemoryCategory[];
 	images?: string[];
-	created?: firebase.firestore.Timestamp;
+	created?: Timestamp;
 	owner?: string;
 }
 
@@ -53,33 +54,15 @@ export interface Memory {
 	categories: MemoryCategory[];
 	imageIds: string[];
 	id?: string;
-	created?: firebase.firestore.Timestamp;
+	created?: Timestamp;
 	owner?: string;
 }
 
 export interface Image {
 	src: string;
-	metadata?: ImageMetadata;
+	metadata?: FullMetadata;
 	width?: number;
 	height?: number;
-}
-
-export interface ImageMetadata {
-	bucket: string;
-	contentDisposition: string;
-	contentEncoding: string;
-	contentType: string;
-	customMetadata: {
-		filename: string;
-	};
-	fullPath: string;
-	generation: string;
-	md5Hash: string;
-	name: string;
-	size: number;
-	type: string;
-	timeCreated: string;
-	updated: string;
 }
 
 export interface MemoryImages {

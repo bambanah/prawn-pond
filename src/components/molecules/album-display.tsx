@@ -120,7 +120,7 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 								<FontAwesomeIcon icon={faArrowCircleLeft} size="lg" />
 							</LeftArrowContainer>
 						)}
-						{images[index].metadata?.contentType.includes("image") && (
+						{images[index].metadata?.contentType?.includes("image") && (
 							<img
 								src={images[index].src}
 								alt="memory"
@@ -129,7 +129,7 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 								onError={handleOnLoad}
 							/>
 						)}
-						{images[index].metadata?.contentType.includes("video") && (
+						{images[index].metadata?.contentType?.includes("video") && (
 							<video src={images[index].src} controls />
 						)}
 						{index < images.length - 1 && (

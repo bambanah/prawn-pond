@@ -74,9 +74,9 @@ Steps marked **[USER]** need the user. They involve credentials, consoles, or pr
 
 ### 3. Firebase JS SDK
 
-- [ ] `pnpm add firebase@latest`.
-- [ ] Rewrite `src/utils/firebase.ts` to the modular API: `initializeApp`/`getApps`, `getAuth`, `setPersistence(auth, browserLocalPersistence)`, `signInWithPopup`, `GoogleAuthProvider`, `FacebookAuthProvider`, `createUserWithEmailAndPassword`, `updateProfile`, `sendPasswordResetEmail` (if used), `getFirestore` with `collection`/`query`/`orderBy`/`limit`/`startAfter`/`getDocs`/`addDoc`/`Timestamp`, and `getStorage` with `ref`/`uploadBytes`/`getDownloadURL`/`getMetadata`. Keep every exported function's signature and behaviour so callers are unchanged. Fix the `firebase.auth()` re-calls in `registerWithEmailAndPassword` to use the shared `auth`.
-- [ ] Update `src/hooks/useAuth.tsx` (`User` type from `firebase/auth`, `onAuthStateChanged(auth, ...)`, `[]` deps, return unsubscribe) and `src/shared/types.ts` (`Timestamp` from `firebase/firestore`). Update any remaining `firebase/app` type imports found by `grep -rn "from \"firebase" src`.
+- [x] `pnpm add firebase@latest` (13.1.0).
+- [x] Rewrite `src/utils/firebase.ts` to the modular API: `initializeApp`/`getApps`, `getAuth`, `setPersistence(auth, browserLocalPersistence)`, `signInWithPopup`, `GoogleAuthProvider`, `FacebookAuthProvider`, `createUserWithEmailAndPassword`, `updateProfile`, `sendPasswordResetEmail` (if used), `getFirestore` with `collection`/`query`/`orderBy`/`limit`/`startAfter`/`getDocs`/`addDoc`/`Timestamp`, and `getStorage` with `ref`/`uploadBytes`/`getDownloadURL`/`getMetadata`. Keep every exported function's signature and behaviour so callers are unchanged. Fix the `firebase.auth()` re-calls in `registerWithEmailAndPassword` to use the shared `auth`.
+- [x] Update `src/hooks/useAuth.tsx` (`User` type from `firebase/auth`, `onAuthStateChanged(auth, ...)`, `[]` deps, return unsubscribe) and `src/shared/types.ts` (`Timestamp` from `firebase/firestore`). Update any remaining `firebase/app` type imports found by `grep -rn "from \"firebase" src`. Done 2026-10-29: `Image.metadata` now uses the SDK's `FullMetadata` instead of the hand-written `ImageMetadata` (which no longer matched), so `album-display.tsx` reads `contentType?.includes`. Persistence uses `indexedDBLocalPersistence`, not `browserLocalPersistence`, because that is what v8's `Persistence.LOCAL` mapped to. Typecheck, lint and the Next 12 build pass; the browser checks are left to the Verification run in steps 4-5.
 
 ### 4. Next.js, React, TypeScript and tooling
 
