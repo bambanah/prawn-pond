@@ -1,15 +1,11 @@
 import { Form as FormikForm } from "formik";
-import styled from "styled-components";
+import { ComponentProps } from "react";
 
-const Form = styled(FormikForm)`
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: column;
-	gap: 1rem;
-
-	button {
-		margin-top: 1rem;
-	}
-`;
+const Form = (props: ComponentProps<typeof FormikForm>) => (
+	<FormikForm
+		className="flex flex-col flex-wrap gap-4 [&_button]:mt-4"
+		{...props}
+	/>
+);
 
 export default Form;

@@ -1,10 +1,7 @@
-import styled from "styled-components";
+import { ComponentProps } from "react";
 
-const ButtonGroup = styled.div`
-	display: flex;
-	flex-direction: row;
-	gap: 1.5rem;
-	justify-content: center;
-`;
+const ButtonGroup = (props: ComponentProps<"div">) => (
+	<div className="flex flex-row justify-center gap-6" {...props} />
+);
 
 export default ButtonGroup;

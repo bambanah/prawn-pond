@@ -8,17 +8,8 @@ import {
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useSwipeable } from "react-swipeable";
-import {
-	FullscreenContainer,
-	CloseFullscreenButton,
-	FullscreenImage,
-	FullscreenCaption,
-	LeftArrowContainer,
-	RightArrowContainer,
-	AlbumIndexContainer,
-	LoadingContainer,
-	FullscreenContent,
-} from "./memory-card/memory-card.styles";
+
+const iconButtonClass = "cursor-pointer text-bg hover:text-[#dddddd]";
 
 interface AlbumDisplayProps {
 	description: string;
@@ -41,10 +32,7 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 	const [images, setImages] = useState<Image[]>([]);
 
 	useEffect(() => {
-		if (!hasImages) {
-			setLoading(false);
-			return;
-		}
+		if (!hasImages) return;
 
 		const promises: Promise<Image | null>[] = [];
 
@@ -93,34 +81,44 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 	});
 
 	return show ? (
-		<FullscreenContainer>
-			<FullscreenContent>
-				<CloseFullscreenButton onClick={onClose}>
+		<div className="fixed top-0 left-0 z-100 flex h-screen max-h-screen w-full max-w-screen flex-col items-center justify-center bg-black/70">
+			<div className="relative max-h-screen max-w-[800px] overflow-y-auto">
+				<div
+					className={`${iconButtonClass} fixed top-2 right-4 z-1000`}
+					onClick={onClose}
+				>
 					<X className="size-[3em]" />
-				</CloseFullscreenButton>
+				</div>
 
 				{loading && (
-					<LoadingContainer>
-						<LoaderCircle className="spinner size-[3em]" />
-					</LoadingContainer>
+					<div className="absolute flex size-full items-center justify-center text-bg">
+						<LoaderCircle className="flex size-[3em] animate-[spin_0.8s_ease-in_infinite] self-center" />
+					</div>
 				)}
 
 				{hasImages && !loading && (
-					<FullscreenImage {...swipeHandlers}>
+					<div
+						className="relative flex max-h-[85vh] min-w-40 flex-1 justify-center bg-[#111]"
+						{...swipeHandlers}
+					>
 						{images.length > 1 && (
-							<AlbumIndexContainer>
-								<h2 style={{ color: "white" }}>
+							<div className="absolute top-2 left-4 z-1">
+								<h2 className="m-0 text-base text-white">
 									{index + 1}/{images.length}
 								</h2>
-							</AlbumIndexContainer>
+							</div>
 						)}
 						{index > 0 && (
-							<LeftArrowContainer onClick={handleLeftClick}>
+							<div
+								className={`${iconButtonClass} absolute top-1/2 left-4`}
+								onClick={handleLeftClick}
+							>
 								<CircleArrowLeft className="size-[1.25em]" />
-							</LeftArrowContainer>
+							</div>
 						)}
 						{images[index].metadata?.contentType?.includes("image") && (
 							<img
+								className="block max-h-full max-w-full object-contain"
 								src={images[index].src}
 								alt="memory"
 								onLoad={handleOnLoad}
@@ -132,20 +130,27 @@ const AlbumDisplay: React.FC<AlbumDisplayProps> = ({
 							<video src={images[index].src} controls />
 						)}
 						{index < images.length - 1 && (
-							<RightArrowContainer onClick={handleRightClick}>
+							<div
+								className={`${iconButtonClass} absolute top-1/2 right-4`}
+								onClick={handleRightClick}
+							>
 								<CircleArrowRight className="size-[1.25em]" />
-							</RightArrowContainer>
+							</div>
 						)}
-					</FullscreenImage>
+					</div>
 				)}
 
 				{description.length > 0 && (
-					<FullscreenCaption className={!hasImages ? "story" : "caption"}>
+					<div
+						className={`flex items-center bg-bg leading-[1.4rem] whitespace-pre-line ${
+							hasImages ? "p-8 pb-20" : "p-16 text-[1.1rem]"
+						}`}
+					>
 						{description}
-					</FullscreenCaption>
+					</div>
 				)}
-			</FullscreenContent>
-		</FullscreenContainer>
+			</div>
+		</div>
 	) : (
 		<></>
 	);

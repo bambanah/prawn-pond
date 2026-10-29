@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter&family=Taviraj&family=Patrick+Hand&display=swap")
+layer(base);
+
+@import "tailwindcss";
+@import "shadcn/tailwind.css";
+@import "react-loading-skeleton/dist/skeleton.css" layer(components);
+
+@theme {
+	--color-fg: #414141;
+	--color-bg: #fafcff;
+	--color-pastel-pink: #ffebe7;
+	--color-pastel-blue: #e0edfd;
+	--color-link: #3273dc;
+	--color-error: #ff6961;
+
+	--font-sans:
+		"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+		"Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+		sans-serif;
+	--font-display: "Taviraj";
+	--font-cursive: "Patrick Hand";
+
+	--shadow-low: 3px 3px 12px rgba(0, 0, 0, 0.17);
+	--shadow-high: 16px 16px 48px rgba(0, 0, 0, 0.22);
+}
+
+@utility bg-accent-gradient {
+	background: linear-gradient(
+		24deg,
+		rgba(126, 249, 145, 1) 0%,
+		rgba(120, 199, 254, 1) 100%
+	);
+}
+
+@utility bg-accent-gradient-transparent {
+	background: linear-gradient(
+		24deg,
+		rgba(126, 249, 145, 0.5) 0%,
+		rgba(120, 199, 254, 0.5) 100%
+	);
+}
+
+/* shadcn tokens, mapped to the site palette */
+:root {
+	--background: var(--color-bg);
+	--foreground: var(--color-fg);
+	--muted-foreground: #9ca3af;
+	--destructive: var(--color-error);
+	--border: #e5e7eb;
+}
+
+@theme inline {
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-destructive: var(--destructive);
+	--color-border: var(--border);
+}
+
+@layer base {
+	* {
+		@apply border-border;
+	}
+
+	html {
+		@apply scroll-smooth font-sans antialiased;
+	}
+
+	body {
+		@apply text-foreground;
+	}
+
+	a {
+		@apply cursor-pointer text-link hover:text-[#363636];
+	}
+
+	button:not(:disabled),
+	[role="button"]:not(:disabled) {
+		cursor: pointer;
+	}
+}

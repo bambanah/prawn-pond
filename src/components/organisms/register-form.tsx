@@ -1,4 +1,5 @@
-import Button from "@atoms/button";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import Form from "@atoms/form";
 import { registerWithEmailAndPassword } from "@utils/firebase";
 import { Formik } from "formik";
@@ -6,7 +7,6 @@ import React from "react";
 import * as yup from "yup";
 import ErrorMessage from "@atoms/error-message";
 import Input from "@atoms/input";
-import Label from "@atoms/label";
 
 interface Props {
 	email: string;
@@ -54,7 +54,7 @@ const RegisterForm = () => {
 							name="email"
 							placeholder="Email"
 							type="email"
-							$error={!!(touched.email && errors.email)}
+							aria-invalid={!!(touched.email && errors.email)}
 						/>
 						<ErrorMessage error={errors.email} touched={touched.email} />
 					</Label>
@@ -65,7 +65,7 @@ const RegisterForm = () => {
 							name="name"
 							placeholder="Name"
 							type="name"
-							$error={!!(touched.name && errors.name)}
+							aria-invalid={!!(touched.name && errors.name)}
 						/>
 						<ErrorMessage error={errors.name} touched={touched.name} />
 					</Label>
@@ -76,7 +76,7 @@ const RegisterForm = () => {
 							name="password"
 							placeholder="Password"
 							type="password"
-							$error={!!(touched.password && errors.password)}
+							aria-invalid={!!(touched.password && errors.password)}
 						/>
 						<ErrorMessage error={errors.password} touched={touched.password} />
 					</Label>
@@ -87,7 +87,9 @@ const RegisterForm = () => {
 							name="confirmPassword"
 							placeholder="Confirm Password"
 							type="password"
-							$error={!!(touched.confirmPassword && errors.confirmPassword)}
+							aria-invalid={
+								!!(touched.confirmPassword && errors.confirmPassword)
+							}
 						/>
 						<ErrorMessage
 							error={errors.confirmPassword}
@@ -95,7 +97,7 @@ const RegisterForm = () => {
 						/>
 					</Label>
 
-					<Button type="submit" primary>
+					<Button type="submit" variant="primary">
 						Register
 					</Button>
 				</Form>

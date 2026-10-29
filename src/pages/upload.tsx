@@ -1,19 +1,8 @@
 import { useRouter } from "next/router";
 import React from "react";
-import styled from "styled-components";
 import UploadForm from "@organisms/upload-form";
 import Layout from "@templates/layout";
 import { useAuth } from "@hooks/useAuth";
-
-const Content = styled.div`
-	margin-top: 7rem;
-	padding: 1em;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	max-width: 50%;
-	width: 50%;
-`;
 
 const Upload = () => {
 	const router = useRouter();
@@ -29,9 +18,9 @@ const Upload = () => {
 	}
 	return (
 		<Layout>
-			<Content>
+			<div className="mt-28 flex w-1/2 max-w-1/2 flex-col items-center p-[1em]">
 				<UploadForm />
-			</Content>
+			</div>
 		</Layout>
 	);
 };

@@ -1,9 +1,9 @@
-import Button from "@atoms/button";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import Form from "@atoms/form";
 import Heading from "@atoms/heading";
-import Label from "@atoms/label";
 import Subheading from "@atoms/subheading";
-import TextArea from "@atoms/text-area";
 import ButtonGroup from "@molecules/button-group";
 import PostValidationSchema from "@schema/post-validation-schema";
 import { categoryOptions, CreatedMemory, MemoryCategory } from "@shared/types";
@@ -14,12 +14,6 @@ import Router from "next/router";
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
-import {
-	Categories,
-	DropZoneContainer,
-	ImageContainer,
-	ImagePreviewContainer,
-} from "./upload-form.styles";
 
 // Do some hacky loader magic to get the next/image component to like the blob url
 function imageLoader({ src }: ImageLoaderProps) {
@@ -86,20 +80,26 @@ const UploadForm = () => {
 		>
 			{({ errors, values, handleSubmit, isValid, isSubmitting }) => (
 				<Form>
-					<DropZoneContainer {...getRootProps()}>
+					<div
+						className="flex h-[150px] min-w-[480px] cursor-pointer flex-col items-center justify-center rounded-[5px] border-4 border-fg p-8 hover:border-link hover:text-link"
+						{...getRootProps()}
+					>
 						<input {...getInputProps()} />
 						{isDragActive ? (
 							<p>Drop the files here ...</p>
 						) : (
 							<p>Drag and drop some files here, or click to select files</p>
 						)}
-					</DropZoneContainer>
+					</div>
 
-					<ImagePreviewContainer>
+					<div className="flex w-full flex-wrap">
 						{/* TODO: Support video preview */}
 						{images &&
 							images.map((image) => (
-								<ImageContainer key={image.lastModified}>
+								<div
+									key={image.lastModified}
+									className="relative m-[0.5em] h-[100px] w-[200px] flex-[0_0_10%]"
+								>
 									<Image
 										loader={imageLoader}
 										key={image.name}
@@ -111,17 +111,17 @@ const UploadForm = () => {
 											objectFit: "contain",
 										}}
 									/>
-								</ImageContainer>
+								</div>
 							))}
-					</ImagePreviewContainer>
+					</div>
 
 					<Label htmlFor="description">
-						<TextArea
+						<Textarea
 							onChange={(e) => {
 								values.description = e.target.value;
 							}}
 							placeholder="Say a little something (if you want)"
-							$error={errors.description !== undefined}
+							aria-invalid={errors.description !== undefined}
 						/>
 						{errors.description && (
 							<Subheading>{errors.description}</Subheading>
@@ -131,7 +131,7 @@ const UploadForm = () => {
 					<FieldArray
 						name="categories"
 						render={(arrayHelpers) => (
-							<Categories>
+							<div className="flex flex-col gap-[0.2rem] [&_h2]:my-2">
 								<Heading>Categories</Heading>
 								<Subheading>Select any that apply</Subheading>
 								{categoryOptions.map(
@@ -159,14 +159,14 @@ const UploadForm = () => {
 											</label>
 										)
 								)}
-							</Categories>
+							</div>
 						)}
 					/>
 
 					<ButtonGroup>
 						<Button
 							type="button"
-							primary
+							variant="primary"
 							onClick={() => isValid && handleSubmit()}
 							disabled={isSubmitting}
 						>
