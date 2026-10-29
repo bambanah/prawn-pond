@@ -37,7 +37,7 @@ Bring the site to a state where both the frontend and the Cloud Function can be 
 - **Next 12 → latest stable, React 18 → 19.** Upgrade one major at a time only if the jump breaks too much in one go. Otherwise go straight to latest with the official codemods. Replace `images.domains` with `images.remotePatterns` for `firebasestorage.googleapis.com` (plus localhost only if it is still needed).
 - **Remove Jest and the placeholder test.** The only test asserts nothing, and upgrading Jest/Testing Library just to keep a no-op passing is waste. Real tests can be added deliberately later.
 - **Minimum tooling updates only:** whatever the upgrades above force (TypeScript 5, ESLint 9 flat config because Next removed `next lint`, husky 9, lint-staged calling ESLint directly, commitlint via pnpm). No new lint rules and no reformatting sweep.
-- **Out of scope for phase 1** (agreed as later work, in this order): consolidating styling on Tailwind 4 and removing styled-components; replacing Formik with react-hook-form; bumping `@fortawesome/react-fontawesome`; enabling grouped Renovate updates; moving the frontend to Coolify.
+- **Out of scope for phase 1** (agreed as later work, in this order): consolidating styling on Tailwind 4 and removing styled-components; replacing Formik with react-hook-form; enabling grouped Renovate updates; moving the frontend to Coolify.
 
 ## Steps
 
@@ -111,3 +111,5 @@ Steps marked **[USER]** need the user. They involve credentials, consoles, or pr
 - Root `eslint` is held at 9 because `eslint-plugin-react` and `eslint-plugin-jsx-a11y` (pulled in by `eslint-config-next`) don't support ESLint 10 yet.
 
 Answered: `sean-dev-426404` has Google and Email/Password sign-in but not Facebook, so Facebook sign-in is checked on prod after release, by the user signing in with their own account.
+
+Answered: `@fortawesome/*` stays on 7 with `react-fontawesome` 3 (user, 2026-10-29), so that bump is no longer later work. Icons are now fixed-width by default; check spacing on the preview.
