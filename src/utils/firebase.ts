@@ -1,8 +1,39 @@
 import { CreatedMemory, Image, Memory } from "@shared/types";
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
-import "firebase/storage";
+import { getApps, initializeApp } from "firebase/app";
+import {
+	AuthError,
+	createUserWithEmailAndPassword,
+	FacebookAuthProvider,
+	getAuth,
+	GoogleAuthProvider,
+	indexedDBLocalPersistence,
+	sendPasswordResetEmail as firebaseSendPasswordResetEmail,
+	setPersistence,
+	signInWithEmailAndPassword as firebaseSignInWithEmailAndPassword,
+	signInWithPopup,
+	signOut as firebaseSignOut,
+	updateProfile,
+} from "firebase/auth";
+import {
+	addDoc,
+	collection,
+	getDocs,
+	getFirestore,
+	limit,
+	orderBy,
+	Query,
+	query,
+	startAfter,
+	Timestamp,
+} from "firebase/firestore";
+import {
+	getDownloadURL,
+	getMetadata,
+	getStorage,
+	ref,
+	uploadBytes,
+	UploadMetadata,
+} from "firebase/storage";
 import router from "next/router";
 import { toast } from "react-toastify";
 import { v4, validate } from "uuid";
@@ -18,15 +49,14 @@ const firebaseConfig = {
 	appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// If no firebase app is initialised, initialise the app
-if (firebase.apps.length === 0) {
-	firebase.initializeApp(firebaseConfig);
-}
+const app = getApps()[0] ?? initializeApp(firebaseConfig);
 
 // Initialise services
-export const auth = firebase.auth();
-const firestore = firebase.firestore();
-export const storage = firebase.storage();
+export const auth = getAuth(app);
+const firestore = getFirestore(app);
+export const storage = getStorage(app);
+
+const memories = collection(firestore, "memories");
 
 //
 // --- Auth ---
@@ -52,23 +82,20 @@ export const isAuthenticated = () => auth.currentUser !== null;
 export const signInWithProvider = async (
 	authProvider: "google" | "facebook"
 ) => {
-	await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+	await setPersistence(auth, indexedDBLocalPersistence);
 
-	let provider:
-		| firebase.auth.GoogleAuthProvider
-		| firebase.auth.FacebookAuthProvider;
+	let provider: GoogleAuthProvider | FacebookAuthProvider;
 
 	if (authProvider === "google") {
-		provider = new firebase.auth.GoogleAuthProvider();
+		provider = new GoogleAuthProvider();
 	} else if (authProvider === "facebook") {
-		provider = new firebase.auth.FacebookAuthProvider();
+		provider = new FacebookAuthProvider();
 	} else {
 		// Invalid auth provider provided
 		return null;
 	}
 
-	return auth
-		.signInWithPopup(provider)
+	return signInWithPopup(auth, provider)
 		.then((userCredential) => {
 			const { redirect } = router.query;
 
@@ -82,7 +109,7 @@ export const signInWithProvider = async (
 
 			return userCredential.user;
 		})
-		.catch((error: firebase.auth.Error) => {
+		.catch((error: AuthError) => {
 			console.error(error.message);
 			toast.error("Couldn't sign in.");
 			return null;
@@ -101,22 +128,17 @@ export const registerWithEmailAndPassword = async (
 	password: string,
 	displayName: string
 ) =>
-	firebase
-		.auth()
-		.createUserWithEmailAndPassword(email, password)
+	createUserWithEmailAndPassword(auth, email, password)
 		.then((userCredential) => {
 			// Set displayname on created user
-			firebase
-				.auth()
-				.currentUser?.updateProfile({
-					displayName,
-				})
-				.then(() => {
-					router.push("/");
-					return userCredential.user;
-				});
+			updateProfile(userCredential.user, {
+				displayName,
+			}).then(() => {
+				router.push("/");
+				return userCredential.user;
+			});
 		})
-		.catch((error: firebase.auth.Error) => {
+		.catch((error: AuthError) => {
 			if (["auth/email-already-in-use"].includes(error.code)) {
 				toast.error(error.message);
 			} else {
@@ -137,15 +159,13 @@ export const signInWithEmailAndPassword = async (
 	email: string,
 	password: string
 ) =>
-	firebase
-		.auth()
-		.signInWithEmailAndPassword(email, password)
+	firebaseSignInWithEmailAndPassword(auth, email, password)
 		.then((userCredential) => {
 			router.push("/");
 
 			return userCredential.user;
 		})
-		.catch((error: firebase.auth.Error) => {
+		.catch((error: AuthError) => {
 			toast.error("An unknown error occured. Please try again later.");
 			console.error(error);
 
@@ -156,7 +176,7 @@ export const signInWithEmailAndPassword = async (
  * Sign out of firebase
  */
 export const signOut = async () => {
-	auth.signOut().catch((error) => {
+	firebaseSignOut(auth).catch((error) => {
 		console.error(error.message);
 	});
 };
@@ -167,8 +187,7 @@ export const signOut = async () => {
  * @returns Bool if sent
  */
 export const sendPasswordResetEmail = async (email: string) =>
-	auth
-		.sendPasswordResetEmail(email)
+	firebaseSendPasswordResetEmail(auth, email)
 		.then(() => {
 			toast.info("Password reset email sent");
 			return true;
@@ -182,29 +201,21 @@ export const sendPasswordResetEmail = async (email: string) =>
 // --- Firestore ---
 //
 
-export const getInitialMemories = async () => {
-	const query = firestore
-		.collection("memories")
-		.orderBy("created", "desc")
-		.limit(PAGE_SIZE);
+export const getInitialMemories = async () =>
+	fetchQuery(query(memories, orderBy("created", "desc"), limit(PAGE_SIZE)));
 
-	return fetchQuery(query);
-};
+export const getNextMemories = async (last: Timestamp) =>
+	fetchQuery(
+		query(
+			memories,
+			orderBy("created", "desc"),
+			startAfter(last),
+			limit(PAGE_SIZE)
+		)
+	);
 
-export const getNextMemories = async (last: firebase.firestore.Timestamp) => {
-	const query = firestore
-		.collection("memories")
-		.orderBy("created", "desc")
-		.startAfter(last)
-		.limit(PAGE_SIZE);
-
-	return fetchQuery(query);
-};
-
-const fetchQuery = async (
-	query: firebase.firestore.Query<firebase.firestore.DocumentData>
-) => {
-	const data = await query.get();
+const fetchQuery = async (memoryQuery: Query) => {
+	const data = await getDocs(memoryQuery);
 
 	const memoryPromises: Promise<Memory>[] = data.docs.map(async (doc) => {
 		const data = doc.data() as CreatedMemory;
@@ -227,12 +238,10 @@ const fetchQuery = async (
 export const createMemory = async (memory: CreatedMemory) => {
 	if (!auth.currentUser) return null;
 
-	memory.created = firebase.firestore.Timestamp.now();
+	memory.created = Timestamp.now();
 	memory.owner = auth.currentUser.uid;
 
-	return firestore
-		.collection("memories")
-		.add(memory)
+	return addDoc(memories, memory)
 		.then(() => {
 			toast.success("Memories uploaded");
 			return true;
@@ -261,16 +270,14 @@ export const uploadFile = async (file: File): Promise<string> => {
 	const fileId = v4();
 
 	// Add real file name as metadata
-	const metadata: firebase.storage.UploadMetadata = {
+	const metadata: UploadMetadata = {
 		customMetadata: {
 			filename: file.name,
 		},
 	};
 
 	// Upload file to firebase
-	const fileRef = storage.ref().child(fileId);
-
-	await fileRef.put(file, metadata);
+	await uploadBytes(ref(storage, fileId), file, metadata);
 
 	// Return UUID of uploaded file to attach to document
 	return fileId;
@@ -288,27 +295,26 @@ export const getImageData = async (
 ): Promise<Image | null> => {
 	if (!validate(imageId)) return null;
 
-	const imageRef = storage.ref().child(imageId);
+	const imageRef = ref(storage, imageId);
 
-	const promises = [];
-
-	promises.push(imageRef.getDownloadURL());
-	if (includeMetadata) promises.push(imageRef.getMetadata());
-	if (getPreview)
-		promises.push(storage.ref().child(`thumb@800_${imageId}`).getDownloadURL());
-
-	return Promise.allSettled(promises)
-		.then((values) => {
-			if (values[0].status !== "fulfilled") return null;
+	return Promise.allSettled([
+		getDownloadURL(imageRef),
+		includeMetadata ? getMetadata(imageRef) : undefined,
+		getPreview
+			? getDownloadURL(ref(storage, `thumb@800_${imageId}`))
+			: undefined,
+	])
+		.then(([src, metadata, preview]) => {
+			if (src.status !== "fulfilled") return null;
 
 			const image: Image = {
-				src: values[0].value,
+				src: src.value,
 			};
 
-			if (includeMetadata && values[1].status === "fulfilled")
-				image.metadata = values[1].value;
-			if (getPreview && values[2]?.status === "fulfilled")
-				image.src = values[2].value;
+			if (metadata.status === "fulfilled" && metadata.value)
+				image.metadata = metadata.value;
+			if (preview.status === "fulfilled" && preview.value)
+				image.src = preview.value;
 
 			return image;
 		})

@@ -1,9 +1,9 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
-import firebase from "firebase/app";
+import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "@utils/firebase";
 
 interface AuthProps {
-	user: firebase.User | null;
+	user: User | null;
 	authenticated: boolean;
 	loadingAuthState: boolean;
 }
@@ -21,23 +21,15 @@ export const AuthProvider: React.FC<Props> = ({
 }: {
 	children?: React.ReactNode;
 }) => {
-	const [user, setUser] = useState<firebase.User | null>(null);
+	const [user, setUser] = useState<User | null>(null);
 	const [loadingAuthState, setLoadingAuthState] = useState(true);
 
 	useEffect(() => {
-		let isMounted = true;
-
-		auth.onAuthStateChanged(async (firebaseUser) => {
-			if (isMounted) {
-				setUser(firebaseUser);
-				setLoadingAuthState(false);
-			}
+		return onAuthStateChanged(auth, (firebaseUser) => {
+			setUser(firebaseUser);
+			setLoadingAuthState(false);
 		});
-
-		return () => {
-			isMounted = false;
-		};
-	});
+	}, []);
 
 	return (
 		<AuthContext.Provider
