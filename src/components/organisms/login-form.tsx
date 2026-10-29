@@ -23,7 +23,7 @@ const LoginFormSchema = yup.object().shape({
 		.required("Password is required"),
 });
 
-const ForgotPasswordText = styled.a`
+const ForgotPasswordText = styled(Link)`
 	text-align: center;
 `;
 
@@ -49,7 +49,7 @@ const EmailAuthForm = () => {
 							name="email"
 							placeholder="Email"
 							type="email"
-							error={touched.email && errors.email}
+							$error={!!(touched.email && errors.email)}
 						/>
 						<ErrorMessage error={errors.email} touched={touched.email} />
 					</Label>
@@ -60,14 +60,14 @@ const EmailAuthForm = () => {
 							name="password"
 							placeholder="Password"
 							type="password"
-							error={touched.password && errors.password}
+							$error={!!(touched.password && errors.password)}
 						/>
 						<ErrorMessage error={errors.password} touched={touched.password} />
 					</Label>
 
-					<Link href="/recover-password">
-						<ForgotPasswordText>Forgot your password?</ForgotPasswordText>
-					</Link>
+					<ForgotPasswordText href="/recover-password">
+						Forgot your password?
+					</ForgotPasswordText>
 
 					<Button type="submit" primary>
 						Login

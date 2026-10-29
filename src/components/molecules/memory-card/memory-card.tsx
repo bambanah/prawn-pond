@@ -69,7 +69,13 @@ const MemoryCard = ({ memory, displayGrid }: Props) => {
 					<ImageContainer className="media-container">
 						<Skeleton />
 						{!loading && mediaType.includes("image") && (
-							<Image src={imageUrl} layout="fill" objectFit={"cover"} alt="" />
+							<Image
+								src={imageUrl}
+								alt=""
+								fill
+								sizes="100vw"
+								style={{ objectFit: "cover" }}
+							/>
 						)}
 
 						{!loading && mediaType.includes("video") && (

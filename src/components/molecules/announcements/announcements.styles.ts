@@ -8,8 +8,8 @@ export const AnnouncementContainer = styled.div`
 `;
 
 interface AnnouncementProps {
-	backgroundColor?: string;
-	flexDir?: string;
+	$backgroundColor?: string;
+	$flexDir?: string;
 }
 
 export const Announcement = styled.div<AnnouncementProps>`
@@ -18,7 +18,7 @@ export const Announcement = styled.div<AnnouncementProps>`
 	padding: 7rem 1rem;
 	align-items: center;
 	background-color: ${(props) =>
-		props.backgroundColor ?? props.theme.colors.bg};
+		props.$backgroundColor ?? props.theme.colors.bg};
 
 	color: ${({ theme }) => theme.colors.fg};
 	width: 100%;
@@ -32,7 +32,7 @@ export const Announcement = styled.div<AnnouncementProps>`
 		max-width: 1100px;
 
 		display: flex;
-		flex-direction: ${(props) => props.flexDir};
+		flex-direction: ${(props) => props.$flexDir ?? "row"};
 		flex-wrap: wrap;
 		justify-content: center;
 		align-items: center;
@@ -49,8 +49,8 @@ export const Announcement = styled.div<AnnouncementProps>`
 			margin: 0;
 
 			@media screen and (min-width: 961px) {
-				text-align: ${({ flexDir }) =>
-					flexDir === "row-reverse" || flexDir === "column"
+				text-align: ${({ $flexDir }) =>
+					$flexDir === "row-reverse" || $flexDir === "column"
 						? "center"
 						: "left"};
 			}
@@ -62,10 +62,6 @@ export const Announcement = styled.div<AnnouncementProps>`
 		}
 	}
 `;
-
-Announcement.defaultProps = {
-	flexDir: "row",
-};
 
 export const CharityTiles = styled.div`
 	flex: 1 0 50%;

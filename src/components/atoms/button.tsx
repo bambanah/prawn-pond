@@ -1,4 +1,3 @@
-/* eslint-disable react/button-has-type */
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
 
@@ -9,16 +8,16 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	primary?: boolean;
 }
 
-const StyledButton = styled.button<ButtonProps>`
+const StyledButton = styled.button<{ $primary?: boolean }>`
 	font-family: "Inter";
 	font-size: 1rem;
 	height: 2.5em;
 	background: ${(props) =>
-		props.primary ? props.theme.colors.accentGradient : "white"};
+		props.$primary ? props.theme.colors.accentGradient : "white"};
 	border: 1px solid #dbdbdb;
 	border-radius: 4px;
 	color: ${(props) =>
-		props.primary ? props.theme.colors.fg : props.theme.colors.fg};
+		props.$primary ? props.theme.colors.fg : props.theme.colors.fg};
 	cursor: pointer;
 	padding-bottom: calc(0.5em - 1px);
 	padding-left: 1em;
@@ -29,13 +28,13 @@ const StyledButton = styled.button<ButtonProps>`
 	transition: all 0.05s ease;
 
 	&:hover {
-		background: ${({ primary, theme }) =>
-			primary ? theme.colors.transparentAccent : "#f0f0f0"};
+		background: ${({ $primary, theme }) =>
+			$primary ? theme.colors.transparentAccent : "#f0f0f0"};
 		border-color: #cbcbcb;
 	}
 
-	${({ primary, theme }) =>
-		primary &&
+	${({ $primary, theme }) =>
+		$primary &&
 		`
     border-color: transparent;
 
@@ -60,6 +59,7 @@ const Button: FunctionComponent<ButtonProps> = ({
 	onClick,
 	disabled,
 	type,
+	primary,
 	...rest
 }: ButtonProps) => {
 	const handleClick = (e?: React.MouseEvent<HTMLButtonElement>) => {
@@ -75,6 +75,7 @@ const Button: FunctionComponent<ButtonProps> = ({
 			onClick={handleClick}
 			disabled={!!disabled}
 			type={type || "button"}
+			$primary={primary}
 			{...rest}
 		>
 			{children}

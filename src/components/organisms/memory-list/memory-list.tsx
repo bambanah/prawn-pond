@@ -29,8 +29,7 @@ const MemoryList = () => {
 
 	useEffect(() => {
 		const localDisplayGrid = localStorage.getItem("displayGrid") as
-			| string
-			| null;
+			string | null;
 
 		if (localDisplayGrid !== null && localDisplayGrid.length > 0) {
 			enableGrid(localDisplayGrid === "true");
@@ -85,9 +84,7 @@ const MemoryList = () => {
 					}}
 				/>
 
-				<Link href="/upload">
-					<MemoryLink>Share Memory</MemoryLink>
-				</Link>
+				<MemoryLink href="/upload">Share Memory</MemoryLink>
 
 				<TableViewSelectContainer>
 					<FontAwesomeIcon
@@ -126,9 +123,7 @@ const MemoryList = () => {
 			{loadedAllMemories && (
 				<FooterContainer>
 					<p>You&rsquo;ve reached the bottom</p>
-					<Link href="#memories">
-						<a>Back to the top</a>
-					</Link>
+					<Link href="#memories">Back to the top</Link>
 				</FooterContainer>
 			)}
 		</MemoryListContainer>

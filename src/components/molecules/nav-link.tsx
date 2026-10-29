@@ -9,18 +9,18 @@ interface Props {
 }
 
 interface StyleProps {
-	active: boolean;
+	$active: boolean;
 }
 
-const StyledLink = styled.a<StyleProps>`
+const StyledLink = styled(NextLink)<StyleProps>`
 	font-family: "Inter";
 	text-decoration: none;
 	color: ${({ theme }) => theme.colors.fg};
 	margin: 0 0.7rem;
-	font-weight: ${({ active }) => (active ? "bold" : "500")};
+	font-weight: ${({ $active }) => ($active ? "bold" : "500")};
 	padding: 0 0.2rem;
 	border-bottom: 1px solid
-		${({ active, theme }) => (active ? theme.colors.fg : "transparent")};
+		${({ $active, theme }) => ($active ? theme.colors.fg : "transparent")};
 
 	&:hover {
 		border-bottom-color: ${(props) => props.theme.colors.brand};
@@ -31,9 +31,9 @@ const Link = ({ href, children }: Props) => {
 	const router = useRouter();
 
 	return (
-		<NextLink href={href}>
-			<StyledLink active={router.pathname === href}>{children}</StyledLink>
-		</NextLink>
+		<StyledLink href={href} $active={router.pathname === href}>
+			{children}
+		</StyledLink>
 	);
 };
 
